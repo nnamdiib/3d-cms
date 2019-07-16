@@ -11,11 +11,11 @@
             <img src="{% static 'img/item.jpg' %}" alt="" />
             <div class="footer">
               <div>
-                <i class="fas fa-lock"></i>
-                <span>me</span>
+                <i class="fas fa-file"></i>
+                <span>{{ upload.document.size|filesizeformat }}</span>
               </div>
-              <p>{{ upload.document.size|filesizeformat }}</p>
-              <p>{{ upload.created_at }}</p>
+              <p></p>
+              <p>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
             </div>
           </div>
         {% endfor %}
