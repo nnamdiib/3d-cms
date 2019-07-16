@@ -5,9 +5,9 @@ from .models import STLFile
 from .forms import UploadForm
 
 def index(request):
-    context = {}
     template = 'cms/index.html'
-    
+    uploads = STLFile.objects.all()
+    context = {'uploads': uploads}
     return render(request, template, context)
 
 

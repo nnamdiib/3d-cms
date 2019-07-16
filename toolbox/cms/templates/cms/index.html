@@ -6,54 +6,20 @@
   <section class="content">
     <p class="text--small">Home | <span class="text--primary">Create folder</span></p>
     <div class="product-container">
-      <div class="product-item">
-        <p class="title">clamp.stl</p>
-        <img src="{% static 'img/item.jpg' %}" alt="" />
-        <div class="footer">
-          <div>
-            <i class="fas fa-lock"></i>
-            <span>me</span>
-          </div>
-          <p>847kb</p>
-          <p>12.07.2019</p>
-        </div>
-      </div>
-      <div class="product-item">
-        <p class="title">clamp.stl</p>
-        <img src="{% static 'img/item.jpg' %}" alt="" />
-        <div class="footer">
-          <div>
-            <i class="fas fa-lock"></i>
-            <span>me</span>
-          </div>
-          <p>847kb</p>
-          <p>12.07.2019</p>
-        </div>
-      </div>
-      <div class="product-item">
-        <p class="title">clamp.stl</p>
-        <img src="{% static 'img/item.jpg' %}" alt="" />
-        <div class="footer">
-          <div>
-            <i class="fas fa-lock"></i>
-            <span>me</span>
-          </div>
-          <p>847kb</p>
-          <p>12.07.2019</p>
-        </div>
-      </div>
-      <div class="product-item">
-        <p class="title">clamp.stl</p>
-        <img src="{% static 'img/item.jpg' %}" alt="" />
-        <div class="footer">
-          <div>
-            <i class="fas fa-lock"></i>
-            <span>me</span>
-          </div>
-          <p>847kb</p>
-          <p>12.07.2019</p>
-        </div>
-      </div>
+    	{% for upload in uploads %}
+	      <div class="product-item">
+	        <p class="title">{{ upload.name }}</p>
+	        <img src="{% static 'img/item.jpg' %}" alt="" />
+	        <div class="footer">
+	          <div>
+	            <i class="fas fa-lock"></i>
+	            <span>me</span>
+	          </div>
+	          <p>847kb</p>
+	          <p>{{ upload.created_at }}</p>
+	        </div>
+	      </div>
+    	{% endfor %}
     </div>
   </section>
 {% endblock %}
