@@ -1,0 +1,62 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>3D Viewer</title>
+    <script src="https://kit.fontawesome.com/8d922ff923.js"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    {% block extra_css %}
+    {% endblock %}
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <span>3D Model Viewer App</span>
+      </div>
+      <div class="btn-actions">
+        <button class="button outline">Upgrade</button>
+        <button class="button transparent"><i class="far fa-bell"></i></button>
+        <button class="button transparent"><i class="far fa-user"></i></button>
+      </div>
+    </header>
+    <main class="main">
+
+      <!-- The Side Bar Menu -->
+      <aside class="sidebar">
+        <div class="top">
+          <button class="button icon full-width">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span>Upload</span>
+          </button>
+          <div class="sidebar-link">
+            <i class="far fa-user"></i>
+            <a href="#" class="active">My files</a>
+          </div>
+          <div class="sidebar-link">
+            <i class="fas fa-share-alt"></i>
+            <a href="#">Shared with me</a>
+          </div>
+          <div class="sidebar-link">
+            <i class="fas fa-vial"></i>
+            <a href="#">Samples</a>
+          </div>
+        </div>
+        <div class="bottom">
+          <a href="#">Developers <span class="tag warning">BETA</span></a>
+          <a href="#">Privacy Policy</a>
+          <p>&copy;</p>
+        </div>
+      </aside>
+      <!-- End of Side bar menu -->
+
+      {% block content %}
+
+      {% endblock %}
+
+    </main>
+  </body>
+</html>
