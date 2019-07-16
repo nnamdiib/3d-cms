@@ -18,10 +18,10 @@
         <span>ModelSpace</span>
       </div>
       <div class="btn-actions">
-        <button class="button icon">
+        <!-- <button class="button icon"> -->
           <i class="fas fa-cloud-upload-alt"></i>
-          <span><a href="{% url 'upload' %}">Upload</a></span>
-        </button>
+          <span><a class="button icon" href="{% url 'upload' %}">Upload</a></span>
+        <!-- </button> -->
         <button class="button transparent"><i class="far fa-bell"></i></button>
         <button class="button transparent"><i class="far fa-user"></i></button>
       </div>
@@ -29,7 +29,7 @@
     <main class="main">
 
       <!-- The Side Bar Menu -->
-      <aside class="sidebar">
+<!--       <aside class="sidebar">
         <div class="top">
           <div class="sidebar-link">
             <i class="far fa-user"></i>
@@ -40,7 +40,7 @@
             <a href="#">Samples</a>
           </div>
         </div>
-      </aside>
+      </aside> -->
       <!-- End of Side bar menu -->
 
       {% block content %}
