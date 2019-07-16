@@ -2,10 +2,14 @@
 {% load static %}
 
 {% block content %}
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Upload File</button>
-  </form>
+  <div class="col-md-3">
+      <form class="form form-vertical" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button class="btn btn-primary" type="submit">Upload File</button>
+      </form>
+    </div> 
+
+  </div>
 
 {% endblock %}

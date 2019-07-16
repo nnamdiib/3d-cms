@@ -8,6 +8,7 @@
     <title>ModelSpace</title>
     <script src="https://kit.fontawesome.com/8d922ff923.js"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     {% block extra_css %}
     {% endblock %}
   </head>
@@ -15,14 +16,12 @@
     <header class="header">
       <div class="logo">
         <i class="fas fa-cloud-upload-alt"></i>
-        <span>ModelSpace</span>
+        <span><a href="{% url 'index' %}">ModelSpace</a></span>
       </div>
       <div class="btn-actions">
         <!-- <button class="button icon"> -->
-          <i class="fas fa-cloud-upload-alt"></i>
           <span><a class="button icon" href="{% url 'upload' %}">Upload</a></span>
         <!-- </button> -->
-        <button class="button transparent"><i class="far fa-bell"></i></button>
         <button class="button transparent"><i class="far fa-user"></i></button>
       </div>
     </header>
@@ -48,5 +47,6 @@
       {% endblock %}
 
     </main>
+    <script type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   </body>
 </html>

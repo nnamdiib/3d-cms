@@ -5,4 +5,8 @@ class UploadForm(forms.ModelForm):
 
     class Meta:
         model = STLFile
-        exclude = ('date_created', 'date_updated')
+        fields = ('name', 'tags', 'document')
+        widgets = {
+            'name': forms.TextInput(attrs={'class':'form-control', 'id':'name'}),
+            'tags': forms.TextInput(attrs={'class':'form-control', 'id':'tags'})
+        }
