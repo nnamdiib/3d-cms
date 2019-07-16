@@ -21,4 +21,4 @@ You can specify a specific port to run the server, like: `python manage.py runse
 
 2. Finalising the whole STL-to-image conundrum. Deciding on a package to use once and for all.
 
-3. Add some tests.
+3. Adding some tests.
