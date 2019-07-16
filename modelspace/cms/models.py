@@ -1,6 +1,5 @@
 from django.db import models
 
-
 class STLFile(models.Model):
     name = models.CharField(max_length=225)
     document = models.FileField(upload_to='uploads/')

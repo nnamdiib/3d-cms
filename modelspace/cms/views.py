@@ -10,7 +10,6 @@ def index(request):
     
     return render(request, template, context)
 
-
 def upload(request):
     template = 'cms/upload.html'
     form = UploadForm(request.POST or None, request.FILES or None)
