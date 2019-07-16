@@ -15,7 +15,7 @@ You can specify a specific port to run the server, like: `python manage.py runse
 
 6. Navigate to 127.0.0.1:8000/admin for the admin site.
 
-## Things I am Doing Next (In Order):
+## Things I'm Doing Next (In Order):
 
 1. Finishing up the front end.
 
