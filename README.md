@@ -17,7 +17,7 @@ You can specify a specific port to run the server, like: `python manage.py runse
 
 ## Things I'm Doing Next (In Order):
 
-1. Finishing up the front end.
+1. Finishing up the front end (including pagination).
 
 2. Finalising the whole STL-to-image conundrum. Deciding on a package to use once and for all.
 
