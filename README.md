@@ -1,6 +1,7 @@
-# 3DToolBox
+# ModelSpace
 
 ## How To Run:
+
 1. Install the packages in the requirements.txt file using `pip install -r requirements.txt`
 
 2. Run migrations for the database. This will create a local SQLite DB where app data will be stored. `python manage.py migrate`
@@ -14,11 +15,10 @@ You can specify a specific port to run the server, like: `python manage.py runse
 
 6. Navigate to 127.0.0.1:8000/admin for the admin site.
 
-## Things I am Doing Next:
-1. Finalising the whole STL-to-image conundrum. Deciding on a package to use once and for all.
+## Things I'm Doing Next (In Order):
 
-2. Finishing up the front end.
+1. Finishing up the front end (including pagination).
 
-3. Maybe add some tests, if there is time.
+2. Finalising the whole STL-to-image conundrum. Deciding on a package to use once and for all.
 
-4. 
+3. Adding some tests.
