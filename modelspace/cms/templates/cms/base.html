@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>ModelSpace</title>
-    <script src="https://kit.fontawesome.com/8d922ff923.js"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     {% block extra_css %}
@@ -15,7 +14,6 @@
   <body>
     <header class="header">
       <div class="logo">
-        <i class="fas fa-cloud-upload-alt"></i>
         <span><a href="{% url 'index' %}">ModelSpace</a></span>
       </div>
       <div class="search">
@@ -26,27 +24,10 @@
       </div>
       <div class="btn-actions">
         <!-- <button class="button icon"> -->
-        <span><a class="button icon" href="{% url 'upload' %}"><i class="fas fa-cloud-upload-alt"></i>Upload</a></span>
-        <!-- </button> -->
-        <button class="button transparent"><i class="far fa-user"></i></button>
+        <span><a class="button icon" href="{% url 'upload' %}">Upload</a></span>
       </div>
     </header>
     <main class="main">
-
-      <!-- The Side Bar Menu -->
-<!--       <aside class="sidebar">
-        <div class="top">
-          <div class="sidebar-link">
-            <i class="far fa-user"></i>
-            <a href="#" class="active">My files</a>
-          </div>
-          <div class="sidebar-link">
-            <i class="fas fa-vial"></i>
-            <a href="#">Samples</a>
-          </div>
-        </div>
-      </aside> -->
-      <!-- End of Side bar menu -->
 
       {% block content %}
 
