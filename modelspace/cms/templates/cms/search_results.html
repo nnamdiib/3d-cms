@@ -5,10 +5,10 @@
 
   <section class="content">
     {% if count %}<p>{{ count }} items found</p>{% endif %}
-    <div class="product-container">
+    <div class="entry-container">
         {% if uploads %}
           {% for upload in uploads %}
-            <div class="product-item">
+            <div class="entry-item">
               <p class="title">{{ upload.name }}</p>
               <img src="{% static 'img/item.jpg' %}" alt="" />
               <div class="footer">
