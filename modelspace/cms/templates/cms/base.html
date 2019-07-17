@@ -17,7 +17,7 @@
         <span><a href="{% url 'index' %}">ModelSpace</a></span>
       </div>
       <div class="search">
-        <form class="form form-inline" action="{% url 'index' %}">
+        <form autocomplete="off" class="form form-inline" action="{% url 'index' %}">
           <input class="form-control mb-2 mr-sm-2" type="text" name="q" placeholder="Search for 3D models">
           <button class="btn btn-secondary mb-2">Search</button>
         </form>
