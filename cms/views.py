@@ -14,7 +14,7 @@ def index(request):
     if q:
         return search(request, q)
     template = 'cms/index.html'
-    uploads_list = STLFile.objects.all()
+    uploads_list = STLFile.objects.all().order_by('-date_created')
 
     paginator = Paginator(uploads_list, 8) # 6 uploads per page
     page = request.GET.get('page')
