@@ -1,7 +1,10 @@
+import os 
 from django.core.paginator import Paginator
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.db.models import Q
+from django.conf import settings
+from django.http import HttpResponse, Http404
 
 from .models import STLFile
 from .forms import UploadForm
@@ -43,3 +46,13 @@ def search(request, q):
 
     context = {'uploads': uploads, 'count': search_results.count(), 'q':q}
     return render(request, template, context)
+
+def download(request, file_id):
+    stl = STLFile.objects.get(pk=file_id) # get_object_or_404(STLFile, pk=file_id)
+    file_path = os.path.join(settings.BASE_DIR, stl.document.path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="model/stl")
+            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            return response
+    raise Http404
