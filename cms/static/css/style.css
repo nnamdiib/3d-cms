@@ -89,8 +89,8 @@ span a {
   padding: 0 20px;
 }
 
-.main > div {
-  padding-left: 10px;
+.main > * {
+  padding: 10px;
 }
 
 .entry-item p {
