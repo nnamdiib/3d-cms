@@ -89,6 +89,10 @@ span a {
   padding: 0 20px;
 }
 
+.main > div {
+  padding: 10px;
+}
+
 .entry-item p {
   margin-top: 15px;
 }
