@@ -85,7 +85,7 @@ span a {
   font-size: 0.6rem;
 }
 
-.main .content, .header {
+.main, .header {
   padding: 0 20px;
 }
 
