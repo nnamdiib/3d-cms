@@ -14,11 +14,3 @@ You can specify a specific port to run the server, like: `python manage.py runse
 5. Open a browser and navigate to 127.0.0.1:8000/cms to see the app homepage.
 
 6. Navigate to 127.0.0.1:8000/admin for the admin site.
-
-## Things I'm Doing Next (In Order):
-
-1. Finishing up the front end (including pagination).
-
-2. Finalising the whole STL-to-image conundrum. Deciding on a package to use once and for all.
-
-3. Adding some tests.
