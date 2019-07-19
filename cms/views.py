@@ -65,6 +65,6 @@ def delete(request, file_id):
     stl = STLFile.objects.get(pk=file_id).delete()
     count = request.session['count']
     page = (count - 1) / per_page
-    if page is None or page >= 1:
+    if page is None or page < 1:
         return redirect("/")
     return redirect("/" + "?p=" + page)
