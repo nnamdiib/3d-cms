@@ -9,6 +9,8 @@ from django.http import HttpResponse, Http404
 from .models import STLFile
 from .forms import UploadForm
 
+per_page = 20
+
 def index(request):
     q = request.GET.get('q', None)
     if q:
@@ -16,9 +18,10 @@ def index(request):
     template = 'cms/index.html'
     uploads_list = STLFile.objects.all().order_by('-date_created')
 
-    paginator = Paginator(uploads_list, 20)
+    paginator = Paginator(uploads_list, per_page)
     page = request.GET.get('p')
     request.session['page'] = page
+    request.session['count'] = len(uploads_list)
     uploads = paginator.get_page(page)
 
     context = {'uploads': uploads}
@@ -40,9 +43,11 @@ def search(request, q):
     template = 'cms/search_results.html'
     search_results = STLFile.objects.filter(Q(name__icontains=q) | Q(tags__name__icontains=q)).distinct()
 
-    paginator = Paginator(search_results, 20)
+    paginator = Paginator(search_results, per_page)
     page = request.GET.get('p')
     request.session['page'] = page
+    request.session['count'] = len(search_results)
+
     uploads = paginator.get_page(page)
 
     context = {'uploads': uploads, 'count': search_results.count(), 'q':q}
@@ -63,6 +68,7 @@ def delete(request, file_id):
     stl = STLFile.objects.get(pk=file_id).delete()
     if 'page' in request.session:
         page = request.session['page']
-    if page is None:
-        return redirect("/")
+        count = request.session['count']
+        if page is None or count - 1 < per_page:
+            return redirect("/")
     return redirect("/" + "?p=" + page)
