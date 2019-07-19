@@ -91,20 +91,9 @@ footer {
   margin-top: 15px;
 }
 
-.content, .main {
+.entry-container {
   display: flex;
-  justify-content: center;
-}
-
-.entry-container, .col-md-3 {
-  display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  justify-content: flex-start;
-  margin: 0;
-  padding-top: 2%;
-  padding-left: 2%;
-  width: 90%;
 }
 
 .entry-container .entry-item {
@@ -115,7 +104,7 @@ footer {
   flex-direction: column;
   border-radius: 3px;
   padding: 0 15px;
-  width: 19%;
+  width: 304px;
   margin: 5px;
 }
 
