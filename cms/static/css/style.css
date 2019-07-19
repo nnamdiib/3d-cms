@@ -86,7 +86,7 @@ header {
   margin-left: 5px !important;
 }
 
-.col-md-3 {
+.col-md-3, section {
   padding-left: 5px !important;
 }
 
