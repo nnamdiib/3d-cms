@@ -52,7 +52,8 @@ def download(request, file_id):
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="model/stl")
-            response['Content-Disposition'] = 'inline; filename=' + stl.name
+            extension = os.path.splitext(file_path)[-1]
+            response['Content-Disposition'] = 'inline; filename=' + stl.name + extension
             return response
     raise Http404
 
