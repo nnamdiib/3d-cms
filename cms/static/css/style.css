@@ -87,6 +87,11 @@ footer {
   bottom: 0px;
 }
 
+
+section {
+  margin-left: 5%;
+}
+
 .col-md-3 {
   padding-left: 5px !important;
 }
