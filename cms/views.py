@@ -58,5 +58,9 @@ def download(request, file_id):
     raise Http404
 
 def delete(request, file_id):
+    page = request.GET.get('page', None)
     stl = STLFile.objects.get(pk=file_id).delete()
-    return redirect('/')
+    if int(page) > 1:
+        return redirect("/" + "?page=" + page)
+    else:
+        return redirect("/")
