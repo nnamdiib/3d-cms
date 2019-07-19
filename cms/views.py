@@ -65,9 +65,8 @@ def download(request, file_id):
 
 def delete(request, file_id):
     stl = STLFile.objects.get(pk=file_id).delete()
-    if 'page' in request.session:
-        page = request.session['page']
-        count = request.session['count']
-        if page is None or count - 1 < per_page:
-            return redirect("/")
+    page = request.session['page']
+    count = request.session['count']
+    if page is None or count - 1 < per_page:
+        return redirect("/")
     return redirect("/" + "?p=" + page)
