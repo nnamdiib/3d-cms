@@ -18,6 +18,7 @@ def index(request):
 
     paginator = Paginator(uploads_list, 20)
     page = request.GET.get('p')
+    request.session['page'] = page
     uploads = paginator.get_page(page)
 
     context = {'uploads': uploads}
@@ -41,6 +42,7 @@ def search(request, q):
 
     paginator = Paginator(search_results, 20)
     page = request.GET.get('p')
+    request.session['page'] = page
     uploads = paginator.get_page(page)
 
     context = {'uploads': uploads, 'count': search_results.count(), 'q':q}
@@ -58,8 +60,9 @@ def download(request, file_id):
     raise Http404
 
 def delete(request, file_id):
-    page = request.GET.get('p', None)
     stl = STLFile.objects.get(pk=file_id).delete()
-    if int(page) == 1 or page is None:
+    if 'page' in request.session:
+        page = request.session['page']
+    if page is None:
         return redirect("/")
     return redirect("/" + "?p=" + page)
