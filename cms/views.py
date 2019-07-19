@@ -16,11 +16,11 @@ def index(request):
     if q:
         return search(request, q)
     template = 'cms/index.html'
-    uploads_list = STLFile.objects.all().order_by('-date_created')
+    entries = STLFile.objects.all().order_by('-date_created')
 
-    paginator = Paginator(uploads_list, per_page)
+    paginator = Paginator(entries, per_page)
     page = request.GET.get('p')
-    request.session['count'] = len(uploads_list)
+    request.session['count'] = len(entries)
     uploads = paginator.get_page(page)
 
     context = {'uploads': uploads}
@@ -40,14 +40,14 @@ def upload(request):
 
 def search(request, q):
     template = 'cms/search_results.html'
-    search_results = STLFile.objects.filter(Q(name__icontains=q) | Q(tags__name__icontains=q)).distinct()
+    entries = STLFile.objects.filter(Q(name__icontains=q) | Q(tags__name__icontains=q)).distinct()
 
-    paginator = Paginator(search_results, per_page)
+    paginator = Paginator(entries, per_page)
     page = request.GET.get('p')
-    request.session['count'] = len(search_results)
+    request.session['count'] = len(entries)
     uploads = paginator.get_page(page)
 
-    context = {'uploads': uploads, 'count': search_results.count(), 'q':q}
+    context = {'uploads': uploads, 'count': entries.count(), 'q':q}
     return render(request, template, context)
 
 def download(request, file_id):
