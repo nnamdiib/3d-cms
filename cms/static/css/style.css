@@ -83,17 +83,14 @@ span a {
 }
 
 footer {
-  position: absolute;
-  bottom: 0px;
+  position:absolute;
+  bottom:0;
 }
 
-
-section {
-  margin-left: 5%;
-}
-
-.col-md-3 {
-  padding-left: 5px !important;
+.content {
+  float: left;
+  position: relative;
+  padding-left: 5%;
 }
 
 .entry-item p {
