@@ -58,8 +58,8 @@ span a {
   flex-direction: column;
   border-radius: 3px;
   padding: 0 15px;
-  width: 19.5%;
-  margin: 4px;
+  width: 19.4%;
+  margin: 5px;
 }
 
 @media (max-width: 1336px) {
