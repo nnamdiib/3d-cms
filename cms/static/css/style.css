@@ -87,19 +87,23 @@ footer {
   bottom:0;
 }
 
-.content {
-  float: left;
-  position: relative;
-  padding-left: 5%;
-}
-
 .entry-item p {
   margin-top: 15px;
 }
 
+.content {
+  display: flex;
+  justify-content: center;
+}
+
 .entry-container {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  width: 90%;
 }
 
 .entry-container .entry-item {
@@ -110,7 +114,7 @@ footer {
   flex-direction: column;
   border-radius: 3px;
   padding: 0 15px;
-  width: 330px;
+  width: 320px;
   margin: 5px;
 }
 
