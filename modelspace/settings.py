@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # 3rd party apps
-    'tagulous',
+    'taggit',
 
     # Project Apps
     'cms',
@@ -125,3 +125,6 @@ STATIC_URL = '/static/'
 # For File Uploads
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# For Django Taggit, to make tag look ups case insensitive
+TAGGIT_CASE_INSENSITIVE = True
