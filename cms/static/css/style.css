@@ -43,6 +43,7 @@ span a {
 
 .content {
   min-height: 800px;
+  padding-left: 5%;
 }
 
 .entry-item p {
