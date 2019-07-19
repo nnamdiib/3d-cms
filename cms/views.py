@@ -16,8 +16,8 @@ def index(request):
     template = 'cms/index.html'
     uploads_list = STLFile.objects.all().order_by('-date_created')
 
-    paginator = Paginator(uploads_list, 8) # 6 uploads per page
-    page = request.GET.get('page')
+    paginator = Paginator(uploads_list, 15)
+    page = request.GET.get('p')
     uploads = paginator.get_page(page)
 
     context = {'uploads': uploads}
@@ -39,8 +39,8 @@ def search(request, q):
     template = 'cms/search_results.html'
     search_results = STLFile.objects.filter(Q(name__icontains=q) | Q(tags__name__icontains=q)).distinct()
 
-    paginator = Paginator(search_results, 8) # 6 uploads per page
-    page = request.GET.get('page')
+    paginator = Paginator(search_results, 15)
+    page = request.GET.get('p')
     uploads = paginator.get_page(page)
 
     context = {'uploads': uploads, 'count': search_results.count(), 'q':q}
@@ -58,8 +58,8 @@ def download(request, file_id):
     raise Http404
 
 def delete(request, file_id):
-    page = request.GET.get('page', None)
+    page = request.GET.get('p', None)
     stl = STLFile.objects.get(pk=file_id).delete()
     if int(page) == 1 or page is None:
         return redirect("/")
-    return redirect("/" + "?page=" + page)
+    return redirect("/" + "?p=" + page)
