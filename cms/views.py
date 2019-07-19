@@ -32,7 +32,6 @@ def upload(request):
         print(form.cleaned_data)
         form.save()
         return redirect('/')
-        
     context = {'form': form}
     return render(request, template, context)
 
