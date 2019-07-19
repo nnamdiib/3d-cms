@@ -37,56 +37,8 @@ span a {
   font-weight: 0.5rem;
 }
 
-.header .logo * {
-  margin: 0 5px;
-}
-/* END OF HEADER STYLES */
-
-.main {
-  display: flex;
-}
-
-.main .sidebar {
-  min-width: 200px;
-}
-
-.main .sidebar {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-top: 20px;
-  padding: 20px;
-  height: 80vh;
-}
-
-.main .sidebar .top * {
-  margin: 10px 0;
-  flex-basis: 100px;
-}
-
-.main .sidebar .top .button {
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-
-.main .sidebar .top .sidebar-link a {
-  text-decoration: none;
-  color: #192a3e;
-  font-size: 0.7rem;
-  margin-left: 5px;
-}
-
-.main .sidebar .bottom {
-  display: flex;
-  flex-direction: column;
-}
-.main .sidebar .bottom * {
-  margin: 10px 0;
-  font-size: 0.6rem;
-}
-
-.main .content, .header {
-  padding: 0 20px;
+.content {
+  min-height: 750px;
 }
 
 .entry-item p {
@@ -106,7 +58,7 @@ span a {
   flex-direction: column;
   border-radius: 3px;
   padding: 0 15px;
-  width: 330px;
+  width: 18.7%;
   margin: 5px;
 }
 
