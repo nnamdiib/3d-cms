@@ -1,0 +1,46 @@
+{% extends 'cms/base.html' %}
+{% load static %}
+
+{% block extra_js %}
+<!--   <script src="{% static 'js/stl_viewer.min.js' %}"></script>
+  <script src="{% static 'js/three.min.js' %}"></script>
+  <script src="{% static 'js/webgl_detector.js' %}"></script>
+  <script src="{% static 'js/Projector.js' %}"></script>
+  <script src="{% static 'js/CanvasRenderer.js' %}"></script>
+  <script src="{% static 'js/OrbitControls.js' %}"></script>
+  <script src="{% static 'js/load_stl.js' %}"></script>
+  <script src="{% static 'js/parser.min.js' %}"></script> -->
+
+
+  <!-- Madeleine -->
+  <link href="{% static 'css/Madeleine.css' %}" rel="stylesheet">
+  <script src="{% static 'js/stats.js' %}"></script>
+  <script src="{% static 'js/detector.js' %}"></script>
+  <script src="{% static 'js/three.min.js' %}"></script>
+  <script src="{% static 'js/Madeleine.js' %}"></script>
+
+  <script type="text/javascript">
+    // var stl_viewer=new StlViewer(
+      // document.getElementById("stl_cont"),
+      // {models:[{filename:"{{ file_path }}"}]}
+    // );
+
+  </script>
+
+  <script>
+    window.onload = function(){
+        var madeleine = new Madeleine({
+          target: 'stl_cont', // target div id
+          data: "{% url 'download' upload.id %}", // 'https://s3.amazonaws.com/limbforgestls/EbeArm/Ebe_forearm_L/forearm_L_C4-200_L1-230.stl', // data path
+          path: "{% static 'js/' %}"  // path to source directory from current html file
+        });
+    };
+  </script>
+{% endblock %}
+
+
+{% block content %}
+  <table></table>
+  <div id="stl_cont" style="width:500px;height:500px;margin:0 auto;"></div>
+
+{% endblock %}

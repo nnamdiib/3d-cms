@@ -56,3 +56,23 @@ def download(request, file_id):
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     raise Http404
+
+# def delete(request, file_id):
+#     template = 'cms/index.html'
+#     stl = get_object_or_404(STLFile, pk=file_id)
+#     file_path = os.path.join(settings.BASE_DIR, stl.document.path)
+#     context = {'status': 'Failed'}
+#     if os.path.exists(file_path):
+#         os.remove(file_path)
+#         stl.tags.clear()
+#         stl.delete()
+#         context['status'] = 'Success'
+#     return(request, template, context)
+
+def detail(request, stl_id):
+    template = 'cms/detail.html'
+    stl = get_object_or_404(STLFile, pk=stl_id)
+    file_path = os.path.join(settings.BASE_DIR, stl.document.path)
+    file_path = '\\\\'.join(file_path.split('\\'))
+    context = {'upload': upload, 'file_path': file_path, 'upload': stl}
+    return render(request, template, context)
