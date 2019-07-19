@@ -35,6 +35,13 @@ def upload(request):
     context = {'form': form}
     return render(request, template, context)
 
+def delete(request, file_id):
+    page = request.GET.get('page', None)
+    stl = STLFile.objects.get(pk=file_id).delete()
+    if int(page) == 1 or page is None:
+        return redirect("/")
+    return redirect("/" + "?page=" + page)
+
 def search(request, q):
     template = 'cms/search_results.html'
     search_results = STLFile.objects.filter(Q(name__icontains=q) | Q(tags__name__icontains=q)).distinct()
@@ -56,10 +63,3 @@ def download(request, file_id):
             response['Content-Disposition'] = 'inline; filename=' + stl.name + extension
             return response
     raise Http404
-
-def delete(request, file_id):
-    page = request.GET.get('page', None)
-    stl = STLFile.objects.get(pk=file_id).delete()
-    if int(page) == 1 or page is None:
-        return redirect("/")
-    return redirect("/" + "?page=" + page)
