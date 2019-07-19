@@ -9,10 +9,6 @@ body {
   padding: 1rem;
 }
 
-footer {
-  display: inline-block;
-}
-
 a {
   color: #006fa6;
   text-decoration: none !important;
