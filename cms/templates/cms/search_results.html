@@ -21,30 +21,7 @@
             </div>
           {% endfor %}
       </div>
-
-        {% if uploads.has_other_pages %}
-          <nav aria-label="Listing pagination">
-            <ul class="pagination">
-              {% if uploads.has_previous %}
-                <li class="page-item"><a class="page-link" href="/?q={{q}}&p={{ uploads.previous_page_number }}">Previous</a></li>
-              {% else %}
-                <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-              {% endif %}
-              {% for i in uploads.paginator.page_range %}
-                {% if uploads.number == i %}
-                  <li class="page-item active"><a class="page-link" href="#">{{ i }} <span class="sr-only">(current)</span></a></li>
-                {% else %}
-                  <li class="page-item"><a class="page-link" href="/?q={{q}}&p={{ i }}">{{ i }}</a></li>
-                {% endif %}
-              {% endfor %}
-              {% if uploads.has_next %}
-                <li class="page-item"><a class="page-link" href="/?q={{q}}&p={{ uploads.next_page_number }}">Next</a></li>
-              {% else %}
-                <li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-              {% endif %}
-            </ul>
-          </nav>
-        {% endif %}
+      {% include 'cms/footer.html' %}
     {% else %}
       <p>No models found</p>
     {% endif %}
