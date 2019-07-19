@@ -87,8 +87,8 @@ footer {
   bottom: 0px;
 }
 
-section {
-  padding-left: 90px;
+.col-md-3 {
+  padding: 5px !important;
 }
 
 .entry-item p {
