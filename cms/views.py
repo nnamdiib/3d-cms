@@ -60,6 +60,6 @@ def download(request, file_id):
 def delete(request, file_id):
     page = request.GET.get('page', None)
     stl = STLFile.objects.get(pk=file_id).delete()
-    if int(page) == 1:
+    if int(page) == 1 or page is None:
         return redirect("/")
     return redirect("/" + "?page=" + page)
