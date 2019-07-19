@@ -47,7 +47,6 @@ def search(request, q):
     page = request.GET.get('p')
     request.session['page'] = page
     request.session['count'] = len(search_results)
-
     uploads = paginator.get_page(page)
 
     context = {'uploads': uploads, 'count': search_results.count(), 'q':q}
