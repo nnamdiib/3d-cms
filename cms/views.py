@@ -16,7 +16,7 @@ def index(request):
     template = 'cms/index.html'
     uploads_list = STLFile.objects.all().order_by('-date_created')
 
-    paginator = Paginator(uploads_list, 15)
+    paginator = Paginator(uploads_list, 20)
     page = request.GET.get('p')
     uploads = paginator.get_page(page)
 
@@ -39,7 +39,7 @@ def search(request, q):
     template = 'cms/search_results.html'
     search_results = STLFile.objects.filter(Q(name__icontains=q) | Q(tags__name__icontains=q)).distinct()
 
-    paginator = Paginator(search_results, 15)
+    paginator = Paginator(search_results, 20)
     page = request.GET.get('p')
     uploads = paginator.get_page(page)
 

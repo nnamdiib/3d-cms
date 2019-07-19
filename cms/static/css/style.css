@@ -82,6 +82,11 @@ span a {
   font-size: 0.6rem;
 }
 
+footer {
+  position:absolute;
+  bottom:0;
+}
+
 header {
   margin-left: 5px !important;
 }

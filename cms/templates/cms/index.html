@@ -23,7 +23,15 @@
           {% endfor %}
       </div>
 
-        {% if uploads.has_other_pages %}
+    {% else %}
+      <p>No models found</p>
+    {% endif %}
+
+
+  </section>
+
+  <footer>
+            {% if uploads.has_other_pages %}
           <nav aria-label="Listing pagination">
             <ul class="pagination">
               {% if uploads.has_previous %}
@@ -46,11 +54,6 @@
             </ul>
           </nav>
         {% endif %}
-    {% else %}
-      <p>No models found</p>
-    {% endif %}
-
-
-  </section>
+  </footer>
 
 {% endblock %}
