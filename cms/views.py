@@ -1,6 +1,6 @@
 import os 
 from django.core.paginator import Paginator
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.db.models import Q
 from django.conf import settings
@@ -56,3 +56,7 @@ def download(request, file_id):
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
     raise Http404
+
+def delete(request, file_id):
+    stl = STLFile.objects.get(pk=file_id).delete()
+    return redirect('/')
