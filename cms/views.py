@@ -20,7 +20,6 @@ def index(request):
 
     paginator = Paginator(uploads_list, per_page)
     page = request.GET.get('p')
-    request.session['page'] = page
     request.session['count'] = len(uploads_list)
     uploads = paginator.get_page(page)
 
@@ -45,7 +44,6 @@ def search(request, q):
 
     paginator = Paginator(search_results, per_page)
     page = request.GET.get('p')
-    request.session['page'] = page
     request.session['count'] = len(search_results)
     uploads = paginator.get_page(page)
 
@@ -65,8 +63,8 @@ def download(request, file_id):
 
 def delete(request, file_id):
     stl = STLFile.objects.get(pk=file_id).delete()
-    page = request.session['page']
     count = request.session['count']
-    if page is None or count - 1 < per_page:
+    page = count - 1 / per_page >= 1
+    if page is None or page >= 1:
         return redirect("/")
     return redirect("/" + "?p=" + page)
