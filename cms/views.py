@@ -48,11 +48,12 @@ def search(request, q):
 
 def download(request, file_id):
     stl = STLFile.objects.get(pk=file_id) # get_object_or_404(STLFile, pk=file_id)
+    name = stl.name
     file_path = os.path.join(settings.BASE_DIR, stl.document.path)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="model/stl")
-            response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+            response['Content-Disposition'] = 'inline; filename=' + name
             return response
     raise Http404
 
