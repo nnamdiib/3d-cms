@@ -10,7 +10,7 @@
           {% for upload in uploads %}
             <div class="entry-item">
               <p class="title">{{ upload.name }}</p>
-              <img src="{% static 'img/item.jpg' %}" alt="" />
+              <img src="{% static 'img/thumbs' %}{{ upload.file_name }}.png" alt="" />
               <div class="footer">
                 <div>
                   <span>{{ upload.document.size|filesizeformat }}</span>

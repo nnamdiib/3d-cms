@@ -78,7 +78,7 @@ def remove(request, file_id):
     stl = get_object_or_404(STLFile, pk=file_id)
     stl_file = os.path.join(settings.BASE_DIR, stl.document.path)
     folder = os.path.join(os.path.join(settings.STATIC_ROOT, 'img'), 'thumbs')
-    png_path = os.path.join(folder, entry.file_name + '.png')
+    png_path = os.path.join(folder, stl.file_name + '.png')
     if os.path.exists(stl_file):
         os.remove(stl_file)
     if os.path.exists(png_path):
