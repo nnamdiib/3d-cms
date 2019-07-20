@@ -70,7 +70,6 @@ def detail(request, stl_id):
     return render(request, template, context)
 
 def delete(request, file_id):
-    template = 'cms/index.html'
     stl = get_object_or_404(STLFile, pk=file_id)
     file_path = os.path.join(settings.BASE_DIR, stl.document.path)
     context = {'status': 'Failed'}
