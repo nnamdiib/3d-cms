@@ -8,6 +8,7 @@ from django.http import HttpResponse, Http404
 
 from .models import STLFile
 from .forms import UploadForm
+from .utils import create_thumbnail
 
 per_page = 20
 
@@ -29,11 +30,15 @@ def index(request):
 def upload(request):
     template = 'cms/upload.html'
     form = UploadForm(request.POST or None, request.FILES or None)
-    print(request.POST)
     if form.is_valid():
-        print('VALID *******')
-        print(form.cleaned_data)
-        form.save()
+        entry = form.save()
+        stl_path = entry.document.path
+        file_name = entry.document.name.split('/')[1].split('.')[0]
+        folder = os.path.join(os.path.join(settings.STATIC_ROOT, 'img'), 'thumbs')
+        output_path = os.path.join(folder, file_name + '.png')
+        create_thumbnail(stl_path, output_path)
+        entry.file_name = file_name
+        entry.save()
         return redirect('/')
     context = {'form': form}
     return render(request, template, context)
@@ -71,13 +76,17 @@ def detail(request, stl_id):
 
 def remove(request, file_id):
     stl = get_object_or_404(STLFile, pk=file_id)
-    file_path = os.path.join(settings.BASE_DIR, stl.document.path)
-    if os.path.exists(file_path):
-        os.remove(file_path)
-        stl.tags.clear()
-        stl.delete()
-        count = request.session['count']
-        page = (count - 1) / per_page
-        if page < 1:
-            return redirect("/")
+    stl_file = os.path.join(settings.BASE_DIR, stl.document.path)
+    folder = os.path.join(os.path.join(settings.STATIC_ROOT, 'img'), 'thumbs')
+    png_path = os.path.join(folder, entry.file_name + '.png')
+    if os.path.exists(stl_file):
+        os.remove(stl_file)
+    if os.path.exists(png_path):
+        os.remove(png_path)
+    stl.tags.clear()
+    stl.delete()
+    count = request.session['count']
+    page = (count - 1) / per_page
+    if page < 1:
+        return redirect("/")
     return redirect("/" + "?p=" + page)

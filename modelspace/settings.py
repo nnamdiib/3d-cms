@@ -120,7 +120,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+CMS_APP_ROOT = os.path.join(BASE_DIR, 'cms')
+
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(CMS_APP_ROOT, 'static')
 
 # For File Uploads
 MEDIA_URL = '/media/'

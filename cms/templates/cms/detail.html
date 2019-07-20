@@ -13,7 +13,7 @@
     window.onload = function(){
         var madeleine = new Madeleine({
           target: 'stl_cont', // target div id
-          data: "{% url 'download' upload.id %}", // data path
+          data: "{% url 'save' upload.id %}", // data path
           path: "{% static 'js/' %}"  // path to source directory from current html file
         });
     };
