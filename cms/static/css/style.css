@@ -68,6 +68,10 @@ span a {
   }
 }
 
+img {
+  display: block;
+}
+
 .entry-container .entry-item img {
   margin: auto;
   width: 80px;

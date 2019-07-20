@@ -14,14 +14,13 @@
         {% if uploads %}
           {% for upload in uploads %}
             <div class="entry-item">
-              <p class="title">{{ upload.name }}</p>
-              <img src="{% static 'img/item.jpg' %}" alt="" />
+              <a href="{% url 'detail' upload.id %}"><p class="title">{{ upload.name }}</p></a>
+              <a href="{% url 'detail' upload.id %}"><img src="{% static 'img/item.jpg' %}" alt="" /></a>
               <div class="footer">
                 <div>
                   <span>{{ upload.document.size|filesizeformat }}</span>
                 </div>
                 <p>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
-                <p><a href="{% url 'detail' upload.id %}">Detail</a></p>
                 <p><a href="{% url 'download' upload.id %}">Download</a></p>
                 <p><a href="{% url 'delete' upload.id %}">Delete</a></p>
               </div>
