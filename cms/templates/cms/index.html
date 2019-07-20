@@ -21,8 +21,8 @@
                   <span>{{ upload.document.size|filesizeformat }}</span>
                 </div>
                 <p>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
-                <p><a href="{% url 'download' upload.id %}"><i class="fa fa-download"></i></a></p>
-                <p><a href="{% url 'delete' upload.id %}"><i class="fa fa-trash"></i></a></p>
+                <p><a href="{% url 'download' upload.id %}">Save</a></p>
+                <p><a href="{% url 'delete' upload.id %}">Delete</a></p>
               </div>
             </div>
           {% endfor %}

@@ -61,18 +61,6 @@ def download(request, file_id):
             return response
     raise Http404
 
-# def delete(request, file_id):
-#     template = 'cms/index.html'
-#     stl = get_object_or_404(STLFile, pk=file_id)
-#     file_path = os.path.join(settings.BASE_DIR, stl.document.path)
-#     context = {'status': 'Failed'}
-#     if os.path.exists(file_path):
-#         os.remove(file_path)
-#         stl.tags.clear()
-#         stl.delete()
-#         context['status'] = 'Success'
-#     return(request, template, context)
-
 def detail(request, stl_id):
     template = 'cms/detail.html'
     stl = get_object_or_404(STLFile, pk=stl_id)
@@ -82,9 +70,17 @@ def detail(request, stl_id):
     return render(request, template, context)
 
 def delete(request, file_id):
-    stl = STLFile.objects.get(pk=file_id).delete()
-    count = request.session['count']
-    page = (count - 1) / per_page
-    if page < 1:
-        return redirect("/")
+    template = 'cms/index.html'
+    stl = get_object_or_404(STLFile, pk=file_id)
+    file_path = os.path.join(settings.BASE_DIR, stl.document.path)
+    context = {'status': 'Failed'}
+    if os.path.exists(file_path):
+        os.remove(file_path)
+        stl.tags.clear()
+        stl.delete()
+        context['status'] = 'Success'
+        count = request.session['count']
+        page = (count - 1) / per_page
+        if page < 1:
+            return redirect("/")
     return redirect("/" + "?p=" + page)
