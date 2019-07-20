@@ -37,8 +37,14 @@ span a {
   font-weight: 0.5rem;
 }
 
+section {
+    min-height: 800px;
+}
+
 .content {
-  min-height: 750px;
+  padding-left: 3%;
+  display: flex;
+  justify-content: center;
 }
 
 .entry-item p {
@@ -48,6 +54,7 @@ span a {
 .entry-container {
   display: flex;
   flex-wrap: wrap;
+  width: 95%;
 }
 
 .entry-container .entry-item {
@@ -58,7 +65,8 @@ span a {
   flex-direction: column;
   border-radius: 3px;
   padding: 0 15px;
-  width: 18.7%;
+  width: 18.8%;
+  height: 22%;
   margin: 5px;
 }
 
