@@ -72,12 +72,10 @@ def detail(request, stl_id):
 def delete(request, file_id):
     stl = get_object_or_404(STLFile, pk=file_id)
     file_path = os.path.join(settings.BASE_DIR, stl.document.path)
-    context = {'status': 'Failed'}
     if os.path.exists(file_path):
         os.remove(file_path)
         stl.tags.clear()
         stl.delete()
-        context['status'] = 'Success'
         count = request.session['count']
         page = (count - 1) / per_page
         if page < 1:
