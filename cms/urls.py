@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('upload/', views.upload, name='upload'),
-    path('download/<int:file_id>/', views.download, name='download'),
+    path('save/<int:file_id>/', views.save, name='save'),
     path('detail/<int:stl_id>/', views.detail, name='detail'),
-    path('delete/<int:file_id>/', views.delete, name='delete'),
+    path('remove/<int:file_id>/', views.remove, name='remove'),
 ]

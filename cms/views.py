@@ -50,7 +50,7 @@ def search(request, q):
     context = {'uploads': uploads, 'count': entries.count(), 'q':q}
     return render(request, template, context)
 
-def download(request, file_id):
+def save(request, file_id):
     stl = STLFile.objects.get(pk=file_id) # get_object_or_404(STLFile, pk=file_id)
     file_path = os.path.join(settings.BASE_DIR, stl.document.path)
     if os.path.exists(file_path):
@@ -69,7 +69,7 @@ def detail(request, stl_id):
     context = {'upload': upload, 'file_path': file_path, 'upload': stl}
     return render(request, template, context)
 
-def delete(request, file_id):
+def remove(request, file_id):
     stl = get_object_or_404(STLFile, pk=file_id)
     file_path = os.path.join(settings.BASE_DIR, stl.document.path)
     if os.path.exists(file_path):
