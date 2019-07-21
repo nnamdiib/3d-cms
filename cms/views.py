@@ -7,7 +7,7 @@ from django.conf import settings
 from django.http import HttpResponse, Http404
 
 from .models import STLFile
-from .forms import UploadForm
+from .forms import UploadForm, UpdateForm
 from .utils import create_thumbnail
 
 per_page = 20
@@ -89,3 +89,44 @@ def remove(request, file_id):
     if page < 1:
         return redirect("/")
     return redirect("/" + "?p=" + page)
+
+def update(request, file_id):
+    template = 'cms/upload.html'
+    stl = get_object_or_404(STLFile, pk=file_id)
+    folder = os.path.join(os.path.join(settings.STATIC_ROOT, 'img'), 'thumbs')
+    png_path = os.path.join(folder, stl.file_name + '.png')
+
+    update_form = UpdateForm(request.POST or None, request.FILES or None)
+    update_form.fields['document'].required = False
+    if update_form.is_valid():
+        stl.name = update_form.cleaned_data['name']
+        if update_form.cleaned_data['document']:
+            try:
+                os.remove(stl.document.path)
+            except FileNotFoundError:
+                print('Could not remove STL file')
+            try:
+                os.remove(png_path)
+            except FileNotFoundError:
+                print('Could not remove old PNG thumbnail')
+            stl.document = update_form.cleaned_data['document']
+            stl.save()  # Necessary to obtain a unique document name
+            file_name = stl.document.name.split('/')[1].split('.')[0]
+            stl.file_name = file_name
+            stl.save()
+            png_path = os.path.join(settings.THUMBS_ROOT, file_name + '.png')
+            create_thumbnail(stl.document.path, png_path)
+        stl.tags.clear()
+        for tag in update_form.cleaned_data['tags'].split(','):
+            stl.tags.add(tag.strip())
+        stl.save()
+        return redirect('index')
+    initial_data = {
+        'name': stl.name,
+        'tags': ', '.join([t.name for t in stl.tags.all()]),
+        'document': stl.document
+    }
+    update_form = UpdateForm(initial=initial_data)
+    context = {'form': update_form}
+    return render(request, template, context)
+
