@@ -4,29 +4,7 @@
 {% block content %}
 
   <section class="content">
-    {% if count %}<p>{{ count }} items found</p>{% endif %}
-    <div class="entry-container">
-        {% if uploads %}
-          {% for upload in uploads %}
-            <div class="entry-item">
-              <p class="title">{{ upload.name }}</p>
-              <img src="{% static 'img/thumbs/' %}{{ upload.file_name }}.png" alt="" />
-              <div class="footer">
-                <div>
-                  <span>{{ upload.document.size|filesizeformat }}</span>
-                </div>
-                <p>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
-                <p><a href="{% url 'save' upload.id %}">Save</a></p>
-                <p><a href="{% url 'remove' upload.id %}">Remove</a></p>
-              </div>
-          {% endfor %}
-      </div>
-      {% include 'cms/footer.html' %}
-    {% else %}
-      <p>No models found</p>
-    {% endif %}
-
-
+      {% include 'cms/entries.html' %}
   </section>
 
 {% endblock %}

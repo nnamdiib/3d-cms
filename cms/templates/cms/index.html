@@ -10,30 +10,11 @@
         <p>{{ status }}</p>
       </div>
     {% endif %}
-    <div class="entry-container">
-        {% if uploads %}
-          {% for upload in uploads %}
-            <div class="entry-item">
-              <a href="{% url 'detail' upload.id %}"><p class="title">{{ upload.name }}</p></a>
-              <a href="{% url 'detail' upload.id %}"><img src="{% static 'img/thumbs/' %}{{ upload.file_name }}.png" alt="" /></a>
-              <div class="footer">
-                <div>
-                  <span>{{ upload.document.size|filesizeformat }}</span>
-                </div>
-                <p>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
-                <p><a href="{% url 'save' upload.id %}">Save</a></p>
-                <p><a href="{% url 'remove' upload.id %}">Remove</a></p>
-              </div>
-            </div>
-          {% endfor %}
-      </div>
 
-    {% else %}
-      <p>No models found</p>
-    {% endif %}
-
+  {% include 'cms/entries.html' %}
 
   </section>
+  
   {% include 'cms/footer.html' %}
 
 {% endblock %}
