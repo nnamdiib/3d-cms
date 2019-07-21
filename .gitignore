@@ -4,7 +4,7 @@
 *.pyc
 __pycache__/
 local_settings.py
-thumbs/
+cms/static/img/thumbs/
 uploads/
 
 .env
