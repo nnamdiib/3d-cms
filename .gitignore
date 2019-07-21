@@ -4,8 +4,8 @@
 *.pyc
 __pycache__/
 local_settings.py
-cms/static/img/thumbs/
 uploads/
+thumbs/
 
 .env
 db.sqlite3
