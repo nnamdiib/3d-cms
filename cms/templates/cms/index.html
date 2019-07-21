@@ -4,7 +4,6 @@
 {% block content %}
 
   <section class="content">
-    {% if count %}<p>{{ count }} items found</p>{% endif %}
     {% if status %}
       <div class="alert alert-info">
         <p>{{ status }}</p>
@@ -14,7 +13,7 @@
   {% include 'cms/entries.html' %}
 
   </section>
-  
+
   {% include 'cms/footer.html' %}
 
 {% endblock %}

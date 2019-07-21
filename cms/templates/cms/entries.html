@@ -1,5 +1,6 @@
 {% load static %}
 
+{% if count %}<p>{{ count }} items found</p>{% endif %}
 <div class="entry-container">
   {% if uploads %}
     {% for upload in uploads %}
