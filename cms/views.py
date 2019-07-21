@@ -44,7 +44,7 @@ def upload(request):
     return render(request, template, context)
 
 def search(request, q):
-    template = 'cms/results.html'
+    template = 'cms/index.html'
     entries = STLFile.objects.filter(Q(name__icontains=q) | Q(tags__name__icontains=q)).distinct()
 
     paginator = Paginator(entries, per_page)
