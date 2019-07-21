@@ -10,15 +10,15 @@
           {% for upload in uploads %}
             <div class="entry-item">
               <p class="title">{{ upload.name }}</p>
-              <img src="{% static 'img/thumbs' %}{{ upload.file_name }}.png" alt="" />
+              <img src="{% static 'img/thumbs/' %}{{ upload.file_name }}.png" alt="" />
               <div class="footer">
                 <div>
                   <span>{{ upload.document.size|filesizeformat }}</span>
                 </div>
-                <p></p>
                 <p>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
+                <p><a href="{% url 'save' upload.id %}">Save</a></p>
+                <p><a href="{% url 'remove' upload.id %}">Remove</a></p>
               </div>
-            </div>
           {% endfor %}
       </div>
       {% include 'cms/footer.html' %}
