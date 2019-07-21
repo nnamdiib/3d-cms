@@ -73,7 +73,6 @@ def detail(request, stl_id):
     return render(request, template, context)
 
 def remove(request, file_id):
-    entries = STLFile.objects.all()
     stl = get_object_or_404(STLFile, pk=file_id)
     stl_file = os.path.join(settings.BASE_DIR, stl.document.path)
     folder = os.path.join(os.path.join(settings.STATIC_ROOT, 'img'), 'thumbs')
@@ -84,6 +83,7 @@ def remove(request, file_id):
         os.remove(png_path)
     stl.tags.clear()
     stl.delete()
+    entries = STLFile.objects.all()
     count = len(entries)
     page = (count - 1) / per_page
     if page < 1:
