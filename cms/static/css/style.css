@@ -7,6 +7,13 @@ body {
   font-family: 'Poppins', sans-serif;
   color: #192a3e;
   padding: 1rem;
+  background-color: white !important;
+}
+
+#mad-0 {
+  background-color: white !important;
+  border: 1px solid #f4f4f4;
+  width: 640px;
 }
 
 a {
@@ -34,11 +41,11 @@ span a {
 
 .header .logo span a{
   color: #006fa6 !important;
-  font-weight: 0.5rem;
+  font-weight: 0.5rem !important;
 }
 
 section {
-    min-height: 800px;
+  min-height: 800px;
 }
 
 .entry-item p {
