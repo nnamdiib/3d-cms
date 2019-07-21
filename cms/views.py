@@ -54,7 +54,7 @@ def search(request, q):
     return render(request, template, context)
 
 def save(request, file_id):
-    stl = STLFile.objects.get(pk=file_id) # get_object_or_404(STLFile, pk=file_id)
+    stl = STLFile.objects.get(pk=file_id)
     file_path = os.path.join(settings.BASE_DIR, stl.document.path)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
