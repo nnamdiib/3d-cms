@@ -126,11 +126,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(CMS_APP_ROOT, 'static')
 
 IMG_ROOT = os.path.join(STATIC_ROOT, 'img')
-THUMBS_ROOT = os.path.join(IMG_ROOT, 'thumbs')
 
 # For File Uploads
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+THUMBS_ROOT = os.path.join(MEDIA_ROOT, 'thumbs')
 
 # For Django Taggit, to make tag look ups case insensitive
 TAGGIT_CASE_INSENSITIVE = True
