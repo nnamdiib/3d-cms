@@ -85,7 +85,7 @@ def remove(request, file_id):
     stl.delete()
     entries = STLFile.objects.all()
     count = len(entries)
-    page = (count - 1) / per_page
+    page = count / per_page
     if page < 1:
         return redirect("/")
     return redirect("/" + "?p=" + page)
