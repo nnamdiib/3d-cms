@@ -53,3 +53,8 @@ footer {
 .col-md-9 {
 	flex: 0.50;
 }
+
+.table {
+	width: unset;
+	min-width: 80%;
+}
