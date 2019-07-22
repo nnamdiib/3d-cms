@@ -1,0 +1,27 @@
+{% extends 'cms/new_base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="row">
+    {% for upload in uploads %}
+      <div class="col-md-3">
+        <div class="card" style="padding: 10px; margin: 10px;">
+          <img class="img" style="width: 200px; height: 200px" alt="{{ upload.name }}" src="{% static 'img/thumbs/' %}{{ upload.file_name }}.png" />
+          <div class="card-block">
+            <h5 class="card-title">
+              {{ upload.name }}
+            </h5>
+            <p> Size: {{ upload.document.size|filesizeformat }}</p>
+            <p>Upload time: {{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
+            <div class="row">
+              <div class="col-md-3 col-xs-2" style="margin: 5px;"><a class="btn" href="{% url 'remove' upload.id %}">Remove</a> </div>
+              <div class="col-md-3 col-xs-2" style="margin: 5px;"><a class="btn btn-primary" href="{% url 'update' upload.id %}">Update</a></div>
+              <div class="col-md-3 col-xs-2" style="margin: 5px;"><a class="btn btn-success" href="{% url 'save' upload.id %}">download</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% include 'cms/footer.html' %}
+{% endblock %}

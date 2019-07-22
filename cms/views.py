@@ -16,7 +16,7 @@ def index(request):
     q = request.GET.get('q', None)
     if q:
         return search(request, q)
-    template = 'cms/index.html'
+    template = 'cms/new_index.html'
     entries = STLFile.objects.all().order_by('-date_created')
 
     paginator = Paginator(entries, per_page)
@@ -43,7 +43,7 @@ def upload(request):
     return render(request, template, context)
 
 def search(request, q):
-    template = 'cms/index.html'
+    template = 'cms/new_index.html'
     entries = STLFile.objects.filter(Q(name__icontains=q) | Q(tags__name__icontains=q)).distinct()
 
     paginator = Paginator(entries, per_page)
