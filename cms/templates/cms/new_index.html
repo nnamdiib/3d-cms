@@ -18,7 +18,7 @@
           <p> Size: {{ upload.document.size|filesizeformat }}</p>
           <p>Upload time: {{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
           <div class="row">
-            <div class="col-md-3 col-xs-2" style="margin: 5px;"><a class="btn" href="{% url 'remove' upload.id %}">Remove</a> </div>
+            <div class="col-md-3 col-xs-2" style="margin: 5px;"><a class="btn btn-danger" href="{% url 'remove' upload.id %}">Remove</a> </div>
             <div class="col-md-3 col-xs-2" style="margin: 5px;"><a class="btn btn-primary" href="{% url 'update' upload.id %}">Update</a></div>
             <div class="col-md-3 col-xs-2" style="margin: 5px;"><a class="btn btn-success" href="{% url 'save' upload.id %}">Download</a></div>
           </div>
