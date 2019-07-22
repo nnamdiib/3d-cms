@@ -10,8 +10,7 @@
           <a href="{% url 'detail' upload.id %}"><h5 class="card-title">{{ upload.name }}</h5></a>
           <p> {{ upload.document.size|filesizeformat }}</p>
           <p> {{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
-        {% include 'cms/buttons.html' %}
-
+          {% include 'cms/options.html' %}
         </div>
       </div>
     </div>
