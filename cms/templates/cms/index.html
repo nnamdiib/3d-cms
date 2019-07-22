@@ -1,39 +1,30 @@
 {% extends 'cms/base.html' %}
 {% load static %}
 
+{% block extra_css %}
+  <style type="text/css">
+    .card a{
+      text-decoration: none;
+    }
+  </style>
+{% endblock %}
 {% block content %}
-
-  <section class="row">
-    {% if count %}<p>{{ count }} items found</p>{% endif %}
-    {% if status %}
-      <div class="alert alert-info">
-        <p>{{ status }}</p>
+  {% for upload in uploads %}
+    <div class="col-md-3">
+      <div class="card" style="padding: 10px; margin: 10px;">
+        <a href="{% url 'detail' upload.id %}"><img class="img" style="width: 200px; height: 200px" alt="{{ upload.name }}" src="{% static 'img/thumbs/' %}{{ upload.file_name }}.png" /></a>
+        <div class="card-block">
+          <a href="{% url 'detail' upload.id %}"><h5 class="card-title">{{ upload.name }}</h5></a>
+          <p> Size: {{ upload.document.size|filesizeformat }}</p>
+          <p>Upload time: {{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
+          <div class="row">
+            <div class="col-md-3 col-xs-2" style="margin: 5px;"><a class="btn btn-danger" href="{% url 'remove' upload.id %}">Remove</a> </div>
+            <div class="col-md-3 col-xs-2" style="margin: 5px;"><a class="btn btn-primary" href="{% url 'update' upload.id %}">Update</a></div>
+            <div class="col-md-3 col-xs-2" style="margin: 5px;"><a class="btn btn-success" href="{% url 'save' upload.id %}">Download</a></div>
+          </div>
+        </div>
       </div>
-    {% endif %}
-    <div class="row">
-        {% if uploads %}
-          {% for upload in uploads %}
-            <div class="col-md-4">
-              <a href="{% url 'detail' upload.id %}"><p class="title">{{ upload.name }}</p></a>
-              <a href="{% url 'detail' upload.id %}"><img src="{% static 'img/thumbs/' %}{{ upload.file_name }}.png" alt="" /></a>
-              <div class="footer">
-                <div>
-                  <span>{{ upload.document.size|filesizeformat }}</span>
-                </div>
-                <p>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
-                <p><a href="{% url 'save' upload.id %}">Save</a></p>
-                <p><a href="{% url 'remove' upload.id %}">Remove</a></p>
-              </div>
-            </div>
-          {% endfor %}
-      </div>
-
-    {% else %}
-      <p>No models found</p>
-    {% endif %}
-
-
-  </section>
+    </div>
+    {% endfor %}
   {% include 'cms/footer.html' %}
-
 {% endblock %}
