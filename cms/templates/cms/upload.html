@@ -1,22 +1,6 @@
 {% extends 'cms/base.html' %}
 {% load static %}
 
-{% block extra_css %}
-	<style type="text/css">
-		.centre {
-			padding: 10px;
-			/*margin: auto !important;*/
-			margin: 20px auto auto auto;
-			float: none;
-			background-color: 	#fffff2;
-		}
-
-		.centre .form {
-			margin: 10px;
-		}
-	</style>
-{% endblock %}
-
 {% block content %}
   <div class="centre col-md-3">
       <form autocomplete="off" class="form form-vertical" method="POST" enctype="multipart/form-data">

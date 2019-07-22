@@ -1,0 +1,43 @@
+.centre {
+	padding: 10px;
+	margin: 20px auto auto auto;
+	float: none;
+}
+
+.box {
+	max-height: 500px;
+	max-width: 660px;
+}
+
+.card a {
+    text-decoration: none;
+}
+
+.centre {
+	padding: 10px;
+	margin: 20px auto auto auto;
+	float: none;
+	background-color: 	#fffff2;
+}
+
+.centre .form {
+	margin: 10px;
+}
+
+img {
+	width: 200px; 
+	height: 200px
+}
+
+.card {
+	padding: 10px; 
+	margin: 10px;
+}
+
+.col-xs-2 {
+    margin: 5px;
+}
+
+.detail {
+	margin-top: 20px;
+}
