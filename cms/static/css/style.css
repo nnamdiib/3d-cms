@@ -2,6 +2,7 @@
 	padding: 10px;
 	margin: 20px auto auto auto;
 	float: none;
+	background-color: 	#fffff2;
 }
 
 .box {
@@ -11,13 +12,6 @@
 
 .card a {
     text-decoration: none;
-}
-
-.centre {
-	padding: 10px;
-	margin: 20px auto auto auto;
-	float: none;
-	background-color: 	#fffff2;
 }
 
 .centre .form {
