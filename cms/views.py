@@ -10,7 +10,7 @@ from .models import STLFile
 from .forms import UploadForm, UpdateForm
 from .utils import create_thumbnail
 
-per_page = 20
+per_page = 8
 
 def index(request):
     q = request.GET.get('q', None)
