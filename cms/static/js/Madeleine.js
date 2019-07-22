@@ -25,7 +25,7 @@
     // Constants for default setting
     var CONVERT_TO_BINARY = true;
 
-    var OBJECT_MATERIAL   = "matt";
+    var OBJECT_MATERIAL   = "shiny";
     var OBJECT_STATUS     = false;
     var OBJECT_COLOR      = "FF9900";
 
@@ -33,7 +33,7 @@
     var CAMERA_NEARFIELD = 1;
     var CAMERA_FARFIELD  = 100000;
 
-    var VIEWER_THEME  = "default";
+    var VIEWER_THEME  = "light";   // Options: dark, soft, lego, toxic, cobalt, light
     var VIEWER_PREFIX = "mad-";
     var VIEWER_CREATE = true;
     var VIEWER_HEIGHT = 400;

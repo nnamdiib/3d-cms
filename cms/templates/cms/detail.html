@@ -1,4 +1,4 @@
-{% extends 'cms/base.html' %}
+{% extends 'cms/new_base.html' %}
 {% load static %}
 
 {% block extra_js %}
@@ -20,8 +20,51 @@
   </script>
 {% endblock %}
 
+{% block extra_css %}
+  <style type="text/css">
+        div {
+          /*border: solid*/
+        }
+        .centre {
+          padding: 10px;
+          margin: 20px auto auto auto;
+          float: none;
+        }
+
+        .box {
+          max-height: 500px;
+          max-width: 500px;
+        }
+  </style>
+{% endblock %}
+
 {% block content %}
-  <table></table>
-  <div id="stl_cont"></div>
+
+  <div class="col-md-3" style="margin-top: 20px">
+    <table class="table table-bordered table-striped">
+      <tbody>
+        <tr>
+          <td>Name</td>
+          <td>{{ upload.name }}</td>
+        </tr>
+        <tr>
+          <td>Tags</td>
+          <td>
+            <ul>
+              {% for tag in upload.tags.all %}
+                <li><a href="{% url 'index' %}?q={{ tag }}">{{ tag }}</a></li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <a class="btn btn-danger" href="{% url 'remove' upload.id %}">Delete</a>
+    <a class="btn btn-success" href="{% url 'save' upload.id %}">Download</a>
+  </div>
+
+  <div class="col-md-9">
+    <div class="centre box" id="stl_cont"></div>
+  </div>
 
 {% endblock %}
