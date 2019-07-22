@@ -9,6 +9,6 @@ urlpatterns = [
     path('upload/', views.upload, name='upload'),
     path('save/<int:file_id>/', views.save, name='save'),
     path('detail/<int:stl_id>/', views.detail, name='detail'),
-    path('remove/<int:file_id>/', views.remove, name='remove'),
+    path('erase/<int:file_id>/', views.erase, name='erase'),
     path('edit/<int:file_id>/', views.edit, name='edit')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
