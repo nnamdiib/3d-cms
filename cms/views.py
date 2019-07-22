@@ -33,8 +33,7 @@ def upload(request):
         entry = form.save()
         stl_path = entry.document.path
         file_name = entry.document.name.split('/')[1].split('.')[0]
-        folder = os.path.join(os.path.join(settings.STATIC_ROOT, 'img'), 'thumbs')
-        output_path = os.path.join(folder, file_name + '.png')
+        output_path = os.path.join(settings.THUMBS_ROOT, file_name + '.png')
         create_thumbnail(stl_path, output_path)
         entry.file_name = file_name
         entry.save()
@@ -93,8 +92,7 @@ def remove(request, file_id):
 def update(request, file_id):
     template = 'cms/upload.html'
     stl = get_object_or_404(STLFile, pk=file_id)
-    folder = os.path.join(os.path.join(settings.STATIC_ROOT, 'img'), 'thumbs')
-    png_path = os.path.join(folder, stl.file_name + '.png')
+    png_path = os.path.join(settings.THUMBS_ROOT, stl.file_name + '.png')
 
     update_form = UpdateForm(request.POST or None, request.FILES or None)
     update_form.fields['document'].required = False
