@@ -37,3 +37,15 @@ img {
 .detail {
 	margin-top: 20px;
 }
+
+.button {
+	display: inline-block;
+}
+
+.container-fluid {
+	min-height: 850px;
+}
+
+footer {
+	padding-left: 15px;
+}

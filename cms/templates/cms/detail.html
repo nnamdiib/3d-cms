@@ -41,9 +41,8 @@
         </tr>
       </tbody>
     </table>
-    <a class="btn btn-danger" href="{% url 'remove' upload.id %}">Remove</a>
-    <a class="btn btn-primary" href="{% url 'update' upload.id %}">Update</a>
-    <a class="btn btn-success" href="{% url 'save' upload.id %}">Download</a>
+  {% include 'cms/buttons.html' %}
+
   </div>
 
   <div class="col-md-9">
