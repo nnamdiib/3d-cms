@@ -87,7 +87,7 @@ def remove(request, file_id):
         return redirect("/")
     return redirect("/" + "?p=" + page)
 
-def update(request, file_id):
+def edit(request, file_id):
     template = 'cms/upload.html'
     stl = get_object_or_404(STLFile, pk=file_id)
     png_path = os.path.join(settings.THUMBS_ROOT, stl.file_name + '.png')

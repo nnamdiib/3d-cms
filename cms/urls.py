@@ -10,5 +10,5 @@ urlpatterns = [
     path('save/<int:file_id>/', views.save, name='save'),
     path('detail/<int:stl_id>/', views.detail, name='detail'),
     path('remove/<int:file_id>/', views.remove, name='remove'),
-    path('update/<int:file_id>/', views.update, name='update')
+    path('edit/<int:file_id>/', views.edit, name='edit')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
