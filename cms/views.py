@@ -54,7 +54,7 @@ def search(request, q):
 
 def save(request, file_id):
     stl = STLFile.objects.get(pk=file_id)
-    file_path = os.path.join(settings.BASE_DIR, stl.document.path)
+    file_path = stl.document.path
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="model/stl")
@@ -66,16 +66,14 @@ def save(request, file_id):
 def detail(request, stl_id):
     template = 'cms/detail.html'
     stl = get_object_or_404(STLFile, pk=stl_id)
-    file_path = os.path.join(settings.BASE_DIR, stl.document.path)
-    file_path = '\\\\'.join(file_path.split('\\'))
+    file_path = '\\\\'.join(stl.document.path.split('\\'))
     context = {'upload': upload, 'file_path': file_path, 'upload': stl}
     return render(request, template, context)
 
 def remove(request, file_id):
     stl = get_object_or_404(STLFile, pk=file_id)
     stl_file = os.path.join(settings.BASE_DIR, stl.document.path)
-    folder = os.path.join(os.path.join(settings.STATIC_ROOT, 'img'), 'thumbs')
-    png_path = os.path.join(folder, stl.file_name + '.png')
+    png_path = os.path.join(settings.THUMBS_ROOT, stl.file_name + '.png')
     if os.path.exists(stl_file):
         os.remove(stl_file)
     if os.path.exists(png_path):
