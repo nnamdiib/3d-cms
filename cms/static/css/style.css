@@ -49,3 +49,7 @@ img {
 footer {
 	padding-left: 15px;
 }
+
+.col-md-9 {
+	flex: 0.50;
+}
