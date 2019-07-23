@@ -1,5 +1,4 @@
 from django.db import models
-from tagulous.models import TagField
 from taggit.managers import TaggableManager
 
 class STLFile(models.Model):
