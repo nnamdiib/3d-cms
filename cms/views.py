@@ -89,8 +89,7 @@ def erase(request, file_id):
     page = request.session['page']
     if page:
         return redirect("/" + "?p=" + str(page))
-    else:
-        return redirect("/")
+    return redirect("/")
         
 def edit(request, file_id):
     template = 'cms/upload.html'
