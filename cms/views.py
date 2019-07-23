@@ -14,8 +14,10 @@ per_page = 8
 
 def index(request):
     q = request.GET.get('q', None)
+
     if q:
         return search(request, q)
+        
     template = 'cms/index.html'
     entries = STLFile.objects.all().order_by('-date_created')
 
@@ -29,6 +31,7 @@ def index(request):
 def upload(request):
     template = 'cms/upload.html'
     form = UploadForm(request.POST or None, request.FILES or None)
+
     if form.is_valid():
         entry = form.save()
         stl_path = entry.document.path
@@ -38,6 +41,7 @@ def upload(request):
         entry.file_name = file_name
         entry.save()
         return redirect('/')
+
     context = {'form': form}
     return render(request, template, context)
 
@@ -80,11 +84,6 @@ def erase(request, file_id):
         os.remove(png_path)
     stl.tags.clear()
     stl.delete()
-    entries = STLFile.objects.all()
-    count = len(entries)
-    page = count / per_page
-    if page < 1:
-        return redirect("/")
     return redirect("/" + "?p=" + page)
 
 def edit(request, file_id):
@@ -94,6 +93,7 @@ def edit(request, file_id):
 
     update_form = UpdateForm(request.POST or None, request.FILES or None)
     update_form.fields['document'].required = False
+
     if update_form.is_valid():
         stl.name = update_form.cleaned_data['name']
         if update_form.cleaned_data['document']:
@@ -117,6 +117,7 @@ def edit(request, file_id):
             stl.tags.add(tag.strip())
         stl.save()
         return redirect('index')
+
     initial_data = {
         'name': stl.name,
         'tags': ', '.join([t.name for t in stl.tags.all()]),
@@ -125,4 +126,3 @@ def edit(request, file_id):
     update_form = UpdateForm(initial=initial_data)
     context = {'form': update_form}
     return render(request, template, context)
-
