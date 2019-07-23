@@ -43,6 +43,14 @@
             </ul>
           </td>
         </tr>
+        <tr>
+          <td>Size</td>
+          <td>{{ upload.document.size|filesizeformat }}</td>
+        </tr>
+        <tr>
+          <td>Date</td>
+          <td>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</td>
+        </tr>
       </tbody>
     </table>
     {% include 'cms/options.html' %}

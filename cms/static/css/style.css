@@ -6,8 +6,8 @@
 }
 
 .box {
-	max-height: 500px;
-	max-width: 660px;
+	width: unset;
+	max-width: 610px;
 }
 
 .card a {
