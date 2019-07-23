@@ -22,10 +22,6 @@
 
 {% block content %}
 
-  <div class="col-md-9">
-    <div class="centre box" id="stl_cont"></div>
-  </div>
-
   <div class="col-md-3 detail">
     <table class="table table-bordered table-striped">
       <tbody>
@@ -43,16 +39,13 @@
             </ul>
           </td>
         </tr>
-        <tr>
-          <td>Size</td>
-          <td>{{ upload.document.size|filesizeformat }}</td>
-        </tr>
-        <tr>
-          <td>Date</td>
-          <td>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</td>
       </tbody>
     </table>
     {% include 'cms/options.html' %}
+  </div>
+
+  <div class="col-md-9">
+    <div class="centre box" id="stl_cont"></div>
   </div>
 
 {% endblock %}
