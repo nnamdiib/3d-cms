@@ -1,4 +1,3 @@
-import os 
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
@@ -9,6 +8,8 @@ from django.http import HttpResponse, Http404
 from .models import STLFile
 from .forms import UploadForm, UpdateForm
 from .utils import create_thumbnail
+
+import os
 
 per_page = 8
 
@@ -80,10 +81,11 @@ def erase(request, file_id):
     stl = get_object_or_404(STLFile, pk=file_id)
     stl_file = os.path.join(settings.BASE_DIR, stl.document.path)
     png_path = os.path.join(settings.THUMBS_ROOT, stl.file_name + '.png')
-    if os.path.exists(stl_file):
+    try:
         os.remove(stl_file)
-    if os.path.exists(png_path):
         os.remove(png_path)
+    except FileNotFoundError:
+        print("Error while attempting to delete.")
     stl.tags.clear()
     stl.delete()
     page = request.session['page']
@@ -104,12 +106,9 @@ def edit(request, file_id):
         if update_form.cleaned_data['document']:
             try:
                 os.remove(stl.document.path)
-            except FileNotFoundError:
-                print('Could not remove STL file')
-            try:
                 os.remove(png_path)
             except FileNotFoundError:
-                print('Could not remove old PNG thumbnail')
+                print('Error while attempting to delete.')
             stl.document = update_form.cleaned_data['document']
             stl.save()  # Necessary to obtain a unique document name
             file_name = stl.document.name.split('/')[1].split('.')[0]
