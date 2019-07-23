@@ -3,4 +3,4 @@ pytz==2019.1
 sqlparse==0.3.0
 django-taggit==1.1.0
 django-cors-headers==3.0.2
-django-ssl-server==0.20
+django-sslserver==0.20
