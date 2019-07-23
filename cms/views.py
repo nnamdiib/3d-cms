@@ -23,6 +23,7 @@ def index(request):
 
     paginator = Paginator(entries, per_page)
     page = request.GET.get('p')
+    request.session['page'] = page
     uploads = paginator.get_page(page)
 
     context = {'uploads': uploads}
@@ -51,6 +52,7 @@ def search(request, q):
 
     paginator = Paginator(entries, per_page)
     page = request.GET.get('p')
+    request.session['page'] = page
     uploads = paginator.get_page(page)
 
     context = {'uploads': uploads, 'count': entries.count(), 'q':q}
@@ -84,10 +86,12 @@ def erase(request, file_id):
         os.remove(png_path)
     stl.tags.clear()
     stl.delete()
-    entries = STLFile.objects.all()
-    page = len(entries) / per_page
-    return redirect("/" + "?p=" + str(page))
-
+    page = request.session['page']
+    if page:
+        return redirect("/" + "?p=" + str(page))
+    else:
+        return redirect("/")
+        
 def edit(request, file_id):
     template = 'cms/upload.html'
     stl = get_object_or_404(STLFile, pk=file_id)
