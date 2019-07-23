@@ -8,10 +8,8 @@
         <a href="{% url 'detail' upload.id %}"><img class="img" alt="{{ upload.name }}" src="{% get_media_prefix %}thumbs/{{ upload.file_name }}.png" /></a>
         <div class="card-block">
           <a href="{% url 'detail' upload.id %}"><h5 class="card-title">{{ upload.name }}</h5></a>
-          <p> {{ upload.document.size|filesizeformat }}</p>
-          <p> {{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
-        {% include 'cms/buttons.html' %}
-
+          <p>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</p>
+          {% include 'cms/options.html' %}
         </div>
       </div>
     </div>

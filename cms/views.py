@@ -70,7 +70,7 @@ def detail(request, stl_id):
     context = {'upload': upload, 'file_path': file_path, 'upload': stl}
     return render(request, template, context)
 
-def remove(request, file_id):
+def erase(request, file_id):
     stl = get_object_or_404(STLFile, pk=file_id)
     stl_file = os.path.join(settings.BASE_DIR, stl.document.path)
     png_path = os.path.join(settings.THUMBS_ROOT, stl.file_name + '.png')
@@ -87,7 +87,7 @@ def remove(request, file_id):
         return redirect("/")
     return redirect("/" + "?p=" + page)
 
-def update(request, file_id):
+def edit(request, file_id):
     template = 'cms/upload.html'
     stl = get_object_or_404(STLFile, pk=file_id)
     png_path = os.path.join(settings.THUMBS_ROOT, stl.file_name + '.png')
