@@ -84,7 +84,9 @@ def erase(request, file_id):
         os.remove(png_path)
     stl.tags.clear()
     stl.delete()
-    return redirect("/" + "?p=" + page)
+    entries = STLFile.objects.all()
+    page = len(entries) / per_page
+    return redirect("/" + "?p=" + str(page))
 
 def edit(request, file_id):
     template = 'cms/upload.html'
