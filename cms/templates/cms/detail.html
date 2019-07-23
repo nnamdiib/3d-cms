@@ -3,27 +3,27 @@
 
 {% block extra_js %}
 
-  <!-- Madeleine -->
-  <script src="{% static 'js/stats.js' %}"></script>
-  <script src="{% static 'js/detector.js' %}"></script>
-  <script src="{% static 'js/three.min.js' %}"></script>
-  <script src="{% static 'js/Madeleine.js' %}"></script>
+  <script src="{% static 'js/babylon.js' %}"></script>
+  <script src="{% static 'js/babylon.stlFileLoader.js' %}"></script>
 
-  <script>
-    window.onload = function(){
-        var madeleine = new Madeleine({
-          target: 'stl_cont', // target div id
-          data: "{% url 'save' upload.id %}", // data path
-          path: "{% static 'js/' %}"  // path to source directory from current html file
-        });
-    };
+  <script type="text/javascript">
+      var canvas = document.getElementById('renderCanvas');
+      var host = 'https://{{ request.get_host }}/media/uploads/{{upload.file_name}}.stl'
+        
+      var engine = new BABYLON.Engine(canvas, true);
+      BABYLON.SceneLoader.Load("", host, engine, function (newScene) {
+       newScene.activeCamera.attachControl(canvas, false);
+       engine.runRenderLoop(function () {
+           newScene.render();
+       });
+    });
   </script>
 {% endblock %}
 
 {% block content %}
 
   <div class="col-md-9">
-    <div class="centre box" id="stl_cont"></div>
+        <canvas id="renderCanvas" style="height: 500px; width: 500px"></canvas>
   </div>
 
   <div class="col-md-3 detail">

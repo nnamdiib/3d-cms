@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # 3rd party apps
     'taggit',
     'corsheaders',
+    "sslserver",
 
     # Project Apps
     'cms',
@@ -104,6 +105,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+]
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "https://localhost:8000",
+    "https://127.0.0.1:8000"
 ]
 
 # Internationalization
