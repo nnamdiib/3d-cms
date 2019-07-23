@@ -85,7 +85,7 @@ def erase(request, file_id):
         os.remove(stl_file)
         os.remove(png_path)
     except FileNotFoundError:
-        print("Error while attempting to delete.")
+        print("Error while attempting to delete file(s).")
     stl.tags.clear()
     stl.delete()
     page = request.session['page']
@@ -108,7 +108,7 @@ def edit(request, file_id):
                 os.remove(stl.document.path)
                 os.remove(png_path)
             except FileNotFoundError:
-                print('Error while attempting to delete.')
+                print('Error while attempting to delete file(s).')
             stl.document = update_form.cleaned_data['document']
             stl.save()  # Necessary to obtain a unique document name
             file_name = stl.document.name.split('/')[1].split('.')[0]
