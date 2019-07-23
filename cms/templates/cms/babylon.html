@@ -1,0 +1,29 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Babylon</title>
+	<script src="{% static 'js/babylon.js' %}"></script>
+	<script src="{% static 'js/babylon.stlFileLoader.js' %}"></script>
+</head>
+<body>
+	<p>{{ request.build_absolute_uri }}</p>
+	<p>{{ request.META.HTTP_HOST }}</p>
+	
+	<canvas id="renderCanvas" style="height: 500px; width: 500px"></canvas>
+
+	<script type="text/javascript">
+        var canvas = document.getElementById('renderCanvas');
+        var link = 'https://s3.amazonaws.com/limbforgestls/EbeArm/Ebe_forearm_L/forearm_L_C4-200_L1-230.stl'
+        var host = '{{ request.META.HTTP_HOST }}{% url "save" upload.id %}'
+        
+    	var engine = new BABYLON.Engine(canvas, true);
+		BABYLON.SceneLoader.Load("", link, engine, function (newScene) {
+		   newScene.activeCamera.attachControl(canvas, false);
+		   engine.runRenderLoop(function () {
+		       newScene.render();
+		   });
+		});
+	</script>
+</body>
+</html>

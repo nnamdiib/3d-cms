@@ -64,7 +64,7 @@ def save(request, file_id):
     raise Http404
 
 def detail(request, stl_id):
-    template = 'cms/detail.html'
+    template = 'cms/babylon.html'
     stl = get_object_or_404(STLFile, pk=stl_id)
     file_path = '\\\\'.join(stl.document.path.split('\\'))
     context = {'upload': upload, 'file_path': file_path, 'upload': stl}
