@@ -8,10 +8,10 @@
 
   <script type="text/javascript">
       var canvas = document.getElementById('renderCanvas');
-      var host = 'https://{{ request.get_host }}/media/{{ upload.document.name }}'
+      var gf = "http://{{ request.get_host }}/fetch/{{ upload.file_name }}.stl";
         
       var engine = new BABYLON.Engine(canvas, true);
-      BABYLON.SceneLoader.Load("", host, engine, function (newScene) {
+      BABYLON.SceneLoader.Load("", gf, engine, function (newScene) {
        newScene.activeCamera.attachControl(canvas, false);
        engine.runRenderLoop(function () {
            newScene.render();

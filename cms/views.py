@@ -70,6 +70,17 @@ def save(request, file_id):
             return response
     raise Http404
 
+def get_file(request, file_name):
+    name, extension = file_name.split('.')[0], file_name.split('.')[1]
+    stl = get_object_or_404(STLFile, file_name=name)
+    file_path = stl.document.path
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="model/stl")
+            response['Content-Disposition'] = 'inline; filename=' + name + extension
+            return response
+    raise Http404            
+
 def detail(request, stl_id):
     template = 'cms/detail.html'
     stl = get_object_or_404(STLFile, pk=stl_id)

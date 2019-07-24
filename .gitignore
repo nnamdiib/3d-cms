@@ -14,3 +14,7 @@ info.txt
 ## Sublime Text ##
 *.sublime-workspace
 *.sublime-project
+
+## Local files ##
+Pipfile
+Pipfile.lock
