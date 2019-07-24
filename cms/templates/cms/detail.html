@@ -1,5 +1,6 @@
 {% extends 'cms/base.html' %}
 {% load static %}
+{% load tags %}
 
 {% block extra_js %}
 
@@ -8,10 +9,10 @@
 
   <script type="text/javascript">
       var canvas = document.getElementById('renderCanvas');
-      var gf = "http://{{ request.get_host }}/fetch/{{ upload.file_name }}.stl";
+      var link = "{% fetch_url upload.file_name %}"
         
       var engine = new BABYLON.Engine(canvas, true);
-      BABYLON.SceneLoader.Load("", gf, engine, function (newScene) {
+      BABYLON.SceneLoader.Load("", link, engine, function (newScene) {
        newScene.activeCamera.attachControl(canvas, false);
        engine.runRenderLoop(function () {
            newScene.render();
