@@ -8,7 +8,7 @@
 
   <script type="text/javascript">
       var canvas = document.getElementById('renderCanvas');
-      var host = 'https://{{ request.get_host }}/media/{{ upload.document.name }}'
+      var host = 'http://{{ request.get_host }}/media/{{ upload.document.name }}'
         
       var engine = new BABYLON.Engine(canvas, true);
       BABYLON.SceneLoader.Load("", host, engine, function (newScene) {
