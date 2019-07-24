@@ -104,7 +104,7 @@ def save(request, file_id):
     stl = STLFile.objects.get(pk=file_id)
     file_path = stl.document.path
     if os.path.exists(file_path):
-        return get_download(file_path)
+        return get_download(file_path, stl.file_name)
     raise Http404
 
 def fetch(request, file_name):
@@ -112,10 +112,10 @@ def fetch(request, file_name):
     stl = get_object_or_404(STLFile, file_name=name)
     file_path = stl.document.path
     if os.path.exists(file_path):
-        return get_download(file_path)
+        return get_download(file_path, name)
     raise Http404
 
-def get_download(file_path):
+def get_download(file_path, name):
     """
     Helper function used to prepare a .stl file and send it
     for download in the browser client.
@@ -124,7 +124,7 @@ def get_download(file_path):
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read(), content_type="model/stl")
         extension = os.path.splitext(file_path)[-1]
-        response['Content-Disposition'] = 'inline; filename=' + stl.name + extension
+        response['Content-Disposition'] = 'inline; filename=' + name + extension
         return response
 
 def detail(request, stl_id):
