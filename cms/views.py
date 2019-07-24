@@ -6,9 +6,10 @@ from django.views.decorators.http import require_POST
 from django.db.models import Q
 from django.conf import settings
 from django.http import HttpResponse, Http404
+from django.urls import reverse
 
 from .models import Entry, ExtraFile
-from .forms import UploadForm, UpdateForm
+from .forms import UploadForm
 from .utils import create_thumbnail
 
 
@@ -77,53 +78,74 @@ def upload(request):
     context = {'form': form}
     return render(request, template, context)
 
-def edit(request, file_id):
+def edit(request, entry_id):
     template = 'cms/upload.html'
-    stl = get_object_or_404(Entry, pk=file_id)
-    png_path = os.path.join(settings.THUMBS_ROOT, stl.file_name + '.png')
+    entry = get_object_or_404(Entry, pk=entry_id)
+    png_path = os.path.join(settings.THUMBS_ROOT, entry.file_name + '.png')
 
-    update_form = UpdateForm(request.POST or None, request.FILES or None)
+    update_form = UploadForm(request.POST or None, request.FILES or None)
     update_form.fields['main_file'].required = False
-
+    update_form.fields['extra_files'].required = False
     if update_form.is_valid():
-        stl.name = update_form.cleaned_data['name']
+        extra_files = request.FILES.getlist('extra_files')
+        entry.name = update_form.cleaned_data['name']
+
+        # Handle a new main file
         if update_form.cleaned_data['main_file']:
             try:
-                os.remove(stl.main_file.path)
+                os.remove(entry.main_file.path)
                 os.remove(png_path)
             except FileNotFoundError:
                 print('Error while attempting to delete file(s).')
-            stl.main_file = update_form.cleaned_data['main_file']
-            stl.save()  # Necessary to obtain a unique document name
-            file_name = stl.main_file.name.split('/')[1].split('.')[0]
-            stl.file_name = file_name
-            stl.save()
+            entry.main_file = update_form.cleaned_data['main_file']
+            entry.save()  # Necessary to obtain a unique document name
+            file_name = entry.get_name_without_extension()
+            entry.file_name = file_name
+            entry.save()
             png_path = os.path.join(settings.THUMBS_ROOT, file_name + '.png')
-            create_thumbnail(stl.main_file.path, png_path)
-        stl.tags.clear()
-        for tag in update_form.cleaned_data['tags'].split(','):
-            stl.tags.add(tag.strip())
-        stl.save()
-        return redirect('index')
+            create_thumbnail(entry.main_file.path, png_path)
 
+        # Handle (any) new tags
+        entry.tags.clear()
+        for tag in update_form.cleaned_data['tags'].split(','):
+            entry.tags.add(tag.strip())
+        entry.save()
+
+        # Handle (any) new extra files
+        if extra_files:
+            for file in extra_files:
+                ef = ExtraFile.objects.create(
+                    entry=entry,
+                    document=file
+                )
+                ef.file_name = ef.get_name_without_extension()
+                ef.save()
+
+
+        return redirect('index')
     initial_data = {
-        'name': stl.name,
-        'tags': ', '.join([t.name for t in stl.tags.all()]),
-        'main_file': stl.main_file
+        'name': entry.name,
+        'tags': ', '.join([t.name for t in entry.tags.all()]),
+        'main_file': entry.main_file,
     }
-    update_form = UpdateForm(initial=initial_data)
-    context = {'form': update_form}
+    update_form = UploadForm(initial=initial_data)
+    update_form.fields['main_file'].required = False
+    update_form.fields['extra_files'].required = False
+    context = {
+        'form': update_form,
+        'entry': entry,
+        'extra_files': entry.extras.all()
+    }
     return render(request, template, context)
 
 def save(request, file_id):
-    stl = Entry.objects.get(pk=file_id)
-    file_path = stl.main_file.path
+    entry = Entry.objects.get(pk=file_id)
+    file_path = entry.main_file.path
     if os.path.exists(file_path):
-        return get_download(file_path, stl.file_name)
+        return get_download(file_path, entry.file_name)
     raise Http404
 
 def fetch(request, file_name, file_type=None):
-    # name, extension = file_name.split('.')[0], file_name.split('.')[1]
     if file_type == 'extra':
         print(file_name)
         extra = get_object_or_404(ExtraFile, file_name=file_name)
@@ -172,4 +194,9 @@ def erase(request, file_id):
     if page:
         return redirect("/" + "?p=" + str(page))
     return redirect("/")
+
+def remove_extra(request, entry_id, extra_file_id):
+    ef = get_object_or_404(ExtraFile, pk=extra_file_id)
+    ef.delete()
+    return redirect(reverse('edit', kwargs={'entry_id':entry_id}))
         

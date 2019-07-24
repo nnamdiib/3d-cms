@@ -12,5 +12,6 @@ urlpatterns = [
     path('fetch/<str:file_type>/<str:file_name>.stl/', views.fetch),
     path('detail/<int:stl_id>/', views.detail, name='detail'),
     path('erase/<int:file_id>/', views.erase, name='erase'),
-    path('edit/<int:file_id>/', views.edit, name='edit'),
+    path('remove_extra/<int:entry_id>/<int:extra_file_id>/', views.remove_extra, name='remove_extra'),
+    path('edit/<int:entry_id>/', views.edit, name='edit'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

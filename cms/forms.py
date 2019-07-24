@@ -16,26 +16,3 @@ class UploadForm(forms.Form):
 	extra_files = forms.FileField(
 		widget=forms.ClearableFileInput(attrs={'multiple': True})
 	)
-    # class Meta:
-    #     model = STLFile
-    #     fields = ('name', 'tags', 'document', 'extra_files')
-    #     widgets = {
-    #         'name': forms.TextInput(attrs={'class':'form-control', 'id':'name'}),
-    #         'tags': forms.TextInput(attrs={'class':'form-control', 'id':'tags'}),
-    #         'document': forms.ClearableFileInput(),
-    #         'extra_files': forms.ClearableFileInput(attrs={'multiple': True})
-    #     }
-
-class UpdateForm(forms.Form):
-	name = forms.CharField(
-		label='Upload Name',
-		max_length=100,
-		widget=forms.TextInput(attrs={'class':'form-control', 'id':'name'})
-	)
-	tags = forms.CharField(
-		label='Tags',
-		max_length=255,
-		widget=forms.TextInput(attrs={'class':'form-control', 'id':'tags'})
-	)
-	document = forms.FileField()
-	extra_files = forms.ClearableFileInput(attrs={'multiple': True})
