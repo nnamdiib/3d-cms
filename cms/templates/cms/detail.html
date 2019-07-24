@@ -9,7 +9,7 @@
 
   <script type="text/javascript">
       var canvas = document.getElementById('renderCanvas');
-      var link = "{% fetch_url upload.file_name %}"
+      var link = "{% fetch_url upload.file_name %}";
         
       var engine = new BABYLON.Engine(canvas, true);
       BABYLON.SceneLoader.Load("", link, engine, function (newScene) {
@@ -24,7 +24,7 @@
 {% block content %}
 
   <div class="col-md-9">
-        <canvas id="renderCanvas" style="height: 500px; width: 500px"></canvas>
+        <canvas id="renderCanvas"></canvas>
   </div>
 
   <div class="col-md-3 detail">

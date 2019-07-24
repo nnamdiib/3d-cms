@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = '2soqihlmc=d%ig69&3qhdr$%1pij*+vfmi=z)i$rja@3=gp$dk'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -40,8 +38,6 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'taggit',
-    # 'corsheaders',
-    "sslserver",
 
     # Project Apps
     'cms',
@@ -50,7 +46,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -77,7 +72,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'modelspace.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -144,5 +138,3 @@ if not os.path.exists(THUMBS_ROOT):
 
 # For Django Taggit, to make tag look ups case insensitive
 TAGGIT_CASE_INSENSITIVE = True
-
-CORS_ORIGIN_ALLOW_ALL = True
