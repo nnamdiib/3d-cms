@@ -40,8 +40,6 @@ INSTALLED_APPS = [
 
     # 3rd party apps
     'taggit',
-    # 'corsheaders',
-    "sslserver",
 
     # Project Apps
     'cms',
@@ -50,7 +48,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -144,5 +141,3 @@ if not os.path.exists(THUMBS_ROOT):
 
 # For Django Taggit, to make tag look ups case insensitive
 TAGGIT_CASE_INSENSITIVE = True
-
-CORS_ORIGIN_ALLOW_ALL = True
