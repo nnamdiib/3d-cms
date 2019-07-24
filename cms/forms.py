@@ -10,9 +10,11 @@ class UploadForm(forms.Form):
 	tags = forms.CharField(
 		label='Tags',
 		max_length=255,
-		widget=forms.TextInput(attrs={'class':'form-control', 'id':'tags'})
+		widget=forms.TextInput(attrs={'class':'form-control', 'id':'tags'}),
+		required=False
 	)
 	main_file = forms.FileField()
 	extra_files = forms.FileField(
-		widget=forms.ClearableFileInput(attrs={'multiple': True})
+		widget=forms.ClearableFileInput(attrs={'multiple': True}),
+		required=False
 	)
