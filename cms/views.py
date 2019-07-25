@@ -58,9 +58,7 @@ def upload(request):
             main_file=main_doc,
         )
 
-        if tags:
-            for tag in tags.split(','):
-                entry.tags.add(tag.strip())
+        [entry.tags.add(tag.strip()) for tag in tags.split(',') if tags]
 
         entry.file_name = entry.get_name_without_extension()
         entry.save()
@@ -113,9 +111,8 @@ def edit(request, entry_id):
 
         # Handle (any) new tags
         entry.tags.clear()
-        if update_form.cleaned_data['tags']:
-            for tag in update_form.cleaned_data['tags'].split(','):
-                entry.tags.add(tag.strip())
+        tags = update_form.cleaned_data['tags']
+        [entry.tags.add(tag.strip()) for tag in tags.split(',') if tags]
 
         entry.save()
 
@@ -136,7 +133,7 @@ def edit(request, entry_id):
         'tags': ', '.join([t.name for t in entry.tags.all()]),
         'main_file': entry.main_file,
     }
-    
+
     update_form = UploadForm(initial=initial_data)
     update_form.fields['main_file'].required = False
     update_form.fields['extra_files'].required = False
