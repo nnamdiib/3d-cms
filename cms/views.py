@@ -48,6 +48,7 @@ def search(request, q):
 def upload(request):
     template = 'cms/upload.html'
     form = UploadForm(request.POST or None, request.FILES or None)
+
     if form.is_valid():
         main_doc = request.FILES['main_file']
         tags = form.cleaned_data['tags']
@@ -56,11 +57,14 @@ def upload(request):
             name=form.cleaned_data['name'],
             main_file=main_doc,
         )
+
         if tags:
             for tag in tags.split(','):
                 entry.tags.add(tag.strip())
+
         entry.file_name = entry.get_name_without_extension()
         entry.save()
+
         for file in extra_files:
             ef = ExtraFile.objects.create(
                 entry=entry,
@@ -68,6 +72,7 @@ def upload(request):
             )
             ef.file_name = ef.get_name_without_extension()
             ef.save()
+
         main_stl_path = entry.main_file.path
         file_name = entry.get_name_without_extension()
         output_path = os.path.join(settings.THUMBS_ROOT, file_name + '.png')
@@ -85,6 +90,7 @@ def edit(request, entry_id):
     update_form = UploadForm(request.POST or None, request.FILES or None)
     update_form.fields['main_file'].required = False
     update_form.fields['extra_files'].required = False
+
     if update_form.is_valid():
         extra_files = request.FILES.getlist('extra_files')
         entry.name = update_form.cleaned_data['name']
@@ -96,6 +102,7 @@ def edit(request, entry_id):
                 os.remove(png_path)
             except FileNotFoundError:
                 print('Error while attempting to delete file(s).')
+
             entry.main_file = update_form.cleaned_data['main_file']
             entry.save()  # Necessary to obtain a unique document name
             file_name = entry.get_name_without_extension()
@@ -105,10 +112,10 @@ def edit(request, entry_id):
             create_thumbnail(entry.main_file.path, png_path)
 
         # Handle (any) new tags
-        entry.tags.clear()
         if update_form.cleaned_data['tags']:
             for tag in update_form.cleaned_data['tags'].split(','):
                 entry.tags.add(tag.strip())
+
         entry.save()
 
         # Handle (any) new extra files
@@ -145,12 +152,11 @@ def save(request, file_id):
     raise Http404
 
 def fetch(request, file_name, file_type=None):
+    target = Entry
     if file_type == 'extra':
-        extra = get_object_or_404(ExtraFile, file_name=file_name)
-        file_path = extra.document.path
-    else:
-        entry = get_object_or_404(Entry, file_name=file_name)
-        file_path = entry.main_file.path
+        target = ExtraFile
+    entry = get_object_or_404(target, file_name=file_name)
+    file_path = entry.main_file.path
     if os.path.exists(file_path):
         return get_download(file_path, file_name)
     raise Http404
