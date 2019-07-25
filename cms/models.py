@@ -16,6 +16,9 @@ class Entry(models.Model):
     def get_name_without_extension(self):
         return self.main_file.name.split('/')[1].split('.')[0]
 
+    def get_name_with_extension(self):
+        return self.main_file.name.split('/')[1]
+
 class ExtraFile(models.Model):
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name='extras')
     document = models.FileField(upload_to='uploads/')

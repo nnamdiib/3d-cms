@@ -9,7 +9,7 @@
 
   <script type="text/javascript">
       var canvas = document.getElementById('renderCanvas');
-      var link = "{% fetch_url upload.get_name_without_extension %}";
+      var link = "{% fetch_url upload.get_name_with_extension %}";
         
       var engine = new BABYLON.Engine(canvas, true);
       BABYLON.SceneLoader.Load("", link, engine, function (newScene) {
@@ -58,7 +58,7 @@
           <td>
             <ul>
               {% for extra in extra_files %}
-                <li><a href="{% fetch_url extra.get_name_without_extension file_type='extra' %}">{{ extra.get_name_with_extension }}</a></li>
+                <li><a href="{% fetch_url extra.get_name_with_extension file_type='extra' %}">{{ extra.get_name_with_extension }}</a></li>
               {% endfor %}
             </ul>
           </td>

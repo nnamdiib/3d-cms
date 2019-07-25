@@ -59,7 +59,7 @@ def upload(request):
         )
 
         [entry.tags.add(tag.strip()) for tag in tags.split(',') if tags]
-        entry.file_name = entry.get_name_without_extension()
+        entry.file_name = entry.get_name_with_extension()
         entry.save()
 
         for file in extra_files:
@@ -67,11 +67,11 @@ def upload(request):
                 entry=entry,
                 document=file
             )
-            ef.file_name = ef.get_name_without_extension()
+            ef.file_name = ef.get_name_with_extension()
             ef.save()
 
-        file_name = entry.get_name_without_extension()
-        output_path = os.path.join(settings.THUMBS_ROOT, file_name + '.png')
+        name = entry.get_name_without_extension()
+        output_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
         create_thumbnail(entry.main_file.path, output_path)
         return index(request)
 
@@ -102,10 +102,11 @@ def edit(request, entry_id):
             entry.main_file = update_form.cleaned_data['main_file']
             entry.save()  # Necessary to obtain a unique document name
 
-            entry.file_name = entry.get_name_without_extension()
+            entry.file_name = entry.get_name_with_extension()
             entry.save()
 
-            png_path = os.path.join(settings.THUMBS_ROOT, file_name + '.png')
+            name = entry.get_name_without_extension()
+            png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
             create_thumbnail(entry.main_file.path, png_path)
 
         # Handle (any) new tags
@@ -121,7 +122,7 @@ def edit(request, entry_id):
                     entry=entry,
                     document=file
                 )
-                ef.file_name = ef.get_name_without_extension()
+                ef.file_name = ef.get_name_with_extension()
                 ef.save()
 
         return redirect('index')
@@ -151,11 +152,12 @@ def save(request, file_id):
     raise Http404
 
 def fetch(request, file_name, file_type=None):
-    target = Entry
     if file_type == 'extra':
-        target = ExtraFile
-    entry = get_object_or_404(target, file_name=file_name)
-    file_path = entry.main_file.path
+        ef = get_object_or_404(ExtraFile, file_name=file_name)
+        file_path = ef.document.path
+    else:
+        entry = get_object_or_404(Entry, file_name=file_name)
+        file_path = entry.main_file.path
     if os.path.exists(file_path):
         return get_download(file_path, file_name)
     raise Http404
