@@ -34,6 +34,7 @@
           <td>Name</td>
           <td>{{ upload.name }}</td>
         </tr>
+        {% if upload.tags.all %}
         <tr>
           <td>Tags</td>
           <td>
@@ -44,10 +45,16 @@
             </ul>
           </td>
         </tr>
+        {% endif %}
         <tr>
           <td>Size</td>
           <td>{{ upload.main_file.size|filesizeformat }}</td>
         </tr>
+        <tr>
+          <td>Date</td>
+          <td>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</td>
+        </tr>
+        {% if extra_files %}
         <tr>
           <td>Extra Files</td>
           <td>
@@ -58,10 +65,7 @@
             </ul>
           </td>
         </tr>
-        <tr>
-          <td>Date</td>
-          <td>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</td>
-        </tr>
+        {% endif %}
       </tbody>
     </table>
     {% include 'cms/options.html' %}

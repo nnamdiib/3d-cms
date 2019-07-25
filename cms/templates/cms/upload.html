@@ -3,18 +3,22 @@
 
 {% block content %}
 
+  {% if extra_files %}
   <div class="centre col-md-4">
     <div class="row">
       <div class="col-md-8">
+  {% else %}
+    <div class="centre col-md-3">
+  {% endif %}
         <form autocomplete="off" class="form form-vertical" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           {{ form.as_p }}
           <button class="btn btn-primary" type="submit">Submit</button>
         </form>
     </div>
-    
+
+    {% if extra_files %}
     <div class="col-md-4">
-      {% if extra_files %}
         <div class="alert alert-info">Extra Files Present</div>
         <ol>
             {% for extra in extra_files %}
@@ -23,9 +27,9 @@
             {% endfor %}
             
         </ol>
-      {% endif %}
     </div>
     </div>
   </div>
+{% endif %}
 
 {% endblock %}
