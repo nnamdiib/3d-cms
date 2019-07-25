@@ -107,8 +107,9 @@ def edit(request, entry_id):
 
         # Handle (any) new tags
         entry.tags.clear()
-        for tag in update_form.cleaned_data['tags'].split(','):
-            entry.tags.add(tag.strip())
+        if update_form.cleaned_data['tags']:
+            for tag in update_form.cleaned_data['tags'].split(','):
+                entry.tags.add(tag.strip())
         entry.save()
 
         # Handle (any) new extra files
