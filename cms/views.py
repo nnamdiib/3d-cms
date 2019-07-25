@@ -70,10 +70,9 @@ def upload(request):
             ef.file_name = ef.get_name_without_extension()
             ef.save()
 
-        main_stl_path = entry.main_file.path
         file_name = entry.get_name_without_extension()
         output_path = os.path.join(settings.THUMBS_ROOT, file_name + '.png')
-        create_thumbnail(main_stl_path, output_path)
+        create_thumbnail(entry.main_file.path, output_path)
         return index(request)
 
     context = {'form': form}
@@ -103,8 +102,7 @@ def edit(request, entry_id):
             entry.main_file = update_form.cleaned_data['main_file']
             entry.save()  # Necessary to obtain a unique document name
 
-            file_name = entry.get_name_without_extension()
-            entry.file_name = file_name
+            entry.file_name = entry.get_name_without_extension()
             entry.save()
 
             png_path = os.path.join(settings.THUMBS_ROOT, file_name + '.png')
