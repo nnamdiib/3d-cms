@@ -12,7 +12,6 @@ from .models import Entry, ExtraFile
 from .forms import UploadForm
 from .utils import create_thumbnail
 
-
 PER_PAGE = 8
 
 def make_paginated_entries(entries, request):
@@ -122,7 +121,6 @@ def edit(request, entry_id):
                 ef.file_name = ef.get_name_without_extension()
                 ef.save()
 
-
         return redirect('index')
     initial_data = {
         'name': entry.name,
@@ -199,4 +197,3 @@ def remove_extra(request, entry_id, extra_file_id):
     ef = get_object_or_404(ExtraFile, pk=extra_file_id)
     ef.delete()
     return redirect(reverse('edit', kwargs={'entry_id':entry_id}))
-        
