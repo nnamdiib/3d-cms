@@ -59,7 +59,6 @@ def upload(request):
         )
 
         [entry.tags.add(tag.strip()) for tag in tags.split(',') if tags]
-
         entry.file_name = entry.get_name_without_extension()
         entry.save()
 
