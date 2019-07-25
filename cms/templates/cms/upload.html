@@ -1,5 +1,6 @@
 {% extends 'cms/base.html' %}
 {% load static %}
+{% load tags %}
 
 {% block content %}
 
@@ -12,7 +13,21 @@
   {% endif %}
         <form autocomplete="off" class="form form-vertical" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
-          {{ form.as_p }}
+          <p>
+            <label for="name">Upload Name:</label>
+            {{ form.name }}
+          </p>
+          <p>
+            <label for="tags">Tags:</label>
+            {{ form.tags }}
+          </p>
+          <p>
+            {{ form.main_file }}
+          </p>
+          <p>
+            <label for="id_extra_files">Extra files:</label>
+            {{ form.extra_files }}
+          </p>
           <button class="btn btn-primary" type="submit">Submit</button>
         </form>
     </div>
@@ -23,7 +38,7 @@
         <ol>
             {% for extra in extra_files %}
                 <li>{{ extra.get_name_with_extension }}</li>
-                <a class="glyphicon glyphicon-remove" href="{% url 'remove_extra' entry.id extra.id %}">Remove This</a>            
+                <a class="glyphicon glyphicon-remove" href="{% url 'remove_extra' entry.id extra.id %}">Remove</a>            
             {% endfor %}
             
         </ol>
