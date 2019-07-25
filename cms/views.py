@@ -115,7 +115,6 @@ def edit(request, entry_id):
         entry.tags.clear()
         tags = update_form.cleaned_data['tags']
         [entry.tags.add(tag.strip()) for tag in tags.split(',') if tags]
-
         entry.save()
 
         # Handle (any) new extra files
@@ -139,7 +138,7 @@ def edit(request, entry_id):
     update_form = UploadForm(initial=initial_data)
     update_form.fields['main_file'].required = False
     update_form.fields['extra_files'].required = False
-    
+
     context = {
         'form': update_form,
         'entry': entry,
