@@ -26,6 +26,12 @@ def create_thumbnail_windows(stl_path, output_path):
 		print('Created Thumbnail at {}'.format(output_path))
 
 def create_thumbnail_linux(stl_path, output_path):
+	os.environ["PYOPENGL_PLATFORM"] = "egl"
+	import numpy as np
+	import trimesh
+	import pyrender
+	import matplotlib.pyplot as plt
+
 	model_data = trimesh.load(stl_path)
 	mesh = pyrender.Mesh.from_trimesh(model_data)
 	scene = pyrender.Scene()
