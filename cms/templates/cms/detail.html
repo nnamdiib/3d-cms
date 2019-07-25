@@ -40,11 +40,7 @@
         <tr>
           <td>Tags</td>
           <td>
-            <ul>
-              {% for tag in upload.tags.all %}
-                <li><a href="{% url 'index' %}?q={{ tag }}">{{ tag }}</a></li>
-              {% endfor %}
-            </ul>
+              {{ upload.tags.all|join:", " }}
           </td>
         </tr>
         {% endif %}
