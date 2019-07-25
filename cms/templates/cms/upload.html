@@ -23,7 +23,7 @@
         <ol>
             {% for extra in extra_files %}
                 <li>{{ extra.get_name_with_extension }}</li>
-                <a class="glyphicon glyphicon-remove" href="{% url 'remove_extra' entry.id extra.id %}">Remove This</a>            
+                <a class="glyphicon glyphicon-remove" href="{% url 'remove_extra' entry.id extra.id %}">Remove</a>            
             {% endfor %}
             
         </ol>

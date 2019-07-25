@@ -3,7 +3,7 @@ from .models import Entry
 
 class UploadForm(forms.Form):
 	name = forms.CharField(
-		label='Upload Name',
+		label='Name',
 		max_length=100,
 		widget=forms.TextInput(attrs={'class':'form-control', 'id':'name'})
 	)
