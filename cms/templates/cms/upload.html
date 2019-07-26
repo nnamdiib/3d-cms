@@ -2,6 +2,15 @@
 {% load static %}
 {% load tags %}
 
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+  <style type="text/css">
+    .red {
+      color:  #8B0000;
+    }
+  </style>
+{% endblock %}
+
 {% block content %}
 
   {% if extra_files %}
@@ -37,8 +46,7 @@
         <div class="alert alert-info">Extra Files Present</div>
         <ol>
             {% for extra in extra_files %}
-                <li>{{ extra.get_name_with_extension }}</li>
-                <a class="glyphicon glyphicon-remove" href="{% url 'remove_extra' entry.id extra.id %}">Remove</a>            
+                <li><a href="{% fetch_url extra.get_name_with_extension file_type='extra' %}">{{ extra.get_name_with_extension }}</a><a href="{% url 'remove_extra' entry.id extra.id %}"><i class="fas fa-trash red"></i></a></li>       
             {% endfor %}
             
         </ol>
