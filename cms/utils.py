@@ -1,6 +1,7 @@
 import subprocess
 import os
 import platform
+import ntpath
 # This file contains various helper functions needed for the app.
 # These helpers do not fit perfectly into the django structure of models,
 # views and controllers so we have created a special place for them.
@@ -24,3 +25,8 @@ def create_thumbnail(stl_path, output_path):
 	process = subprocess.run(command)
 	if process.returncode == 0:
 		print('Created Thumbnail at {}'.format(output_path))
+
+
+def extract_file_name(path):
+    head, tail = ntpath.split(path)
+    return tail or ntpath.basename(head)
