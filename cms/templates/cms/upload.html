@@ -23,7 +23,7 @@
         <form autocomplete="off" class="form form-vertical" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <p>
-            <label for="name">Upload Name:</label>
+            <label for="name">Name:</label>
             {{ form.name }}
           </p>
           <p>
@@ -46,7 +46,7 @@
         <div class="alert alert-info">Extra Files Present</div>
         <ol>
             {% for extra in extra_files %}
-                <li><a href="{% fetch_url extra.get_name_with_extension file_type='extra' %}">{{ extra.get_name_with_extension }}</a><a href="{% url 'remove_extra' entry.id extra.id %}"><i class="fas fa-trash red"></i></a></li>       
+                <li><a href="{% fetch_url extra.get_name_with_extension file_type='extra' %}">{{ extra.get_name_with_extension }}</a><a href="{% url 'remove_extra' entry.id extra.id %}"><i class="fas fa-trash red erase"></i></a></li>       
             {% endfor %}
             
         </ol>
