@@ -136,5 +136,9 @@ THUMBS_ROOT = os.path.join(MEDIA_ROOT, 'thumbs')
 if not os.path.exists(THUMBS_ROOT):
     os.makedirs(THUMBS_ROOT)
 
+UPLOADS_ROOT = os.path.join(MEDIA_ROOT, 'uploads')
+if not os.path.exists(UPLOADS_ROOT):
+    os.makedirs(UPLOADS_ROOT)
+
 # For Django Taggit, to make tag look ups case insensitive
 TAGGIT_CASE_INSENSITIVE = True

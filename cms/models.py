@@ -1,5 +1,6 @@
 from django.db import models
 from taggit.managers import TaggableManager
+import os
 
 class Entry(models.Model):
     name = models.CharField(max_length=225)
