@@ -7,18 +7,50 @@
   <script src="{% static 'js/babylon.js' %}"></script>
   <script src="{% static 'js/babylonjs.loaders.min.js' %}"></script>
 
-  <script type="text/javascript">
-      var canvas = document.getElementById('renderCanvas');
-      var link = "{% fetch_url upload.get_name_with_extension %}";
+    <script>
+        BABYLON.OBJFileLoader.MATERIAL_LOADING_FAILS_SILENTLY = false;
+        BABYLON.OBJFileLoader.SKIP_MATERIALS = true;
+
+        var canvas = document.getElementById("renderCanvas");
+
+        var createScene = function () {
+            var scene = new BABYLON.Scene(engine);
         
-      var engine = new BABYLON.Engine(canvas, true);
-      BABYLON.SceneLoader.Load("", link, engine, function (newScene) {
-       newScene.activeCamera.attachControl(canvas, false);
-       engine.runRenderLoop(function () {
-           newScene.render();
-       });
-      });
-  </script>
+            //Adding a light
+            var light = new BABYLON.PointLight("Omni", new BABYLON.Vector3(20, 20, 100), scene);
+        
+            //Adding an Arc Rotate Camera
+            var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, BABYLON.Vector3.Zero(), scene);
+            camera.attachControl(canvas, false);
+            var link = "{% fetch_url upload.get_name_with_extension %}";
+            // The first parameter can be used to specify which mesh to import. Here we import all meshes
+            BABYLON.SceneLoader.ImportMesh("", "", link, scene, function (newMeshes) {
+                // Set the target of the camera to the first imported mesh
+                camera.target = newMeshes[0];
+            });
+        
+            // Move the light with the camera
+            scene.registerBeforeRender(function () {
+                light.position = camera.position;
+            });
+        
+            return scene;
+        }
+        
+        var engine = new BABYLON.Engine(canvas, true, { preserveDrawingBuffer: true, stencil: true });
+        var scene = createScene();
+
+        engine.runRenderLoop(function () {
+            if (scene) {
+                scene.render();
+            }
+        });
+
+        // Resize
+        window.addEventListener("resize", function () {
+            engine.resize();
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
