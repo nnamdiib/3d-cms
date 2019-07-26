@@ -21,7 +21,7 @@
         //Adding an Arc Rotate Camera
         var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, BABYLON.Vector3.Zero(), scene);
         camera.attachControl(canvas, false);
-        var link = "{% fetch_url upload.get_name_with_extension %}";
+        var link = "{% fetch_url main_file.file_name %}";
         // The first parameter can be used to specify which mesh to import. Here we import all meshes
         BABYLON.SceneLoader.ImportMesh("", "", link, scene, function (newMeshes) {
             // Set the target of the camera to the first imported mesh
@@ -66,23 +66,23 @@
       <tbody>
         <tr>
           <td>Name</td>
-          <td>{{ upload.name }}</td>
+          <td>{{ entry.name }}</td>
         </tr>
-        {% if upload.tags.all %}
+        {% if entry.tags.all %}
         <tr>
           <td>Tags</td>
           <td>
-              {{ upload.tags.all|join:", " }}
+              {{ entry.tags.all|join:", " }}
           </td>
         </tr>
         {% endif %}
         <tr>
           <td>Size</td>
-          <td>{{ upload.main_file.size|filesizeformat }}</td>
+          <td>{{ main_file.document.size|filesizeformat }}</td>
         </tr>
         <tr>
           <td>Date</td>
-          <td>{{ upload.date_created|date:"d M Y" }} {{ upload.date_created|time:"H:i" }}</td>
+          <td>{{ entry.date_created|date:"d M Y" }} {{ entry.date_created|time:"H:i" }}</td>
         </tr>
         {% if extra_files %}
         <tr>
