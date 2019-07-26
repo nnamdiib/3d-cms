@@ -14,7 +14,7 @@ from .utils import create_thumbnail, extract_file_name
 
 PER_PAGE = 8
 
-def make_paginated_entries(entries, request):
+def make_paginated(entries, request):
     """
     Helper function used to make a paginated list of model entries
     Used in views.index and views.search
@@ -28,49 +28,32 @@ def index(request):
     template = 'cms/index.html'
     q = request.GET.get('q', None)
     if q:
-        return search(request, q)
-    
-    entries = MainFile.objects.all().select_related('entry').order_by('-date_created')
+        return search(request, q)    
+    main_files = MainFile.objects.all().select_related('entry').order_by('-date_created')
 
-    uploads = make_paginated_entries(entries, request)
+    uploads = make_paginated(main_files, request)
     context = {'uploads': uploads}
     return render(request, template, context)
 
 def search(request, q):
     template = 'cms/index.html'
-    entries = Entry.objects.filter(
-        Q(name__icontains=q) | Q(tags__name__icontains=q)).distinct()
+    main_files = MainFile.objects.filter(
+        Q(entry__name__icontains=q) | Q(entry__tags__name__icontains=q)).distinct()
 
-    paginated_entries = make_paginated_entries(entries, request)
-    context = {'uploads': paginated_entries, 'count': entries.count(), 'q':q}
+    paginated_entries = make_paginated(main_files, request)
+    context = {'uploads': paginated_entries, 'count': main_files.count(), 'q':q}
     return render(request, template, context)
 
 def upload(request):
     template = 'cms/upload.html'
     form = UploadForm(request.POST or None, request.FILES or None)
-
     if form.is_valid():
         main_doc = request.FILES['main_file']
         tags = form.cleaned_data['tags']
         extra_files = request.FILES.getlist('extra_files')
-
         entry = Entry.objects.create(name=form.cleaned_data['name'])
-        main_file = MainFile.objects.create(entry=entry, document=main_doc)
-
-        if tags:
-            [entry.tags.add(tag.strip()) for tag in tags.split(',')]
-        entry.save()
-
-        for file in extra_files:
-            ef = ExtraFile.objects.create(entry=entry, document=file)
-            ef.file_name = ef.get_name_with_extension()
-            ef.save()
-
-        name = main_file.file_name.split('.')[0]
-        output_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
-        create_thumbnail(main_file.document.path, output_path)
+        entry.update_entry(tags=tags, main_file=main_doc, extra_files=extra_files)
         return index(request)
-
     context = {'form': form}
     return render(request, template, context)
 
@@ -84,67 +67,23 @@ def edit(request, entry_id):
     update_form.fields['extra_files'].required = False
 
     if update_form.is_valid():
+        name = update_form.cleaned_data.get('name')
+        tags = update_form.cleaned_data.get('tags')
+        main_file = update_form.cleaned_data.get('main_file')
         extra_files = request.FILES.getlist('extra_files')
-        entry.name = update_form.cleaned_data['name']
-        entry.save()
-        # Handle a new main file
-        if update_form.cleaned_data['main_file']:
-            old_doc_path = main_file.document.path
-            name =  main_file.file_name.split('.')[0]
-            old_png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
-            
-            main_file.document = update_form.cleaned_data['main_file']
-            main_file.save()
-
-            try:
-                os.remove(old_doc_path)
-                os.remove(old_png_path)
-            except FileNotFoundError:
-                print('Error while attempting to delete file(s).')
-
-            name = main_file.file_name.split('.')[0]
-            png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
-            create_thumbnail(main_file.document.path, png_path)
-
-        # Handle (any) new tags
-        entry.tags.clear()
-        tags = update_form.cleaned_data['tags']
-        if tags:
-            [entry.tags.add(tag.strip()) for tag in tags.split(',')]
-        entry.save()
-
-        # Handle (any) new extra files
-        if extra_files:
-            for file in extra_files:
-                ef = ExtraFile.objects.create(
-                    entry=entry,
-                    document=file
-                )
-                ef.file_name = extract_file_name(ef.document.path)
-                ef.save()
-
+        entry.update_entry(name, tags, main_file, extra_files)
         return redirect('index')
 
-    initial_data = {
-        'name': entry.name,
-        'tags': ', '.join([t.name for t in entry.tags.all()]),
-        'main_file': main_file.document,
-    }
+    tags = ', '.join([t.name for t in entry.tags.all()])
+    init = {'name': entry.name, 'tags': tags, 'main_file': main_file.document}
+    update_form = UploadForm(initial=init)
 
-    update_form = UploadForm(initial=initial_data)
-    update_form.fields['main_file'].required = False
-    update_form.fields['extra_files'].required = False
-
-    context = {
-        'form': update_form,
-        'entry': entry,
-        'extra_files': entry.extras.all()
-    }
+    context = {'form': update_form, 'entry': entry, 'extra_files': entry.extras.all() }
     return render(request, template, context)
 
 def save(request, file_id):
     entry = Entry.objects.get(pk=file_id)
-    mf = MainFile.objects.get(entry=entry)
+    main_file = MainFile.objects.get(entry=entry)
     file_path = main_file.document.path
     if os.path.exists(file_path):
         return get_download(file_path, main_file.file_name)
@@ -168,9 +107,9 @@ def get_download(file_path, name):
     Used in views.save and views.fetch
     """
     with open(file_path, 'rb') as fh:
-        response = HttpResponse(fh.read())
+        response = HttpResponse(fh.read(), content_type='model/stl')
         extension = os.path.splitext(file_path)[-1]
-        response['Content-Disposition'] = 'inline; filename=' + name + extension
+        response['Content-Disposition'] = 'inline; filename=' + name
         return response
 
 def detail(request, stl_id):
@@ -186,18 +125,8 @@ def detail(request, stl_id):
     return render(request, template, context)
 
 def erase(request, file_id):
-    stl = get_object_or_404(Entry, pk=file_id)
-    main_file = get_object_or_404(MainFile, entry=stl)
-    thumb_name = main_file.file_name.split('.')[0] + '.png'
-    stl_file = os.path.join(settings.BASE_DIR, main_file.document.path)
-    png_path = os.path.join(settings.THUMBS_ROOT, thumb_name)
-    try:
-        os.remove(stl_file)
-        os.remove(png_path)
-    except FileNotFoundError:
-        print("File(s) not found.")
-    stl.tags.clear()
-    stl.delete()
+    entry = get_object_or_404(Entry, pk=file_id)
+    entry.delete()
     page = request.session['page']
     if page:
         return redirect("/" + "?p=" + str(page))
