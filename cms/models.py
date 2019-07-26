@@ -13,11 +13,27 @@ class Entry(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs) # Call the real save method
+        self.file_name = self.get_name_with_extension()
+        super().save(*args, **kwargs) # Call the real save method
+
     def get_name_without_extension(self):
         return self.main_file.name.split('/')[1].split('.')[0]
 
     def get_name_with_extension(self):
         return self.main_file.name.split('/')[1]
+
+
+class MainFile(models.Model):
+    entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
+    document = models.FileField(upload_to='uploads/')
+    file_name = models.CharField(max_length=255, blank=True, null=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.entry.name
+
 
 class ExtraFile(models.Model):
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name='extras')
