@@ -2,15 +2,6 @@
 {% load static %}
 {% load tags %}
 
-{% block extra_css %}
-  <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-  <style type="text/css">
-    .red {
-      color:  #8B0000;
-    }
-  </style>
-{% endblock %}
-
 {% block content %}
 
   {% if extra_files %}
@@ -20,25 +11,7 @@
   {% else %}
   <div class="centre col-md-3">
   {% endif %}
-        <form autocomplete="off" class="form form-vertical" method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          <p>
-            <label for="name">Name:</label>
-            {{ form.name }}
-          </p>
-          <p>
-            <label for="tags">Tags:</label>
-            {{ form.tags }}
-          </p>
-          <p>
-            {{ form.main_file }}
-          </p>
-          <p>
-            <label for="id_extra_files">Extra files:</label>
-            {{ form.extra_files }}
-          </p>
-          <button class="btn btn-primary" type="submit">Submit</button>
-        </form>
+      {% include 'cms/form.html' %}
     </div>
 
     {% if extra_files %}

@@ -1,0 +1,19 @@
+<form autocomplete="off" class="form form-vertical" method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+<p>
+  <label for="name">Name:</label>
+  {{ form.name }}
+</p>
+<p>
+  <label for="tags">Tags:</label>
+  {{ form.tags }}
+</p>
+<p>
+  {{ form.main_file }}
+</p>
+<p>
+  <label for="id_extra_files">Extra files:</label>
+  {{ form.extra_files }}
+</p>
+<button class="btn btn-primary" type="submit">Submit</button>
+</form>

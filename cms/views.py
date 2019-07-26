@@ -188,8 +188,9 @@ def detail(request, stl_id):
 
 def erase(request, file_id):
     stl = get_object_or_404(Entry, pk=file_id)
+    thumb_name = str(stl.get_name_without_extension()) + '.png'
     stl_file = os.path.join(settings.BASE_DIR, stl.main_file.path)
-    png_path = os.path.join(settings.THUMBS_ROOT, str(stl.file_name) + '.png')
+    png_path = os.path.join(settings.THUMBS_ROOT, thumb_name)
     try:
         os.remove(stl_file)
         os.remove(png_path)

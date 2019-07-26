@@ -5,6 +5,8 @@
 <html>
   <head>
     <title>ModelSpace</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <script src="{% static 'js/font-awesome.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
@@ -20,7 +22,7 @@
             <form class="form-inline">
               <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search for models..." required /> 
               <button class="btn btn-primary my-2 my-sm-0" type="submit">
-                Go
+                <i class="fas fa-search" aria-hidden="true"></i>
               </button>
             </form>
             <ul class="navbar-nav ml-md-auto">
