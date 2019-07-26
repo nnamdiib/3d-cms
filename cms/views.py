@@ -58,7 +58,8 @@ def upload(request):
             main_file=main_doc,
         )
 
-        [entry.tags.add(tag.strip()) for tag in tags.split(',') if tags]
+        if tags:
+            [entry.tags.add(tag.strip()) for tag in tags.split(',')]
         entry.file_name = entry.get_name_with_extension()
         entry.save()
 
@@ -112,7 +113,8 @@ def edit(request, entry_id):
         # Handle (any) new tags
         entry.tags.clear()
         tags = update_form.cleaned_data['tags']
-        [entry.tags.add(tag.strip()) for tag in tags.split(',') if tags]
+        if tags:
+            [entry.tags.add(tag.strip()) for tag in tags.split(',')]
         entry.save()
 
         # Handle (any) new extra files
