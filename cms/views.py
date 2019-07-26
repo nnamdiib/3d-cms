@@ -195,7 +195,7 @@ def erase(request, file_id):
         os.remove(stl_file)
         os.remove(png_path)
     except FileNotFoundError:
-        print("Error while attempting to delete file(s).")
+        print("File(s) not found.")
     stl.tags.clear()
     stl.delete()
     page = request.session['page']
