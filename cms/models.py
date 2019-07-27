@@ -19,19 +19,18 @@ class Entry(models.Model):
     def add_file(self, object, file):
         if object.objects.filter(entry=self).exists():
             object.objects.get(entry=self).delete()
-        entry = object.objects.create(entry=self, document=file)
-        entry.file_name = extract_file_name(entry.document.path)
-        entry.save()
+        if file:
+            entry = object.objects.create(entry=self, document=file)
+            entry.file_name = extract_file_name(entry.document.path)
+            entry.save()
 
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         self.name = name if name
         if tags:
             self.tags.clear()
             [self.tags.add(tag.strip()) for tag in tags.split(',')]
-        if main_file:
-            self.add_file(MainFile, main_file)
-        if extra_files:
-            [self.add_file(ExtraFile, file) for file in extra_files]
+        self.add_file(MainFile, main_file)
+        [self.add_file(ExtraFile, file) for file in extra_files]
 
 class GenericFile(models.Model):
     document = models.FileField(upload_to='uploads/')
@@ -40,8 +39,7 @@ class GenericFile(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     def delete(self, *args, **kwargs):
-        # Whenever a file object is deleted, also delete the uploaded document
-        # and the generated png thumbnail.
+        # Whenever an object is deleted, delete its files
         name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
         delete_files(self.document.path, png_path)
@@ -57,10 +55,7 @@ class MainFile(GenericFile):
         return self.entry.name
 
     def save(self, *args, **kwargs):
-        '''
-        Overriding this method because we want to create a new thumbnail
-        whenever a new main file is uploaded!
-        '''
+        # Overriding this method to create a new thumbnail for every new main file
         super().save(*args, **kwargs) # Calls GenericFile.save() method
         name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
