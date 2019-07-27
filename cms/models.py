@@ -47,8 +47,7 @@ class GenericFile(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     def delete(self, *args, **kwargs):
-        # Whenever a file object is deleted, also delete the uploaded document
-        # and the generated png thumbnail.
+        # delete the uploaded file and its thumbnail automatically
         name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
         delete_files(self.document.path, png_path)
@@ -61,10 +60,7 @@ class MainFile(GenericFile):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        '''
-        Overriding this method because we want to create a new thumbnail
-        whenever a new main file is uploaded!
-        '''
+        # create a new thumb automatically
         super().save(*args, **kwargs) # Calls GenericFile.save() method
         name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
