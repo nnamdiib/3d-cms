@@ -40,6 +40,9 @@ class GenericFile(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.entry.name
+
     def delete(self, *args, **kwargs):
         # Whenever an object is deleted, delete its files
         name = remove_extension(self.file_name)
@@ -53,9 +56,6 @@ class GenericFile(models.Model):
 class MainFile(GenericFile):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.entry.name
-
     def save(self, *args, **kwargs):
         # Overriding this method to create a new thumbnail for every new main file
         super().save(*args, **kwargs) # Calls GenericFile.save() method
@@ -65,6 +65,3 @@ class MainFile(GenericFile):
 
 class ExtraFile(GenericFile):
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name='extras')
-
-    def __str__(self):
-        return str(self.id)
