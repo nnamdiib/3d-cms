@@ -17,20 +17,21 @@ class Entry(models.Model):
         return self.name
 
     def add_file(self, object, file):
-        if file:
-            if object.objects.filter(entry=self).exists():
-                object.objects.get(entry=self).delete()
-            entry = object.objects.create(entry=self, document=file)
-            entry.file_name = extract_file_name(entry.document.path)
-            entry.save()
+        entry = object.objects.create(entry=self, document=file)
+        entry.file_name = extract_file_name(entry.document.path)
+        entry.save()
 
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         self.name = name if name
         if tags:
             self.tags.clear()
             [self.tags.add(tag.strip()) for tag in tags.split(',')]
-        self.add_file(MainFile, main_file)
-        [self.add_file(ExtraFile, file) for file in extra_files]
+        if main_file:
+            if object.objects.filter(entry=self).exists():
+                object.objects.get(entry=self).delete()
+            self.add_file(MainFile, main_file)
+        if extra_files:
+            [self.add_file(ExtraFile, file) for file in extra_files]
 
 class GenericFile(models.Model):
     document = models.FileField(upload_to='uploads/')
