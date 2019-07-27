@@ -1,6 +1,6 @@
 import subprocess
-import os
 import platform
+import os
 # This file contains various helper functions needed for the app.
 # These helpers do not fit perfectly into the django structure of models,
 # views and controllers so we have created a special place for them.
@@ -28,6 +28,12 @@ def create_thumbnail(stl_path, output_path):
 def extract_file_name(path):
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
+
+def get_extension(path):
+    return os.path.splitext(path)[1]
+
+def remove_extension(path):
+    return os.path.splitext(path)[0]
 
 def delete_files(**kwargs):
 	# kwargs is a dict of the keyword args passed to the function

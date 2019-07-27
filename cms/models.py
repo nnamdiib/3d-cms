@@ -5,7 +5,7 @@ from django.conf import settings
 
 from taggit.managers import TaggableManager
 
-from .utils import extract_file_name, create_thumbnail, delete_files
+from .utils import *
 
 class Entry(models.Model):
     name = models.CharField(max_length=225)
@@ -42,17 +42,10 @@ class GenericFile(models.Model):
     def delete(self, *args, **kwargs):
         # Whenever a file object is deleted, also delete the uploaded document
         # and the generated png thumbnail.
-        name = self.remove_extension()
+        name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
         delete_files(self.document.path, png_path)
         super().delete(*args, **kwargs) # Call the real delete method
-
-    def remove_extension(self):
-        '''
-        Returns the file name without the extension
-        example.stl --> example
-        '''
-        return os.path.splitext(self.file_name)[0]
 
     class Meta:
         abstract = True
@@ -69,7 +62,7 @@ class MainFile(GenericFile):
         whenever a new main file is uploaded!
         '''
         super().save(*args, **kwargs) # Calls GenericFile.save() method
-        name = self.remove_extension()
+        name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
         create_thumbnail(self.document.path, png_path)
 

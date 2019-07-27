@@ -10,7 +10,7 @@ from django.urls import reverse
 
 from .models import Entry, MainFile, ExtraFile
 from .forms import UploadForm
-from .utils import create_thumbnail, extract_file_name
+from .utils import *
 
 PER_PAGE = 8
 
@@ -108,7 +108,7 @@ def get_download(file_path, name):
     """
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read(), content_type='model/stl')
-        extension = os.path.splitext(file_path)[-1]
+        extension = get_extension(file_path)
         response['Content-Disposition'] = 'inline; filename=' + name
         return response
 
