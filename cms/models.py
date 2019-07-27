@@ -16,8 +16,8 @@ class Entry(models.Model):
     def __str__(self):
         return self.name
 
-    def add_file(self, object, file):
-        entry = object.objects.create(entry=self, document=file)
+    def add_file(self, obj_class, file):
+        entry = obj_class.objects.create(entry=self, document=file)
         entry.file_name = extract_file_name(entry.document.path)
         entry.save()
 
@@ -28,8 +28,8 @@ class Entry(models.Model):
             self.tags.clear()
             [self.tags.add(tag.strip()) for tag in tags.split(',')]
         if main_file:
-            if object.objects.filter(entry=self).exists():
-                object.objects.get(entry=self).delete()
+            if MainFile.objects.filter(entry=self).exists():
+                MainFile.objects.get(entry=self).delete()
             self.add_file(MainFile, main_file)
         if extra_files:
             [self.add_file(ExtraFile, file) for file in extra_files]
