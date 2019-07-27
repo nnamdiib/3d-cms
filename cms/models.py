@@ -22,7 +22,8 @@ class Entry(models.Model):
         entry.save()
 
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
-        self.name = name if name
+        if name:
+            self.name = name
         if tags:
             self.tags.clear()
             [self.tags.add(tag.strip()) for tag in tags.split(',')]
