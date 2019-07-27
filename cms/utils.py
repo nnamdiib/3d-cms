@@ -34,12 +34,12 @@ def delete_files(**kwargs):
 		except FileNotFoundError:
 			print('Failed to delete file.')
 
+def extract_file_name(path):
+    head, tail = ntpath.split(path)
+    return tail or ntpath.basename(head)
+
 def get_extension(file_path):
     return os.path.splitext(file_path)[1]
 
 def remove_extension(file_path):
     return file_path.split('.')[0] if file_path else ''
-
-def extract_file_name(path):
-    head, tail = ntpath.split(path)
-    return tail or ntpath.basename(head)
