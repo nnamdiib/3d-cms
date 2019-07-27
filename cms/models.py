@@ -17,9 +17,9 @@ class Entry(models.Model):
         return self.name
 
     def add_file(self, object, file):
-        if object.objects.filter(entry=self).exists():
-            object.objects.get(entry=self).delete()
         if file:
+            if object.objects.filter(entry=self).exists():
+                object.objects.get(entry=self).delete()
             entry = object.objects.create(entry=self, document=file)
             entry.file_name = extract_file_name(entry.document.path)
             entry.save()
