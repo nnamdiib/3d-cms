@@ -28,10 +28,9 @@ class Entry(models.Model):
             self.tags.clear()
             [self.tags.add(tag.strip()) for tag in tags.split(',')]
         if main_file:
-            old_main_file = MainFile.objects.get(entry=self).delete()
-            add_file(self, MainFile, main_file)
+            self.add_file(MainFile, main_file)
         if extra_files:
-            [add_file(self, ExtraFile, file) for file in extra_files]
+            [self.add_file(ExtraFile, file) for file in extra_files]
 
 class GenericFile(models.Model):
     document = models.FileField(upload_to='uploads/')

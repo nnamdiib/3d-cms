@@ -1,5 +1,6 @@
 import subprocess
 import platform
+import ntpath
 import os
 # This file contains various helper functions needed for the app.
 # These helpers do not fit perfectly into the django structure of models,
@@ -25,16 +26,6 @@ def create_thumbnail(stl_path, output_path):
 	if process.returncode == 0:
 		print('Created Thumbnail at {}'.format(output_path))
 
-def extract_file_name(path):
-    head, tail = ntpath.split(path)
-    return tail or ntpath.basename(head)
-
-def get_extension(path):
-    return os.path.splitext(path)[1]
-
-def remove_extension(path):
-    return os.path.splitext(path)[0]
-
 def delete_files(**kwargs):
 	# kwargs is a dict of the keyword args passed to the function
 	for label, path in kwargs.iteritems():
@@ -42,3 +33,13 @@ def delete_files(**kwargs):
 			os.remove(path)
 		except FileNotFoundError:
 			print('Failed to delete file.')
+
+def get_extension(file_path):
+    return os.path.splitext(file_path)[1]
+
+def remove_extension(file_path):
+    return file_path.split('.')[0] if file_path else ''
+
+def extract_file_name(path):
+    head, tail = ntpath.split(path)
+    return tail or ntpath.basename(head)
