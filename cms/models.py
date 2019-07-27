@@ -25,13 +25,13 @@ class Entry(models.Model):
         self.name = name or self.name
         if tags:
             self.tags.clear()
-            [self.tags.add(tag.strip()) for tag in tags.split(',')]
+            (self.tags.add(tag.strip()) for tag in tags.split(','))
         if main_file:
             if MainFile.objects.filter(entry=self).exists():
                 MainFile.objects.get(entry=self).delete()
             self.add_file(MainFile, main_file)
         if extra_files:
-            [self.add_file(ExtraFile, file) for file in extra_files]
+            (self.add_file(ExtraFile, file) for file in extra_files)
 
 class GenericFile(models.Model):
     document = models.FileField(upload_to='uploads/')
