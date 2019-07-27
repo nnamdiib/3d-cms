@@ -16,7 +16,7 @@ class Entry(models.Model):
     def __str__(self):
         return self.name
 
-    def create_file(self, object, file):
+    def add_file(self, object, file):
         new_file = object.objects.create(entry=self, document=file)
         new_file.file_name = extract_file_name(new_file.document.path)
         new_file.save()
@@ -29,9 +29,9 @@ class Entry(models.Model):
             [self.tags.add(tag.strip()) for tag in tags.split(',')]
         if main_file:
             old_main_file = MainFile.objects.get(entry=self).delete()
-            create_file(self, MainFile, main_file)
+            add_file(self, MainFile, main_file)
         if extra_files:
-            [create_file(self, ExtraFile, file) for file in extra_files]
+            [add_file(self, ExtraFile, file) for file in extra_files]
 
 class GenericFile(models.Model):
     document = models.FileField(upload_to='uploads/')
