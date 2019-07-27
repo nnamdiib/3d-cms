@@ -5,21 +5,20 @@
 {% block content %}
 
   {% if extra_files %}
-  <div class="centre col-md-4">
+  <div class="centre col-md-5">
     <div class="row">
       <div class="col-md-8">
   {% else %}
   <div class="centre col-md-3">
   {% endif %}
-      {% include 'cms/form.html' %}
-    </div>
-
+  {% include 'cms/form.html' %}
+  </div>
     {% if extra_files %}
     <div class="col-md-4">
         <div class="alert alert-info">Extra Files Present</div>
         <ol>
             {% for extra in extra_files %}
-                <li><a href="{% fetch extra.get_name_with_extension %}">{{ extra.get_name_with_extension }}</a><a href="{% url 'remove_extra' entry.id extra.id %}"><i class="fas fa-trash red erase"></i></a></li>
+                <li><a href="{% fetch extra.file_name %}">{{ extra.file_name }}</a><a href="{% url 'remove_extra' entry.id extra.id %}"><i class="fas fa-trash red erase"></i></a></li>
             {% endfor %}
             
         </ol>
