@@ -51,7 +51,7 @@ class GenericFile(models.Model):
         name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
         delete_files(self.document.path, png_path)
-        super().delete(*args, **kwargs) # Call the real delete method
+        super().delete(*args, **kwargs)
 
     class Meta:
         abstract = True
@@ -61,7 +61,7 @@ class MainFile(GenericFile):
 
     def save(self, *args, **kwargs):
         # create a new thumb automatically
-        super().save(*args, **kwargs) # Calls GenericFile.save() method
+        super().save(*args, **kwargs)
         name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
         create_thumbnail(self.document.path, png_path)
