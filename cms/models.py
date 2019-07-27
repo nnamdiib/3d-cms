@@ -47,7 +47,7 @@ class GenericFile(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     def delete(self, *args, **kwargs):
-        # delete the uploaded file and its thumbnail automatically
+        # delete the uploaded file and its thumb automatically
         name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
         delete_files(self.document.path, png_path)
