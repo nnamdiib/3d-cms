@@ -102,7 +102,7 @@ def get_download(file_path):
     Used in views.save and views.fetch
     """
     with open(file_path, 'rb') as fh:
-        response = HttpResponse(fh.read(), content_type='model/stl')
+        response = HttpResponse(fh.read())
         extension = get_extension(file_path)
         response['Content-Disposition'] = 'inline;'
         return response
