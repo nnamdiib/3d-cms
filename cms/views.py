@@ -126,7 +126,6 @@ def detail(request, stl_id):
 
 def erase(request, file_id):
     entry = get_object_or_404(Entry, pk=file_id)
-    main_file = MainFile.objects.get(entry=entry).delete()
     entry.delete()
     page = request.session['page']
     if page:

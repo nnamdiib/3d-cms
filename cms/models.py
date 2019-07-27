@@ -12,6 +12,13 @@ class Entry(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     tags = TaggableManager(blank=True)
+    
+    def delete(self, *args, **kwargs):
+        for f in MainFile.objects.filter(entry=self):
+            f.delete()
+        for ef in ExtraFile.objects.filter(entry=self):
+            ef.delete()
+        super().delete(*args, **kwargs)
 
     def add_file(self, object, file):
         if object.objects.filter(entry=self).exists():
