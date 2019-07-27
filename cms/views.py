@@ -97,7 +97,7 @@ def fetch(request, file_name):
 
 def get_download(file_path):
     """
-    Helper function used to prepare a .stl file and send it
+    Helper function used to prepare a file and send it
     for download in the browser client.
     Used in views.save and views.fetch
     """
