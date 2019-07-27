@@ -26,9 +26,9 @@ def create_thumbnail(stl_path, output_path):
 	if process.returncode == 0:
 		print('Created Thumbnail at {}'.format(output_path))
 
-def delete_files(**kwargs):
+def delete_files(*args):
 	# kwargs is a dict of the keyword args passed to the function
-	for label, path in kwargs.iteritems():
+	for path in args:
 		try:
 			os.remove(path)
 		except FileNotFoundError:
