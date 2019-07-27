@@ -26,8 +26,7 @@ class Entry(models.Model):
         new_file.save()
 
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
-        if name:
-            self.name = name
+        self.name = name or self.name
         if tags:
             self.tags.clear()
             for tag in tags.split(','):
