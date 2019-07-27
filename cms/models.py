@@ -5,8 +5,7 @@ from django.conf import settings
 
 from taggit.managers import TaggableManager
 
-from .utils import extract_file_name, create_thumbnail
-
+from .utils import extract_file_name, create_thumbnail, delete_files
 
 class Entry(models.Model):
     name = models.CharField(max_length=225)
@@ -22,8 +21,7 @@ class Entry(models.Model):
             self.name = name
         if tags:
             self.tags.clear()
-            for tag in tags.split(','):
-                self.tags.add(tag.strip())
+            [self.tags.add(tag.strip()) for tag in tags.split(',')]
         if main_file:
             try:
                 old_main_file = MainFile.objects.get(entry=self)
@@ -39,7 +37,6 @@ class Entry(models.Model):
                 ef.file_name = extract_file_name(ef.document.path)
                 ef.save()
 
-
 class GenericFile(models.Model):
     document = models.FileField(upload_to='uploads/')
     file_name = models.CharField(max_length=255, blank=True, null=True)
@@ -51,15 +48,7 @@ class GenericFile(models.Model):
         # and the generated png thumbnail.
         name = self.remove_extension()
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
-        try:
-            os.remove(self.document.path)
-        except FileNotFoundError:
-            print('Failed to delete uploaded doc')
-        try:
-            os.remove(png_path)
-        except FileNotFoundError:
-            print('Failed to delete PNG file')
-
+        delete_files(self.document.path, png_path)
         super().delete(*args, **kwargs) # Call the real delete method
 
     def remove_extension(self):
@@ -71,7 +60,6 @@ class GenericFile(models.Model):
 
     class Meta:
         abstract = True
-
 
 class MainFile(GenericFile):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
@@ -88,7 +76,6 @@ class MainFile(GenericFile):
         name = self.remove_extension()
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
         create_thumbnail(self.document.path, png_path)
-
 
 class ExtraFile(GenericFile):
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name='extras')
