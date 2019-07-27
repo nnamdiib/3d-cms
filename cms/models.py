@@ -12,9 +12,6 @@ class Entry(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     tags = TaggableManager(blank=True)
-    
-    def __str__(self):
-        return self.name
 
     def add_file(self, obj_class, file):
         entry = obj_class.objects.create(entry=self, document=file)
@@ -25,22 +22,19 @@ class Entry(models.Model):
         self.name = name or self.name
         if tags:
             self.tags.clear()
-            (self.tags.add(tag.strip()) for tag in tags.split(','))
+            [self.tags.add(tag.strip()) for tag in tags.split(',')]
         if main_file:
             if MainFile.objects.filter(entry=self).exists():
                 MainFile.objects.get(entry=self).delete()
             self.add_file(MainFile, main_file)
         if extra_files:
-            (self.add_file(ExtraFile, file) for file in extra_files)
+            [self.add_file(ExtraFile, file) for file in extra_files]
 
 class GenericFile(models.Model):
     document = models.FileField(upload_to='uploads/')
     file_name = models.CharField(max_length=255, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.entry.name
 
     def delete(self, *args, **kwargs):
         # Whenever an object is deleted, delete its files
