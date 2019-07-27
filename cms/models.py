@@ -24,8 +24,7 @@ class Entry(models.Model):
             [self.tags.add(tag.strip()) for tag in tags.split(',')]
         if main_file:
             try:
-                old_main_file = MainFile.objects.get(entry=self)
-                old_main_file.delete()
+                old_main_file = MainFile.objects.get(entry=self).delete()
             except MainFile.DoesNotExist:
                 print('No main file found')
             new_main_file = MainFile.objects.create(entry=self, document=main_file)
@@ -56,7 +55,7 @@ class GenericFile(models.Model):
         Returns the file name without the extension
         example.stl --> example
         '''
-        return self.file_name.split('.')[0] if self.file_name else ''
+        return os.path.splitext(self.file_name)[0]
 
     class Meta:
         abstract = True
