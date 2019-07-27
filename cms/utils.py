@@ -27,14 +27,11 @@ def create_thumbnail(stl_path, output_path):
 
 def delete_files(*args):
 	for path in args:
-		try:
+		if os.path.exists(path):
 			os.remove(path)
-		except FileNotFoundError:
-			print('Failed to delete file.')
 
 def extract_file_name(path):
-    head, tail = ntpath.split(path)
-    return tail or ntpath.basename(head)
+    return path.split("/")[-1]
 
 def get_extension(file_path):
     return file_path.split('.')[1]
