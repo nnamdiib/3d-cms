@@ -3,7 +3,7 @@ import os
 
 from django.db import migrations
 
-from cms.utils import extract_file_name
+from cms.utils import *
 
 
 def create_main_files(apps, schema_editor):
@@ -15,7 +15,7 @@ def create_main_files(apps, schema_editor):
 			entry=entry,
 			document=entry.main_file,
 		)
-		main_file.file_name = extract_file_name(main_file.document.path)
+		main_file.file_name = get_file_name(main_file.document.path)
 		main_file.save()
 
 

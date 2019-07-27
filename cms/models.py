@@ -22,7 +22,7 @@ class Entry(models.Model):
 
     def add_file(self, object, file):
         new_file = object.objects.create(entry=self, document=file)
-        new_file.file_name = extract_file_name(new_file.document.path)
+        new_file.file_name = get_file_name(new_file.document.path)
         new_file.save()
 
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):

@@ -30,7 +30,7 @@ def delete_files(*args):
 		if os.path.exists(path):
 			os.remove(path)
 
-def extract_file_name(path):
+def get_file_name(path):
     return path.split("/")[-1]
 
 def get_extension(file_path):

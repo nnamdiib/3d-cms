@@ -10,7 +10,7 @@ from django.urls import reverse
 
 from .models import Entry, MainFile, ExtraFile
 from .forms import UploadForm
-from .utils import create_thumbnail, extract_file_name
+from .utils import *
 
 PER_PAGE = 8
 
