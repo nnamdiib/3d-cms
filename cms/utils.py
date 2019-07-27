@@ -31,7 +31,7 @@ def extract_file_name(path):
 
 def delete_files(**kwargs):
 	# kwargs is a dict of the keyword args passed to the function
-	for place_holder, path in kwargs.iteritems():
+	for label, path in kwargs.iteritems():
 		try:
 			os.remove(path)
 		except FileNotFoundError:
