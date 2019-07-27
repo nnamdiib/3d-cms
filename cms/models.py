@@ -16,6 +16,11 @@ class Entry(models.Model):
     def __str__(self):
         return self.name
 
+    def create_file(self, object, file):
+        new_file = object.objects.create(entry=self, document=file)
+        new_file.file_name = extract_file_name(new_file.document.path)
+        new_file.save()
+
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         if name:
             self.name = name
@@ -23,18 +28,10 @@ class Entry(models.Model):
             self.tags.clear()
             [self.tags.add(tag.strip()) for tag in tags.split(',')]
         if main_file:
-            try:
-                old_main_file = MainFile.objects.get(entry=self).delete()
-            except MainFile.DoesNotExist:
-                print('No main file found')
-            new_main_file = MainFile.objects.create(entry=self, document=main_file)
-            new_main_file.file_name = extract_file_name(new_main_file.document.path)
-            new_main_file.save()
+            old_main_file = MainFile.objects.get(entry=self).delete()
+            create_file(self, MainFile, main_file)
         if extra_files:
-            for file in extra_files:
-                ef = ExtraFile.objects.create(entry=self, document=file)
-                ef.file_name = extract_file_name(ef.document.path)
-                ef.save()
+            [create_file(self, ExtraFile, file) for file in extra_files]
 
 class GenericFile(models.Model):
     document = models.FileField(upload_to='uploads/')
