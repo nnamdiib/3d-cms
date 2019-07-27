@@ -47,7 +47,7 @@ class GenericFile(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     def delete(self, *args, **kwargs):
-        # delete the uploaded file and its thumb automatically
+        # delete the uploaded file and its thumb
         name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
         delete_files(self.document.path, png_path)
@@ -60,7 +60,7 @@ class MainFile(GenericFile):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        # create a new thumb automatically
+        # create a new thumb
         super().save(*args, **kwargs)
         name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
