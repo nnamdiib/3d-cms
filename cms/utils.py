@@ -16,10 +16,9 @@ import os
 def create_thumbnail(stl_path, output_path):
 	stl_thumb_exe = 'C:\\Program Files\\stl-thumb\\stl-thumb.exe'  # Default is windows
 	if platform.system() == 'Linux':
-		# We are on a linux machine
 		stl_thumb_exe = 'stl-thumb'
 
-	size = '200'  # Specify a 200 x 200 pixel PNG
+	size = '200'  # 200 x 200 pixel
 	command = [stl_thumb_exe, stl_path, output_path, '-s', size]
 	print(command)
 	process = subprocess.run(command)
@@ -27,7 +26,6 @@ def create_thumbnail(stl_path, output_path):
 		print('Created Thumbnail at {}'.format(output_path))
 
 def delete_files(*args):
-	# kwargs is a dict of the keyword args passed to the function
 	for path in args:
 		try:
 			os.remove(path)
