@@ -89,25 +89,15 @@ def save(request, file_id):
         return get_download(file_path, main_file.file_name)
     raise Http404
 
-def fetch(request, file_name, file_type=None):
-    if file_type == 'extra':
-        ef = get_object_or_404(ExtraFile, file_name=file_name)
-        file_path = ef.document.path
-    else:
-        main_file = get_object_or_404(MainFile, file_name=file_name)
-        file_path = main_file.document.path
+def fetch(request, file_name):
+    file_path = os.path.join(settings.UPLOADS_ROOT, file_name)
     if os.path.exists(file_path):
-        return get_download(file_path, file_name)
+        return get_download(file_path)
     raise Http404
 
 def get_download(file_path, name):
-    """
-    Helper function used to prepare a .stl file and send it
-    for download in the browser client.
-    Used in views.save and views.fetch
-    """
     with open(file_path, 'rb') as fh:
-        response = HttpResponse(fh.read(), content_type='model/stl')
+        response = HttpResponse(fh.read(), content_type='model')
         extension = os.path.splitext(file_path)[-1]
         response['Content-Disposition'] = 'inline; filename=' + name
         return response
