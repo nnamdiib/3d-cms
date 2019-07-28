@@ -25,7 +25,6 @@ def create_thumbnail(stl_path):
 
 	size = '200'  # 200 x 200 pixel
 	command = [stl_thumb_exe, stl_path, output_path, '-s', size]
-	print(command)
 	process = subprocess.run(command)
 	if process.returncode == 0:
 		print('Created Thumbnail at {}'.format(output_path))
