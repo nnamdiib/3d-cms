@@ -21,7 +21,8 @@ class Entry(models.Model):
         self.name = name or self.name
         if tags:
             self.tags.clear()
-            [self.tags.add(tag.strip()) for tag in tags.split(',')]
+            for tag in tags.split(','):
+                self.tags.add(tag.strip()) 
         if main_file:
             entry_main = MainFile.objects.filter(entry=self)
             main, created = entry_main.update_or_create(entry=self, document=main_file)
