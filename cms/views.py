@@ -86,7 +86,7 @@ def save(request, file_id):
     main_file = MainFile.objects.get(entry=entry)
     file_path = main_file.document.path
     if os.path.exists(file_path):
-        return get_download(file_path, main_file.file_name)
+        return get_download(file_path)
     raise Http404
 
 def fetch(request, file_name):
@@ -95,11 +95,11 @@ def fetch(request, file_name):
         return get_download(file_path)
     raise Http404
 
-def get_download(file_path, name):
+def get_download(file_path):
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read(), content_type='model')
         extension = os.path.splitext(file_path)[-1]
-        response['Content-Disposition'] = 'inline; filename=' + name
+        response['Content-Disposition'] = 'inline; filename=' + file_path
         return response
 
 def detail(request, stl_id):
