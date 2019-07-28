@@ -12,13 +12,13 @@ class Entry(models.Model):
     tags = TaggableManager(blank=True)
 
     def delete(self, *args, **kwargs):
-        for type in (MainFile, ExtraFile):
-            for object in type.objects.filter(entry=self):
-                object.delete()        
+        for entry_type in (MainFile, ExtraFile):
+            for object_entry in type.objects.filter(entry=self):
+                object_entry.delete()        
         super().delete(*args, **kwargs)
 
-    def add_file(self, object, file):
-        object.objects.create(entry=self, document=file).save()
+    def add_file(self, entry_type, file):
+        entry_type.objects.create(entry=self, document=file).save()
 
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         self.name = name or self.name
