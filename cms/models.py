@@ -32,8 +32,7 @@ class Entry(models.Model):
             for tag in tags.split(','):
                 self.tags.add(tag.strip())
         if main_file:
-            if MainFile.objects.filter(entry=self).exists():
-                MainFile.objects.get(entry=self).delete()
+            MainFile.objects.filter(entry=self).update(document=file)
             self.add_file(MainFile, main_file)
         if extra_files:
             for file in extra_files:
