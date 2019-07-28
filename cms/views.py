@@ -14,11 +14,7 @@ from .utils import *
 
 PER_PAGE = 8
 
-def make_paginated(entries, request):
-    """
-    Helper function used to make a paginated list of model entries
-    Used in views.index and views.search
-    """
+def paginate(entries, request):
     paginator = Paginator(entries, PER_PAGE)
     page = request.GET.get('p')
     request.session['page'] = page
@@ -31,7 +27,7 @@ def index(request):
         return search(request, q)    
     main_files = MainFile.objects.all().select_related('entry').order_by('-date_created')
 
-    uploads = make_paginated(main_files, request)
+    uploads = paginate(main_files, request)
     context = {'uploads': uploads}
     return render(request, template, context)
 
@@ -40,7 +36,7 @@ def search(request, q):
     main_files = MainFile.objects.filter(
         Q(entry__name__icontains=q) | Q(entry__tags__name__icontains=q)).distinct()
 
-    paginated_entries = make_paginated(main_files, request)
+    paginated_entries = paginate(main_files, request)
     context = {'uploads': paginated_entries, 'count': main_files.count(), 'q':q}
     return render(request, template, context)
 
