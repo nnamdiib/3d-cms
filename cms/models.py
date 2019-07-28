@@ -25,6 +25,7 @@ class Entry(models.Model):
                 self.tags.add(tag.strip()) 
         if main_file:
             updated, created = MainFile.objects.update_or_create(entry=self, defaults={"document": main_file})
+            create_thumbnail(MainFile.objects.get(entry=self).document.path)
         if extra_files:
             for file in extra_files:
                 ExtraFile.objects.create(entry=self, document=file)
@@ -43,10 +44,6 @@ class File(models.Model):
 
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        create_thumbnail(self.document.path)
 
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)
