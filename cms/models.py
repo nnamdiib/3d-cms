@@ -24,8 +24,8 @@ class Entry(models.Model):
             for tag in tags.split(','):
                 self.tags.add(tag.strip()) 
         if main_file:
-            entry_main = MainFile.objects.filter(entry=self)
-            main, created = entry_main.update_or_create(entry=self, document=main_file)
+            main_entry = MainFile.objects.filter(entry=self)
+            updated, created = main_entry.update_or_create(entry=self, document=main_file)
         if extra_files:
             for file in extra_files:
                 ExtraFile.objects.create(entry=self, document=file)
