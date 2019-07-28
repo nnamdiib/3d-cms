@@ -22,7 +22,7 @@ class Entry(models.Model):
         if tags:
             self.tags.clear()
             for tag in tags.split(','):
-                self.tags.add(tag.strip()) 
+                self.tags.add(tag) 
         if main_file:
             main_entry = MainFile.objects.filter(entry=self)
             updated, created = main_entry.update_or_create(entry=self, document=main_file)
