@@ -21,7 +21,7 @@
         //Adding an Arc Rotate Camera
         var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0.8, 100, BABYLON.Vector3.Zero(), scene);
         camera.attachControl(canvas, false);
-        var link = "{% fetch main_file.file_name %}";
+        var link = "{% fetch main_file.document.path %}";
         // The first parameter can be used to specify which mesh to import. Here we import all meshes
         BABYLON.SceneLoader.ImportMesh("", "", link, scene, function (newMeshes) {
             // Set the target of the camera to the first imported mesh
@@ -90,7 +90,7 @@
           <td>
             <ul>
               {% for extra in extra_files %}
-                <li><a href="{% fetch extra.file_name %}">{{ extra.file_name }}</a></li>
+                <li><a href="{% fetch extra.document.path %}">{{ extra.document.path }}</a></li>
               {% endfor %}
             </ul>
           </td>

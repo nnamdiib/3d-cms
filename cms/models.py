@@ -22,28 +22,25 @@ class Entry(models.Model):
 
     def add_file(self, type, file):
         new_file = type.objects.create(entry=self, document=file)
-        new_file.file_name = get_file_name(new_file.document.path)
         new_file.save()
-
-    def update_file(self, type, file):
-        saved_file = type.objects.filter(entry=self).update(document=file)
-        saved_file.file_name = get_file_name(type.document.path)
-        saved_file.save()
 
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         self.name = name or self.name
         if tags:
             self.tags.clear()
-            [self.tags.add(tag.strip()) for tag in tags.split(', ')]
+            for tag in tags.split(','):
+                self.tags.add(tag.strip())
         if main_file:
-            self.update_file(MainFile, main_file)
+            if MainFile.objects.filter(entry=self).exists():
+                MainFile.objects.filter(entry=self).update(document=main_file)
+            else:
+                self.add_file(MainFile, main_file)
         if extra_files:
             for file in extra_files:
                 self.add_file(ExtraFile, file)
 
 class File(models.Model):
     document = models.FileField(upload_to='uploads/')
-    file_name = models.CharField(max_length=255, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
