@@ -17,8 +17,7 @@ import os
 def create_thumbnail(stl_path):
 	name = strip_extension(stl_path) + '.png'
 	output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
-
-	stl_thumb_exe = 'C:\\Program Files\\stl-thumb\\stl-thumb.exe'  # Default is windows
+	stl_thumb_exe = 'C:\\Program Files\\stl-thumb\\stl-thumb.exe'
 	if platform.system() == 'Linux':
 		stl_thumb_exe = 'stl-thumb'
 
