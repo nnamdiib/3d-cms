@@ -24,7 +24,8 @@ class Entry(models.Model):
         self.name = name or self.name
         if tags:
             self.tags.clear()
-            [self.tags.add(tag.strip()) for tag in tags.split(',')]
+            for tag in tags.split(','):
+                self.tags.add(tag.strip())
         if main_file:
             if MainFile.objects.filter(entry=self).exists():
                 MainFile.objects.get(entry=self).delete()
