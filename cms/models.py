@@ -57,13 +57,13 @@ class MainFile(GenericFile):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        name = strip_extension(self.file_name)
-        png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
+        name = strip_extension(self.file_name) + '.png'
+        png_path = os.path.join(settings.THUMBS_ROOT, name)
         create_thumbnail(self.document.path, png_path)
 
     def delete(self, *args, **kwargs):
-        name = strip_extension(self.file_name)
-        png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
+        name = strip_extension(self.file_name) + '.png'
+        png_path = os.path.join(settings.THUMBS_ROOT, name)
         delete_files(png_path)
         super().delete(*args, **kwargs)
 
