@@ -22,10 +22,9 @@ class Entry(models.Model):
         if tags:
             self.tags.clear()
             for tag in tags.split(','):
-                self.tags.add(tag) 
+                self.tags.add(tag.strip()) 
         if main_file:
-            main_entry = MainFile.objects.filter(entry=self)
-            updated, created = main_entry.update_or_create(entry=self, document=main_file)
+            updated, created = MainFile.objects.update_or_create(entry=self, defaults={"document": main_file})
         if extra_files:
             for file in extra_files:
                 ExtraFile.objects.create(entry=self, document=file)
