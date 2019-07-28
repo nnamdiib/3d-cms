@@ -86,20 +86,20 @@ def save(request, file_id):
     main_file = MainFile.objects.get(entry=entry)
     file_path = main_file.document.path
     if os.path.exists(file_path):
-        return get_download(file_path)
+        return serve(file_path)
     raise Http404
 
 def fetch(request, file_name):
     file_path = os.path.join(settings.UPLOADS_ROOT, file_name)
     if os.path.exists(file_path):
-        return get_download(file_path)
+        return serve(file_path)
     raise Http404
 
-def get_download(file_path):
+def serve(file_path):
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read())
         extension = get_extension(file_path)
-        response['Content-Disposition'] = 'inline; filename=' + file_path
+        response['Content-Disposition'] = 'attachment;filename=' + get_file_name(file_path)
         return response
 
 def detail(request, stl_id):
