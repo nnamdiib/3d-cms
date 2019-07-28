@@ -12,7 +12,7 @@ class Entry(models.Model):
     tags = TaggableManager(blank=True)
 
     def delete(self, *args, **kwargs):
-        for type in list(MainFile, ExtraFile):
+        for type in (MainFile, ExtraFile):
             for object in type.objects.filter(entry=self):
                 object.delete()        
         super().delete(*args, **kwargs)
