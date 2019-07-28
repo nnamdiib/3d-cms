@@ -39,7 +39,7 @@ class Entry(models.Model):
             for file in extra_files:
                 self.add_file(ExtraFile, file)
 
-class GenericFile(models.Model):
+class File(models.Model):
     document = models.FileField(upload_to='uploads/')
     file_name = models.CharField(max_length=255, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -52,7 +52,7 @@ class GenericFile(models.Model):
         os.remove(self.document.path)
         super().delete(*args, **kwargs)
 
-class MainFile(GenericFile):
+class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
@@ -63,5 +63,5 @@ class MainFile(GenericFile):
         delete_thumbnail(self.document.path)
         super().delete(*args, **kwargs)
 
-class ExtraFile(GenericFile):
+class ExtraFile(File):
     entry = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name='extra')
