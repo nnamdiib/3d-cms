@@ -20,8 +20,8 @@ class Entry(models.Model):
             ef.delete()
         super().delete(*args, **kwargs)
 
-    def add_file(self, object, file):
-        new_file = object.objects.create(entry=self, document=file)
+    def add_file(self, type, file):
+        new_file = type.objects.create(entry=self, document=file)
         new_file.file_name = get_file_name(new_file.document.path)
         new_file.save()
 
