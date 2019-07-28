@@ -10,12 +10,14 @@ class Entry(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     tags = TaggableManager(blank=True)
-    
+
+    def delete_rows(self, *args):
+        for arg in args:
+            for row in arg.objects.filter(entry=self):
+                row.delete()
+
     def delete(self, *args, **kwargs):
-        for f in MainFile.objects.filter(entry=self):
-            f.delete()
-        for ef in ExtraFile.objects.filter(entry=self):
-            ef.delete()
+        self.delete_rows(MainFile, ExtraFile)
         super().delete(*args, **kwargs)
 
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
