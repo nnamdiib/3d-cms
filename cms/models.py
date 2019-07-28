@@ -31,8 +31,9 @@ class Entry(models.Model):
             self.tags.clear()
             [self.tags.add(tag.strip()) for tag in tags.split(', ')]
         if main_file:
-            MainFile.objects.filter(entry=self).update(document=file)
-            self.add_file(MainFile, main_file)
+            main_entry = MainFile.objects.filter(entry=self).update(document=main_file)
+            main_entry.file_name = get_file_name(main_entry.document.path)
+            main_entry.save()
         if extra_files:
             for file in extra_files:
                 self.add_file(ExtraFile, file)
