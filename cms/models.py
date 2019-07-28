@@ -4,7 +4,6 @@ from django.conf import settings
 from taggit.managers import TaggableManager
 
 from .utils import *
-import os
 
 class Entry(models.Model):
     name = models.CharField(max_length=225)
@@ -46,7 +45,7 @@ class File(models.Model):
         abstract = True
 
     def delete(self, *args, **kwargs):
-        os.remove(self.document.path)
+        delete_file(self.document.path)
         super().delete(*args, **kwargs)
 
 class MainFile(File):

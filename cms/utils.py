@@ -1,8 +1,8 @@
 from django.conf import settings
-from .utils import *
 import subprocess
 import platform
 import os
+
 # This file contains various helper functions needed for the app.
 # These helpers do not fit perfectly into the django structure of models,
 # views and controllers so we have created a special place for them.
@@ -31,6 +31,9 @@ def delete_thumbnail(file_path):
 	name = strip_extension(file_path) + '.png'
 	png_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
 	os.remove(png_path)
+
+def delete_file(file_path):
+	os.remove(file_path)
 
 def get_file_name(path):
     return path.split("/")[-1]
