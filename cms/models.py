@@ -25,15 +25,18 @@ class Entry(models.Model):
         new_file.file_name = get_file_name(new_file.document.path)
         new_file.save()
 
+    def update_file(self, type, file):
+        saved_file = type.objects.filter(entry=self).update(document=file)
+        saved_file.file_name = get_file_name(type.document.path)
+        saved_file.save()
+
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         self.name = name or self.name
         if tags:
             self.tags.clear()
             [self.tags.add(tag.strip()) for tag in tags.split(', ')]
         if main_file:
-            main_entry = MainFile.objects.filter(entry=self).update(document=main_file)
-            main_entry.file_name = get_file_name(main_entry.document.path)
-            main_entry.save()
+            self.update_file(MainFile, main_file)
         if extra_files:
             for file in extra_files:
                 self.add_file(ExtraFile, file)
