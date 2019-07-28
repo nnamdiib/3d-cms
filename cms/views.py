@@ -97,7 +97,7 @@ def fetch(request, file_name):
 
 def get_download(file_path):
     with open(file_path, 'rb') as fh:
-        response = HttpResponse(fh.read(), content_type='model')
+        response = HttpResponse(fh.read())
         extension = os.path.splitext(file_path)[-1]
         response['Content-Disposition'] = 'inline; filename=' + file_path
         return response
