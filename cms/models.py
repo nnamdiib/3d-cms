@@ -18,25 +18,20 @@ class Entry(models.Model):
             ef.delete()
         super().delete(*args, **kwargs)
 
-    def add_file(self, type, file):
-        new_file = type.objects.create(entry=self, document=file)
-        new_file.save()
-
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         self.name = name or self.name
         if tags:
             self.tags.clear()
             [self.tags.add(tag.strip()) for tag in tags.split(',')]
         if main_file:
-            if MainFile.objects.filter(entry=self).exists():
-                MainFile.objects.filter(entry=self).update(document=main_file)
-            else:
-                self.add_file(MainFile, main_file)
+            entry_main = MainFile.objects.filter(entry=self)
+            main, created = entry_main.update_or_create(entry=self, document=main_file)
         if extra_files:
             for file in extra_files:
-                self.add_file(ExtraFile, file)
+                ExtraFile.objects.create(entry=self, document=file)
 
 class File(models.Model):
+    entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
     document = models.FileField(upload_to='uploads/')
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
@@ -47,6 +42,10 @@ class File(models.Model):
     def delete(self, *args, **kwargs):
         delete_file(self.document.path)
         super().delete(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        create_thumbnail(self.document.path)
 
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)

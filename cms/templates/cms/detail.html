@@ -90,7 +90,7 @@
           <td>
             <ul>
               {% for extra in extra_files %}
-                <li><a href="{% fetch extra.document.path %}">{{ extra.document.path }}</a></li>
+                <li><a href="{% fetch extra.document.path %}">{% get_file_name extra.document.path %}</a></li>
               {% endfor %}
             </ul>
           </td>
