@@ -13,7 +13,7 @@ class Entry(models.Model):
 
     def delete(self, *args, **kwargs):
         for entry_type in (MainFile, ExtraFile):
-            for object_entry in type.objects.filter(entry=self):
+            for object_entry in entry_type.objects.filter(entry=self):
                 object_entry.delete()        
         super().delete(*args, **kwargs)
 
