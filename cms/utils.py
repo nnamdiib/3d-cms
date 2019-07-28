@@ -3,32 +3,27 @@ import subprocess
 import platform
 import os
 
-from stl import mesh
-from mpl_toolkits import mplot3d
-from matplotlib import pyplot
-
 # This file contains various helper functions needed for the app.
 # These helpers do not fit perfectly into the django structure of models,
 # views and controllers so we have created a special place for them.
 
-def create_thumbnail(stl_path):
+def create_thumbnail(stl_path, size='200'):
 	name = strip_extension(stl_path) + '.png'
 	output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
-	figure = pyplot.figure()
-	axes = mplot3d.Axes3D(figure)
+	stl_thumb_exe = 'C:\\Program Files\\stl-thumb\\stl-thumb.exe'
+	if platform.system() == 'Linux':
+		stl_thumb_exe = 'stl-thumb'
 
-	your_mesh = mesh.Mesh.from_file(stl_path)
-	axes.add_collection3d(mplot3d.art3d.Poly3DCollection(your_mesh.vectors))
-
-	scale = your_mesh.points.flatten(-1)
-	axes.auto_scale_xyz(scale, scale, scale)
-	pyplot.axis('off')
-	pyplot.savefig(output_path, dpi=50)
+	command = [stl_thumb_exe, stl_path, output_path, '-s', size]
+	process = subprocess.run(command)
+	if process.returncode == 0:
+		print('Created Thumbnail at {}'.format(output_path))
 
 def delete_thumbnail(file_path):
 	name = strip_extension(file_path) + '.png'
 	png_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
-	os.remove(png_path)
+	if os.path.exists(png_path):
+		os.remove(png_path)
 
 def delete_file(file_path):
 	os.remove(file_path)
