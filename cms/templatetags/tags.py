@@ -11,5 +11,11 @@ def fetch(context, file_path):
 @register.simple_tag(takes_context=True)
 def get_file_name(context, file_path):
 	request = context['request']
-	file_name = file_path.split(".")[0].split("/")[-1]
+	file_name = file_path.split("/")[-1]
 	return file_name
+
+@register.simple_tag(takes_context=True)
+def get_image_name(context, file_path):
+	request = context['request']
+	file_name = file_path.split("/")[-1].split(".")[0]
+	return file_name + ".png"

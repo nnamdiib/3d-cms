@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 from django.db.models import Q
 from django.conf import settings
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
 
 from .models import Entry, MainFile, ExtraFile
@@ -49,7 +49,7 @@ def upload(request):
         extra_files = request.FILES.getlist('extra_files')
         entry = Entry.objects.create(name=form.cleaned_data['name'])
         entry.update_entry(tags=tags, main_file=main_doc, extra_files=extra_files)
-        return index(request)
+        return HttpResponseRedirect('/')
     context = {'form': form}
     return render(request, template, context)
 

@@ -23,7 +23,7 @@ def create_thumbnail(stl_path):
 	scale = your_mesh.points.flatten(-1)
 	axes.auto_scale_xyz(scale, scale, scale)
 	pyplot.axis('off')
-	pyplot.savefig(output_path, dpi=30)
+	pyplot.savefig(output_path, dpi=50)
 
 def delete_thumbnail(file_path):
 	name = strip_extension(file_path) + '.png'
