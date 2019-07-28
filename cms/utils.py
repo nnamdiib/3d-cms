@@ -7,13 +7,6 @@ import os
 # These helpers do not fit perfectly into the django structure of models,
 # views and controllers so we have created a special place for them.
 
-# Functions defined here and their uses:
-
-# 1. create_thumbnail(stl_path, filename) -> This function uses a command line utility
-# 	 called 'stl-thumb' to generate PNG files from STL files. The PNGs are used in templates
-# 	 to offer a preview of the STL file. Install https://github.com/unlimitedbacon/stl-thumb/
-# 	 is a requirement for this function
-
 def create_thumbnail(stl_path):
 	name = strip_extension(stl_path) + '.png'
 	output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
