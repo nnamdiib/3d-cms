@@ -42,10 +42,6 @@ class File(models.Model):
         delete_file(self.document.path)
         super().delete(*args, **kwargs)
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        create_thumbnail(self.document.path)
-
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
 
