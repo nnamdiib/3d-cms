@@ -115,14 +115,12 @@ def detail(request, stl_id):
     return render(request, template, context)
 
 def erase(request, file_id):
-    entry = get_object_or_404(Entry, pk=file_id)
-    entry.delete()
+    entry = get_object_or_404(Entry, pk=file_id).delete()
     page = request.session['page']
     if page:
         return redirect("/" + "?p=" + str(page))
     return redirect("/")
 
 def remove_extra(request, entry_id, extra_file_id):
-    ef = get_object_or_404(ExtraFile, pk=extra_file_id)
-    ef.delete()
+    ef = get_object_or_404(ExtraFile, pk=extra_file_id).delete()
     return redirect(reverse('edit', kwargs={'entry_id':entry_id}))
