@@ -74,7 +74,7 @@ def edit(request, entry_id):
     init = {'name': entry.name, 'tags': tags, 'main_file': main_file.document}
     update_form = UploadForm(initial=init)
 
-    context = {'form': update_form, 'entry': entry, 'extra_files': entry.extras.all() }
+    context = {'form': update_form, 'entry': entry, 'extra_files': entry.extra.all() }
     return render(request, template, context)
 
 def save(request, file_id):
@@ -105,7 +105,7 @@ def detail(request, stl_id):
     context = {
         'entry': entry,
         'main_file': main_file,
-        'extra_files': entry.extras.all(),
+        'extra_files': entry.extra.all(),
         'detail': True
     }
     return render(request, template, context)

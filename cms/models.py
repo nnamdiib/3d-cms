@@ -45,14 +45,12 @@ class GenericFile(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
 
-    def delete(self, *args, **kwargs):
-        name = remove_extension(self.file_name)
-        png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
-        delete_files(self.document.path, png_path)
-        super().delete(*args, **kwargs)
-
     class Meta:
         abstract = True
+
+    def delete(self, *args, **kwargs):
+        delete_files(self.document.path)
+        super().delete(*args, **kwargs)
 
 class MainFile(GenericFile):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
@@ -63,5 +61,11 @@ class MainFile(GenericFile):
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
         create_thumbnail(self.document.path, png_path)
 
+    def delete(self, *args, **kwargs):
+        name = remove_extension(self.file_name)
+        png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
+        delete_files(self.document.path, png_path)
+        super().delete(*args, **kwargs)
+
 class ExtraFile(GenericFile):
-    entry = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name='extras')
+    entry = models.ForeignKey(Entry, on_delete=models.CASCADE, related_name='extra')
