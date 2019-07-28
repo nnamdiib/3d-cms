@@ -49,7 +49,7 @@ class GenericFile(models.Model):
         abstract = True
 
     def delete(self, *args, **kwargs):
-        delete_files(self.document.path)
+        os.remove(self.document.path)
         super().delete(*args, **kwargs)
 
 class MainFile(GenericFile):
@@ -57,14 +57,10 @@ class MainFile(GenericFile):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        name = strip_extension(self.file_name) + '.png'
-        png_path = os.path.join(settings.THUMBS_ROOT, name)
-        create_thumbnail(self.document.path, png_path)
+        create_thumbnail(self.document.path)
 
     def delete(self, *args, **kwargs):
-        name = strip_extension(self.file_name) + '.png'
-        png_path = os.path.join(settings.THUMBS_ROOT, name)
-        delete_files(png_path)
+        delete_thumbnail(self.document.path)
         super().delete(*args, **kwargs)
 
 class ExtraFile(GenericFile):

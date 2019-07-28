@@ -1,3 +1,5 @@
+from django.conf import settings
+from .utils import *
 import subprocess
 import platform
 import ntpath
@@ -13,7 +15,10 @@ import os
 # 	 to offer a preview of the STL file. Install https://github.com/unlimitedbacon/stl-thumb/
 # 	 is a requirement for this function
 
-def create_thumbnail(stl_path, output_path):
+def create_thumbnail(stl_path):
+	name = strip_extension(stl_path) + '.png'
+	output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
+
 	stl_thumb_exe = 'C:\\Program Files\\stl-thumb\\stl-thumb.exe'  # Default is windows
 	if platform.system() == 'Linux':
 		stl_thumb_exe = 'stl-thumb'
@@ -25,10 +30,10 @@ def create_thumbnail(stl_path, output_path):
 	if process.returncode == 0:
 		print('Created Thumbnail at {}'.format(output_path))
 
-def delete_files(*args):
-	for path in args:
-		if os.path.exists(path):
-			os.remove(path)
+def delete_thumbnail(file_path):
+	name = strip_extension(file_path) + '.png'
+	png_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
+	os.remove(png_path)
 
 def get_file_name(path):
     return path.split("/")[-1]
