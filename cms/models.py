@@ -64,7 +64,7 @@ class MainFile(GenericFile):
     def delete(self, *args, **kwargs):
         name = remove_extension(self.file_name)
         png_path = os.path.join(settings.THUMBS_ROOT, name + '.png')
-        delete_files(self.document.path, png_path)
+        delete_files(png_path)
         super().delete(*args, **kwargs)
 
 class ExtraFile(GenericFile):
