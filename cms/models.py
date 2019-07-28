@@ -34,7 +34,6 @@ class Entry(models.Model):
                 self.add_file(ExtraFile, file)
 
 class File(models.Model):
-    entry = models.ForeignKey(Entry, on_delete=models.CASCADE)
     document = models.FileField(upload_to='uploads/')
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
