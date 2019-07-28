@@ -1,11 +1,12 @@
 {% extends 'cms/base.html' %}
 {% load static %}
+{% load tags %}
 
 {% block content %}
   {% for main_file in uploads %}
     <div class="col-md-3">
       <div class="card">
-        <a href="{% url 'detail' main_file.entry.id %}"><img class="img" alt="{{ main_file.entry.name }}" src="{% get_media_prefix %}thumbs/{{ main_file.remove_extension }}.png" /></a>
+        <a href="{% url 'detail' main_file.entry.id %}"><img class="img" alt="{{ main_file.entry.name }}" src="{% get_media_prefix %}thumbs/{% get_file_name main_file.document.path %}.png" /></a>
         <div class="card-block">
           <a href="{% url 'detail' main_file.entry.id %}"><h5 class="card-title">{{ main_file.entry.name }}</h5></a>
           <p>{{ main_file.entry.date_created|date:"d M Y" }} {{ main_file.entry.date_created|time:"H:i" }}</p>
