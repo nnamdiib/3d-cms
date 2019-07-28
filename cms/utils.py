@@ -2,7 +2,6 @@ from django.conf import settings
 from .utils import *
 import subprocess
 import platform
-import ntpath
 import os
 # This file contains various helper functions needed for the app.
 # These helpers do not fit perfectly into the django structure of models,
