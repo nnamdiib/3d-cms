@@ -29,8 +29,7 @@ class Entry(models.Model):
         self.name = name or self.name
         if tags:
             self.tags.clear()
-            for tag in tags.split(','):
-                self.tags.add(tag.strip())
+            [self.tags.add(tag.strip()) for tag in tags.split(', ')]
         if main_file:
             MainFile.objects.filter(entry=self).update(document=file)
             self.add_file(MainFile, main_file)
