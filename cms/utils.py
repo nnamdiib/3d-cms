@@ -36,5 +36,5 @@ def get_file_name(path):
 def get_extension(file_path):
     return file_path.split('.')[1]
 
-def remove_extension(file_path):
+def strip_extension(file_path):
     return file_path.split('.')[0] if file_path else ''
