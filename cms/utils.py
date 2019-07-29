@@ -18,7 +18,6 @@ import os
 # views and controllers so we have created a special place for them.
 
 class MyCanvas(vispy.scene.SceneCanvas):
-
     def __init__(self, stl_path):
         vispy.scene.SceneCanvas.__init__(self, keys='interactive', size=(540, 360), bgcolor='w')
         self.unfreeze()
