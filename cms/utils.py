@@ -18,7 +18,7 @@ import vispy.scene
 # views and controllers so we have created a special place for them.
 
 class Canvas(vispy.scene.SceneCanvas):
-    def __init__(self, stl_path):
+    def __init__(self, model_path):
         vispy.scene.SceneCanvas.__init__(self, keys='interactive', size=(540, 360), bgcolor='w')
         self.unfreeze()
         self.meshes = []
@@ -26,15 +26,15 @@ class Canvas(vispy.scene.SceneCanvas):
         view.camera = 'turntable'
         view.camera.fov = 50
         view.camera.distance = 25
-        mesh = trimesh.load(stl_path)
+        mesh = trimesh.load(model_path)
         mdata = geometry.MeshData(mesh.vertices, mesh.faces)
         self.meshes.append(visuals.Mesh(meshdata=mdata, shading='flat', parent=view.scene))
         self.freeze()
 
-def create_thumbnail(stl_path, size='200'):
-	name = strip_extension(stl_path) + '.png'
+def create_thumbnail(model_path, size='200'):
+	name = strip_extension(model_path) + '.png'
 	output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
-	win = Canvas(stl_path)
+	win = Canvas(model_path)
 	img = win.render()
 	io.write_png(output_path, img)
 
