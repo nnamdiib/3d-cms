@@ -48,11 +48,15 @@ class File(models.Model):
 
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
+    x_dims = models.FloatField(null=True, blank=True)
+    y_dims = models.FloatField(null=True, blank=True)
+    z_dims = models.FloatField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         create_thumbnail(self.document.path)
-
+        self.x_dims, self.y_dims, self.z_dims = get_dims(self.document.path)
+        
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)
         super().delete(*args, **kwargs)

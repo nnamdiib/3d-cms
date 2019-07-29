@@ -2,6 +2,7 @@ from django.conf import settings
 import subprocess
 import platform
 import os
+import stl
 
 import numpy as np
 from vispy import app, gloo, geometry, io
@@ -32,11 +33,11 @@ class Canvas(vispy.scene.SceneCanvas):
         self.freeze()
 
 def create_thumbnail(model_path, size='200'):
-	name = strip_extension(model_path) + '.png'
-	output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
-	win = Canvas(model_path)
-	img = win.render()
-	io.write_png(output_path, img)
+    name = strip_extension(model_path) + '.png'
+    output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
+    win = Canvas(model_path)
+    img = win.render()
+    io.write_png(output_path, img)
     win.close()
 
 def delete_thumbnail(file_path):
@@ -44,6 +45,34 @@ def delete_thumbnail(file_path):
 	png_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
 	if os.path.exists(png_path):
 		os.remove(png_path)
+
+def find_mins_maxs(obj):
+    minx = maxx = miny = maxy = minz = maxz = None
+    for p in obj.vertices:
+        # p contains (x, y, z)
+        if minx is None:
+            minx = p[stl.Dimension.X]
+            maxx = p[stl.Dimension.X]
+            miny = p[stl.Dimension.Y]
+            maxy = p[stl.Dimension.Y]
+            minz = p[stl.Dimension.Z]
+            maxz = p[stl.Dimension.Z]
+        else:
+            maxx = max(p[stl.Dimension.X], maxx)
+            minx = min(p[stl.Dimension.X], minx)
+            maxy = max(p[stl.Dimension.Y], maxy)
+            miny = min(p[stl.Dimension.Y], miny)
+            maxz = max(p[stl.Dimension.Z], maxz)
+            minz = min(p[stl.Dimension.Z], minz)
+    return minx, maxx, miny, maxy, minz, maxz
+
+def get_dims(file_path):
+    model = trimesh.load(file_path)
+    minx, maxx, miny, maxy, minz, maxz = find_mins_maxs(model)
+    x_dims = maxx - minx
+    y_dims = maxy - miny
+    z_dims = maxz - minz
+    return x_dims, y_dims, z_dims
 
 def delete_file(file_path):
 	os.remove(file_path)
