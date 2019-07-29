@@ -29,6 +29,7 @@ class Canvas(vispy.scene.SceneCanvas):
         mesh = trimesh.load(model_path)
         mdata = geometry.MeshData(mesh.vertices, mesh.faces)
         self.meshes.append(visuals.Mesh(meshdata=mdata, shading='flat', parent=view.scene))
+        self.freeze()
 
 def create_thumbnail(model_path, size='200'):
 	name = strip_extension(model_path) + '.png'
@@ -36,6 +37,7 @@ def create_thumbnail(model_path, size='200'):
 	win = Canvas(model_path)
 	img = win.render()
 	io.write_png(output_path, img)
+    win.close()
 
 def delete_thumbnail(file_path):
 	name = strip_extension(file_path) + '.png'
