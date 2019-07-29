@@ -33,7 +33,6 @@ class Canvas(vispy.scene.SceneCanvas):
         self.freeze()
 
 def create_thumbnail(file_path, z):
-    size = '200'
     name = strip_ext(file_path) + '.png'
     output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
     win = Canvas(file_path, z)
