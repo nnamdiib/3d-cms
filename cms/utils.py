@@ -19,23 +19,22 @@ import vispy.scene
 # views and controllers so we have created a special place for them.
 
 class Canvas(vispy.scene.SceneCanvas):
-    def __init__(self, file_path, z):
+    def __init__(self, model, z):
         vispy.scene.SceneCanvas.__init__(self, bgcolor='w')
         self.unfreeze()
         self.meshes = []
         view = self.central_widget.add_view()
-        mesh = trimesh.load_mesh(file_path)
-        mdata = geometry.MeshData(mesh.vertices, mesh.faces)
+        mdata = geometry.MeshData(model.vertices, model.faces)
         self.meshes.append(visuals.Mesh(meshdata=mdata, shading='flat', parent=view.scene))
         view.camera = vispy.scene.TurntableCamera()
         view.camera.fov = 30
         view.camera.distance = (z * 3.5)
         self.freeze()
 
-def create_thumbnail(file_path, z):
+def create_thumbnail(file_path, model, z):
     name = strip_ext(file_path) + '.png'
     output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
-    win = Canvas(file_path, z)
+    win = Canvas(model, z)
     img = win.render()
     io.write_png(output_path, img)
     win.close()
@@ -46,8 +45,7 @@ def delete_thumbnail(file_path):
 	if os.path.exists(png_path):
 		os.remove(png_path)
 
-def get_dims(file_path):
-    model = trimesh.load_mesh(file_path)
+def get_dims(model):
     minx, maxx, miny, maxy, minz, maxz = find_mins_maxs(model)
     x_dims = maxx - minx
     y_dims = maxy - miny
