@@ -30,12 +30,14 @@ class Entry(models.Model):
             self.tags.clear()
             for tag in tags.split(','):
                 self.tags.add(tag.strip())
+        if extra_files:
+            for file in extra_files:
+                if file.name.endswith(".mtl"):
+                    file.name = strip_ext(main_file.name) + ".obj.mtl"
+                self.add_file(ExtraFile, file)
         if main_file:
             self.delete_if_exists(MainFile)
             self.add_file(MainFile, main_file)
-        if extra_files:
-            for file in extra_files:
-                self.add_file(ExtraFile, file)
 
 class File(models.Model):
     document = models.FileField(upload_to='uploads/')

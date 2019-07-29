@@ -34,7 +34,7 @@ class Canvas(vispy.scene.SceneCanvas):
 
 def create_thumbnail(model_path, z):
     size = '200'
-    name = strip_extension(model_path) + '.png'
+    name = strip_ext(model_path) + '.png'
     output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
     win = Canvas(model_path, z)
     img = win.render()
@@ -42,7 +42,7 @@ def create_thumbnail(model_path, z):
     win.close()
 
 def delete_thumbnail(file_path):
-	name = strip_extension(file_path) + '.png'
+	name = strip_ext(file_path) + '.png'
 	png_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
 	if os.path.exists(png_path):
 		os.remove(png_path)
@@ -81,8 +81,8 @@ def delete_file(file_path):
 def get_file_name(path):
     return path.split("/")[-1]
 
-def get_extension(file_path):
+def get_ext(file_path):
     return file_path.split('.')[1]
 
-def strip_extension(file_path):
+def strip_ext(file_path):
     return file_path.split('.')[0] if file_path else ''

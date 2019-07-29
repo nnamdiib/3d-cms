@@ -94,7 +94,7 @@ def fetch(request, file_name):
 def serve(file_path):
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read())
-        extension = get_extension(file_path)
+        extension = get_ext(file_path)
         response['Content-Disposition'] = 'attachment;filename=' + get_file_name(file_path)
         return response
 
