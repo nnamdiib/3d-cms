@@ -85,16 +85,8 @@
           <td>{{ entry.date_created|date:"d M Y" }} {{ entry.date_created|time:"H:i" }}</td>
         </tr>
         <tr>
-          <td>X</td>
-          <td>{{ main_file.x_dims }}</td>
-        </tr>
-        <tr>
-          <td>Y</td>
-          <td>{{ main_file.y_dims }}</td>
-        </tr>
-        <tr>
-          <td>Z</td>
-          <td>{{ main_file.z_dims }}</td>
+          <td>X, Y, Z</td>
+          <td>{{ main_file.dims }}</td>
         </tr>
         {% if extra_files %}
         <tr>

@@ -51,14 +51,13 @@ class File(models.Model):
 
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
-    x_dims = models.FloatField(null=True, blank=True)
-    y_dims = models.FloatField(null=True, blank=True)
-    z_dims = models.FloatField(null=True, blank=True)
+    dims = models.CharField(max_length=255, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         create_thumbnail(self.document.path)
-        self.x_dims, self.y_dims, self.z_dims = get_dims(self.document.path)
+        x, y, z = get_dims(self.document.path)
+        self.dims = str(x) + ", " + str(y) + ", " + str(z)
 
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)
