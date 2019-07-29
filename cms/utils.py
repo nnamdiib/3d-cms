@@ -1,3 +1,8 @@
+from django.conf import settings
+import subprocess
+import platform
+import os
+
 import numpy as np
 from vispy import app, gloo, geometry, io
 from vispy.geometry import create_sphere
@@ -7,11 +12,6 @@ from vispy.visuals.transforms import (STTransform, MatrixTransform,
 
 import trimesh
 import vispy.scene
-
-from django.conf import settings
-import subprocess
-import platform
-import os
 
 # This file contains various helper functions needed for the app.
 # These helpers do not fit perfectly into the django structure of models,
