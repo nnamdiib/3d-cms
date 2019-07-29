@@ -25,11 +25,10 @@ class Canvas(vispy.scene.SceneCanvas):
         view = self.central_widget.add_view()
         view.camera = 'turntable'
         view.camera.fov = 50
-        view.camera.distance = 25
+        view.camera.distance = 30
         mesh = trimesh.load(model_path)
         mdata = geometry.MeshData(mesh.vertices, mesh.faces)
         self.meshes.append(visuals.Mesh(meshdata=mdata, shading='flat', parent=view.scene))
-        self.freeze()
 
 def create_thumbnail(model_path, size='200'):
 	name = strip_extension(model_path) + '.png'
