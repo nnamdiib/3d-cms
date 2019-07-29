@@ -19,12 +19,12 @@ import vispy.scene
 # views and controllers so we have created a special place for them.
 
 class Canvas(vispy.scene.SceneCanvas):
-    def __init__(self, model_path, z):
-        vispy.scene.SceneCanvas.__init__(self, dpi=100, bgcolor='w')
+    def __init__(self, file_path, z):
+        vispy.scene.SceneCanvas.__init__(self, bgcolor='w')
         self.unfreeze()
         self.meshes = []
         view = self.central_widget.add_view()
-        mesh = trimesh.load(model_path)
+        mesh = trimesh.load(file_path)
         mdata = geometry.MeshData(mesh.vertices, mesh.faces)
         self.meshes.append(visuals.Mesh(meshdata=mdata, shading='flat', parent=view.scene))
         view.camera = vispy.scene.TurntableCamera()
@@ -32,11 +32,11 @@ class Canvas(vispy.scene.SceneCanvas):
         view.camera.distance = (z * 3.5)
         self.freeze()
 
-def create_thumbnail(model_path, z):
+def create_thumbnail(file_path, z):
     size = '200'
-    name = strip_ext(model_path) + '.png'
+    name = strip_ext(file_path) + '.png'
     output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
-    win = Canvas(model_path, z)
+    win = Canvas(file_path, z)
     img = win.render()
     io.write_png(output_path, img)
     win.close()
@@ -46,6 +46,14 @@ def delete_thumbnail(file_path):
 	png_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
 	if os.path.exists(png_path):
 		os.remove(png_path)
+
+def get_dims(file_path):
+    model = trimesh.load(file_path)
+    minx, maxx, miny, maxy, minz, maxz = find_mins_maxs(model)
+    x_dims = maxx - minx
+    y_dims = maxy - miny
+    z_dims = maxz - minz
+    return round(x_dims, 2), round(y_dims, 2), round(z_dims, 2)
 
 def find_mins_maxs(obj):
     minx = maxx = miny = maxy = minz = maxz = None
@@ -66,14 +74,6 @@ def find_mins_maxs(obj):
             maxz = max(p[stl.Dimension.Z], maxz)
             minz = min(p[stl.Dimension.Z], minz)
     return minx, maxx, miny, maxy, minz, maxz
-
-def get_dims(file_path):
-    model = trimesh.load(file_path)
-    minx, maxx, miny, maxy, minz, maxz = find_mins_maxs(model)
-    x_dims = maxx - minx
-    y_dims = maxy - miny
-    z_dims = maxz - minz
-    return round(x_dims, 2), round(y_dims, 2), round(z_dims, 2)
 
 def delete_file(file_path):
 	os.remove(file_path)
