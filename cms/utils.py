@@ -29,7 +29,7 @@ class Canvas(vispy.scene.SceneCanvas):
         self.meshes.append(visuals.Mesh(meshdata=mdata, shading='smooth', parent=view.scene))
         view.camera = vispy.scene.TurntableCamera()
         view.camera.fov = 30
-        view.camera.distance = x * 7
+        view.camera.distance = x * 4
         self.freeze()
 
 def create_thumbnail(model_path, x):
