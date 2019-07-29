@@ -17,7 +17,7 @@ import os
 # These helpers do not fit perfectly into the django structure of models,
 # views and controllers so we have created a special place for them.
 
-class MyCanvas(vispy.scene.SceneCanvas):
+class Canvas(vispy.scene.SceneCanvas):
     def __init__(self, stl_path):
         vispy.scene.SceneCanvas.__init__(self, keys='interactive', size=(540, 360), bgcolor='w')
         self.unfreeze()
@@ -34,7 +34,7 @@ class MyCanvas(vispy.scene.SceneCanvas):
 def create_thumbnail(stl_path, size='200'):
 	name = strip_extension(stl_path) + '.png'
 	output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
-	win = MyCanvas(stl_path)
+	win = Canvas(stl_path)
 	img = win.render()
 	io.write_png(output_path,img)
 
