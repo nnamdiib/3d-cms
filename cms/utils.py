@@ -25,7 +25,7 @@ class Canvas(vispy.scene.SceneCanvas):
         view = self.central_widget.add_view()
         view.camera = 'turntable'
         view.camera.fov = 50
-        view.camera.distance = 30
+        view.camera.distance = 25
         mesh = trimesh.load(stl_path)
         mdata = geometry.MeshData(mesh.vertices, mesh.faces)
         self.meshes.append(visuals.Mesh(meshdata=mdata, shading='flat', parent=view.scene))
@@ -36,7 +36,7 @@ def create_thumbnail(stl_path, size='200'):
 	output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
 	win = Canvas(stl_path)
 	img = win.render()
-	io.write_png(output_path,img)
+	io.write_png(output_path, img)
 
 def delete_thumbnail(file_path):
 	name = strip_extension(file_path) + '.png'
