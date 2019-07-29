@@ -72,7 +72,7 @@ def get_dims(file_path):
     x_dims = maxx - minx
     y_dims = maxy - miny
     z_dims = maxz - minz
-    return round(x_dims, 4), round(y_dims, 4), round(z_dims, 4)
+    return round(x_dims, 2), round(y_dims, 2), round(z_dims, 2)
 
 def delete_file(file_path):
 	os.remove(file_path)
