@@ -17,6 +17,10 @@ class Entry(models.Model):
                 object_entry.delete()        
         super().delete(*args, **kwargs)
 
+    def delete_if_exists(self, entry_type):
+        if entry_type.objects.filter(entry=self).exists():
+            entry_type.objects.get(entry=self).delete()
+
     def add_file(self, entry_type, file):
         entry_type.objects.create(entry=self, document=file).save()
 
@@ -27,8 +31,7 @@ class Entry(models.Model):
             for tag in tags.split(','):
                 self.tags.add(tag.strip())
         if main_file:
-            if MainFile.objects.filter(entry=self).exists():
-                MainFile.objects.get(entry=self).delete()
+            self.delete_if_exists(MainFile)
             self.add_file(MainFile, main_file)
         if extra_files:
             for file in extra_files:
@@ -56,7 +59,7 @@ class MainFile(File):
         super().save(*args, **kwargs)
         create_thumbnail(self.document.path)
         self.x_dims, self.y_dims, self.z_dims = get_dims(self.document.path)
-        
+
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)
         super().delete(*args, **kwargs)
