@@ -19,7 +19,7 @@ import vispy.scene
 # views and controllers so we have created a special place for them.
 
 class Canvas(vispy.scene.SceneCanvas):
-    def __init__(self, model_path, x):
+    def __init__(self, model_path, z):
         vispy.scene.SceneCanvas.__init__(self, dpi=100, bgcolor='w')
         self.unfreeze()
         self.meshes = []
@@ -29,14 +29,14 @@ class Canvas(vispy.scene.SceneCanvas):
         self.meshes.append(visuals.Mesh(meshdata=mdata, shading='flat', parent=view.scene))
         view.camera = vispy.scene.TurntableCamera()
         view.camera.fov = 30
-        view.camera.distance = x * 4
+        view.camera.distance = (z * 3.5)
         self.freeze()
 
-def create_thumbnail(model_path, x):
+def create_thumbnail(model_path, z):
     size = '200'
     name = strip_extension(model_path) + '.png'
     output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
-    win = Canvas(model_path, x)
+    win = Canvas(model_path, z)
     img = win.render()
     io.write_png(output_path, img)
     win.close()

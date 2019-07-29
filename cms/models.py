@@ -57,7 +57,7 @@ class MainFile(File):
         super().save(*args, **kwargs)
         x, y, z = get_dims(self.document.path)
         self.dims = str(x) + ", " + str(y) + ", " + str(z)
-        create_thumbnail(self.document.path, x)
+        create_thumbnail(self.document.path, z)
 
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)
