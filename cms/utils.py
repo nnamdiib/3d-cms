@@ -26,7 +26,7 @@ class Canvas(vispy.scene.SceneCanvas):
         view = self.central_widget.add_view()
         mesh = trimesh.load(model_path)
         mdata = geometry.MeshData(mesh.vertices, mesh.faces)
-        self.meshes.append(visuals.Mesh(meshdata=mdata, shading='smooth', parent=view.scene))
+        self.meshes.append(visuals.Mesh(meshdata=mdata, shading='flat', parent=view.scene))
         view.camera = vispy.scene.TurntableCamera()
         view.camera.fov = 30
         view.camera.distance = x * 4
