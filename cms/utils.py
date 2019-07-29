@@ -24,7 +24,7 @@ class Canvas(vispy.scene.SceneCanvas):
         self.unfreeze()
         self.meshes = []
         view = self.central_widget.add_view()
-        mesh = trimesh.load(file_path)
+        mesh = trimesh.load_mesh(file_path)
         mdata = geometry.MeshData(mesh.vertices, mesh.faces)
         self.meshes.append(visuals.Mesh(meshdata=mdata, shading='flat', parent=view.scene))
         view.camera = vispy.scene.TurntableCamera()
@@ -48,7 +48,7 @@ def delete_thumbnail(file_path):
 		os.remove(png_path)
 
 def get_dims(file_path):
-    model = trimesh.load(file_path)
+    model = trimesh.load_mesh(file_path)
     minx, maxx, miny, maxy, minz, maxz = find_mins_maxs(model)
     x_dims = maxx - minx
     y_dims = maxy - miny
