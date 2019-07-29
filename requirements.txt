@@ -11,3 +11,4 @@ pyrender
 matplotlib
 networkx
 pyglet
+vispy
