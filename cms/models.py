@@ -38,8 +38,8 @@ class Entry(models.Model):
             for file in extra_files:
                 if file.name.endswith(".mtl"):
                     file.name = strip_ext(main_file.name) + ".obj.mtl"
-                    self.add_file(ExtraFile, file)
-        if main_file:
+                self.add_file(ExtraFile, file)
+        if main_file: # we create the thumbnail last, for texture access
             create_thumbnail(MainFile.objects.get(entry=self).document.path)
 
 class File(models.Model):
