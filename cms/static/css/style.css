@@ -59,12 +59,10 @@ footer {
 	min-width: 80%;
 }
 
-.babylon {
-	height: 480px; 
-	width: 640px;
-	margin-top: 20px;
-	margin-left: 20px;
-	overflow-y: auto;
+#renderCanvas {
+    width: 640px;
+    height: 480px;
+    margin: 15px;
 }
 
 input {
