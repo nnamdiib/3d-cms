@@ -17,9 +17,10 @@ import vispy.scene
 # These helpers do not fit perfectly into the django structure of models,
 # views and controllers so we have created a special place for them.
 
-def create_thumbnail(file_path, model):
+def create_thumbnail(file_path):
     name = strip_ext(file_path) + '.png'
     img_name = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
+    model = trimesh.load_mesh(file_path)
     canvas = vispy.scene.SceneCanvas(bgcolor='white')
     canvas.unfreeze()
     canvas.view = canvas.central_widget.add_view()

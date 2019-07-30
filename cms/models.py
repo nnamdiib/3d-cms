@@ -55,8 +55,7 @@ class MainFile(File):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        model = trimesh.load_mesh(self.document.path)
-        create_thumbnail(self.document.path, model)
+        create_thumbnail(self.document.path)
 
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)
