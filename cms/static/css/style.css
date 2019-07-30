@@ -76,3 +76,7 @@ input {
  .static-loading-image, .logo-button {
  	display: none !important;
  }
+
+ fill-container>* {
+ 	justify-content: center !important;
+ }
