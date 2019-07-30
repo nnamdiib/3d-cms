@@ -72,3 +72,7 @@ input {
 .red {
     color:  #8B0000;
  }
+
+ .static-loading-image, .logo-button {
+ 	display: none !important;
+ }
