@@ -18,8 +18,6 @@ import vispy.scene
 # views and controllers so we have created a special place for them.
 
 def create_thumbnail(file_path):
-    name = strip_ext(file_path) + '.png'
-    png_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
     model = trimesh.load_mesh(file_path)
     canvas = vispy.scene.SceneCanvas(bgcolor='white')
     canvas.unfreeze()
@@ -30,14 +28,16 @@ def create_thumbnail(file_path):
     canvas.view.camera.fov = 30
     canvas.view.camera.distance = 0
     img = canvas.render()
-    io.write_png(png_path, img)
+    img_name = strip_ext(file_path) + '.png'
+    img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
+    io.write_png(img_path, img)
     canvas.close()
 
 def delete_thumbnail(file_path):
-	name = strip_ext(file_path) + '.png'
-	png_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
-	if os.path.exists(png_path):
-		os.remove(png_path)
+	img_name = strip_ext(file_path) + '.png'
+	img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
+	if os.path.exists(img_path):
+		os.remove(img_path)
 
 def delete_file(file_path):
 	os.remove(file_path)
