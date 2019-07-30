@@ -19,7 +19,7 @@ import vispy.scene
 
 def create_thumbnail(file_path):
     name = strip_ext(file_path) + '.png'
-    img_name = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
+    png_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
     model = trimesh.load_mesh(file_path)
     canvas = vispy.scene.SceneCanvas(bgcolor='white')
     canvas.unfreeze()
@@ -30,7 +30,7 @@ def create_thumbnail(file_path):
     canvas.view.camera.fov = 30
     canvas.view.camera.distance = 0
     img = canvas.render()
-    io.write_png(img_name, img)
+    io.write_png(png_path, img)
     canvas.close()
 
 def delete_thumbnail(file_path):
