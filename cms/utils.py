@@ -25,7 +25,7 @@ def create_thumbnail(file_path):
     mesh = vispy.scene.visuals.Mesh(vertices=model.vertices, shading='flat', faces=model.faces)
     canvas.view.add(mesh)
     canvas.view.camera = vispy.scene.TurntableCamera()
-    canvas.view.camera.depth_value = 10
+    canvas.view.camera.depth_value = 1
     canvas.view.camera.fov = 30
     canvas.view.camera.distance = 0
     img = canvas.render()
