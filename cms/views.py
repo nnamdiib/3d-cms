@@ -110,6 +110,12 @@ def detail(request, stl_id):
     }
     return render(request, template, context)
 
+def detail_file(request, stl_id, file_name):
+    file_path = os.path.join(settings.UPLOADS_ROOT, file_name)
+    if os.path.exists(file_path):
+        return serve(file_path)
+    raise Http404
+
 def erase(request, file_id):
     entry = get_object_or_404(Entry, pk=file_id).delete()
     page = request.session['page']

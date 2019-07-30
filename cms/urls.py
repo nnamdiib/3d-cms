@@ -11,6 +11,7 @@ urlpatterns = [
     path('fetch/<str:file_name>/', views.fetch, name='fetch'),
     path('fetch/<str:file_type>/<str:file_name>/', views.fetch),
     path('detail/<int:stl_id>/', views.detail, name='detail'),
+    path('detail/<int:stl_id>/<str:file_name>', views.detail_file, name='detail_file'),
     path('erase/<int:file_id>/', views.erase, name='erase'),
     path('remove_extra/<int:entry_id>/<int:extra_file_id>/', views.remove_extra, name='remove_extra'),
     path('edit/<int:entry_id>/', views.edit, name='edit'),
