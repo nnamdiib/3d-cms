@@ -76,3 +76,9 @@ input {
  .static-loading-image, .logo-button {
  	display: none !important;
  }
+
+ loading-screen {
+    width: 640px;
+    height: 480px;
+    background-color: #000000;
+ }
