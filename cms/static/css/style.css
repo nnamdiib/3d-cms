@@ -54,12 +54,19 @@ footer {
 	min-width: 80%;
 }
 
-#renderCanvas {
+#renderCanvas, loading-screen {
     width: 640px;
     height: 480px;
+}
+
+#renderCanvas {
     margin: 20px;
     overflow: auto;
 }
+
+ loading-screen {
+    background-color: #000000;
+ }
 
 input {
 	display: block;
@@ -75,10 +82,4 @@ input {
 
  .static-loading-image, .logo-button {
  	display: none !important;
- }
-
- loading-screen {
-    width: 640px;
-    height: 480px;
-    background-color: #000000;
  }
