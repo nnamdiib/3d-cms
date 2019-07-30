@@ -5,11 +5,6 @@
 	background-color: 	#fffff2;
 }
 
-.box {
-	width: unset;
-	max-width: 610px;
-}
-
 .card a {
     text-decoration: none;
 }
@@ -76,4 +71,8 @@ input {
 
 .red {
     color:  #8B0000;
+ }
+
+ .static-loading-image, .logo-button {
+ 	display: none !important;
  }
