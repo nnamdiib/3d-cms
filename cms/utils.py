@@ -19,18 +19,17 @@ import vispy.scene
 
 def create_thumbnail(file_path, model, z):
     name = strip_ext(file_path) + '.png'
-    output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
+    img_name = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
     canvas = vispy.scene.SceneCanvas(bgcolor='white')
     canvas.unfreeze()
     canvas.view = canvas.central_widget.add_view()
-    mesh = vispy.scene.visuals.Mesh(vertices=model.vertices, shading='smooth', faces=model.faces)
+    mesh = vispy.scene.visuals.Mesh(vertices=model.vertices, shading='flat', faces=model.faces)
     canvas.view.add(mesh)
-    canvas.view.camera = vispy.scene.TurntableCamera()
     canvas.view.camera = vispy.scene.TurntableCamera()
     canvas.view.camera.fov = 30
     canvas.view.camera.distance = (z * 3.5)
     img = canvas.render()
-    io.write_png(output_path, img)
+    io.write_png(img_name, img)
     canvas.close()
 
 def delete_thumbnail(file_path):
