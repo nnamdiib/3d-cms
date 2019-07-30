@@ -4,13 +4,15 @@
 
 {% block extra_js %}
 
-    <script src="{% static 'js/babylon.viewer.js' %}"></script>
+  <script src="{% static 'js/babylon.viewer.js' %}"></script>
 
 {% endblock %}
 
 {% block content %}
 
-  <babylon class="babylon" model="{% fetch main_file.document.path %}"></babylon>
+  <div class="babylon">
+    <babylon model="{% fetch main_file.document.path %}"></babylon>
+  </div>
 
   <div class="col-md-3 detail">
     {% include 'cms/options.html' %}
