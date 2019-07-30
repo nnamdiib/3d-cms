@@ -52,13 +52,10 @@ class File(models.Model):
 
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
-    dims = models.CharField(max_length=255, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         model = trimesh.load_mesh(self.document.path)
-        x, y, z = get_dims(model)
-        self.dims = str(x) + ", " + str(y) + ", " + str(z)
         create_thumbnail(self.document.path, model)
 
     def delete(self, *args, **kwargs):

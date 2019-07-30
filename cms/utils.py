@@ -38,33 +38,6 @@ def delete_thumbnail(file_path):
 	if os.path.exists(png_path):
 		os.remove(png_path)
 
-def get_dims(model):
-    minx, maxx, miny, maxy, minz, maxz = find_mins_maxs(model)
-    x_dims = maxx - minx
-    y_dims = maxy - miny
-    z_dims = maxz - minz
-    return round(x_dims, 2), round(y_dims, 2), round(z_dims, 2)
-
-def find_mins_maxs(obj):
-    minx = maxx = miny = maxy = minz = maxz = None
-    vertices = np.asarray(obj.vertices)
-    for p in obj.vertices:
-        if minx is None:
-            minx = p[0]
-            maxx = p[0]
-            miny = p[1]
-            maxy = p[1]
-            minz = p[2]
-            maxz = p[2]
-        else:
-            maxx = max(p[0], maxx)
-            minx = min(p[0], minx)
-            maxy = max(p[1], maxy)
-            miny = min(p[1], miny)
-            maxz = max(p[2], maxz)
-            minz = min(p[2], minz)
-    return minx, maxx, miny, maxy, minz, maxz
-
 def delete_file(file_path):
 	os.remove(file_path)
 
