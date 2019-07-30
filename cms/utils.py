@@ -31,6 +31,7 @@ def create_thumbnail(file_path, model, z):
     canvas.view.camera.distance = (z * 3.5)
     img = canvas.render()
     io.write_png(output_path, img)
+    canvas.close()
 
 def delete_thumbnail(file_path):
 	name = strip_ext(file_path) + '.png'
