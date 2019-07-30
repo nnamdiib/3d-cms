@@ -2,7 +2,6 @@ from django.conf import settings
 import subprocess
 import platform
 import os
-import stl
 
 import numpy as np
 from vispy import app, gloo, geometry, io
@@ -18,26 +17,20 @@ import vispy.scene
 # These helpers do not fit perfectly into the django structure of models,
 # views and controllers so we have created a special place for them.
 
-class Canvas(vispy.scene.SceneCanvas):
-    def __init__(self, model, z):
-        vispy.scene.SceneCanvas.__init__(self, bgcolor='w')
-        self.unfreeze()
-        self.meshes = []
-        view = self.central_widget.add_view()
-        mdata = geometry.MeshData(model.vertices, model.faces)
-        self.meshes.append(visuals.Mesh(meshdata=mdata, shading='flat', parent=view.scene))
-        view.camera = vispy.scene.TurntableCamera()
-        view.camera.fov = 30
-        view.camera.distance = (z * 3.5)
-        self.freeze()
-
 def create_thumbnail(file_path, model, z):
     name = strip_ext(file_path) + '.png'
     output_path = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
-    win = Canvas(model, z)
-    img = win.render()
+    canvas = vispy.scene.SceneCanvas(bgcolor='white')
+    canvas.unfreeze()
+    canvas.view = canvas.central_widget.add_view()
+    mesh = vispy.scene.visuals.Mesh(vertices=model.vertices, shading='smooth', faces=model.faces)
+    canvas.view.add(mesh)
+    canvas.view.camera = vispy.scene.TurntableCamera()
+    canvas.view.camera = vispy.scene.TurntableCamera()
+    canvas.view.camera.fov = 30
+    canvas.view.camera.distance = (z * 3.5)
+    img = canvas.render()
     io.write_png(output_path, img)
-    win.close()
 
 def delete_thumbnail(file_path):
 	name = strip_ext(file_path) + '.png'
@@ -55,21 +48,20 @@ def get_dims(model):
 def find_mins_maxs(obj):
     minx = maxx = miny = maxy = minz = maxz = None
     for p in obj.vertices:
-        # p contains (x, y, z)
         if minx is None:
-            minx = p[stl.Dimension.X]
-            maxx = p[stl.Dimension.X]
-            miny = p[stl.Dimension.Y]
-            maxy = p[stl.Dimension.Y]
-            minz = p[stl.Dimension.Z]
-            maxz = p[stl.Dimension.Z]
+            minx = p[0]
+            maxx = p[0]
+            miny = p[1]
+            maxy = p[1]
+            minz = p[2]
+            maxz = p[2]
         else:
-            maxx = max(p[stl.Dimension.X], maxx)
-            minx = min(p[stl.Dimension.X], minx)
-            maxy = max(p[stl.Dimension.Y], maxy)
-            miny = min(p[stl.Dimension.Y], miny)
-            maxz = max(p[stl.Dimension.Z], maxz)
-            minz = min(p[stl.Dimension.Z], minz)
+            maxx = max(p[0], maxx)
+            minx = min(p[0], minx)
+            maxy = max(p[1], maxy)
+            miny = min(p[1], miny)
+            maxz = max(p[2], maxz)
+            minz = min(p[2], minz)
     return minx, maxx, miny, maxy, minz, maxz
 
 def delete_file(file_path):

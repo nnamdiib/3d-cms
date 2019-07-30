@@ -4,6 +4,7 @@ from django.conf import settings
 from taggit.managers import TaggableManager
 
 from .utils import *
+import numpy
 
 class Entry(models.Model):
     name = models.CharField(max_length=225)
