@@ -59,7 +59,7 @@ class MainFile(File):
         model = trimesh.load_mesh(self.document.path)
         x, y, z = get_dims(model)
         self.dims = str(x) + ", " + str(y) + ", " + str(z)
-        create_thumbnail(self.document.path, model, z)
+        create_thumbnail(self.document.path, model)
 
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)

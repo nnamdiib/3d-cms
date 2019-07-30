@@ -17,7 +17,7 @@ import vispy.scene
 # These helpers do not fit perfectly into the django structure of models,
 # views and controllers so we have created a special place for them.
 
-def create_thumbnail(file_path, model, z):
+def create_thumbnail(file_path, model):
     name = strip_ext(file_path) + '.png'
     img_name = os.path.join(settings.THUMBS_ROOT, get_file_name(name))
     canvas = vispy.scene.SceneCanvas(bgcolor='white')
@@ -27,7 +27,7 @@ def create_thumbnail(file_path, model, z):
     canvas.view.add(mesh)
     canvas.view.camera = vispy.scene.TurntableCamera()
     canvas.view.camera.fov = 30
-    canvas.view.camera.distance = (z * 3.5)
+    canvas.view.camera.distance = 0
     img = canvas.render()
     io.write_png(img_name, img)
     canvas.close()
@@ -47,6 +47,7 @@ def get_dims(model):
 
 def find_mins_maxs(obj):
     minx = maxx = miny = maxy = minz = maxz = None
+    vertices = np.asarray(obj.vertices)
     for p in obj.vertices:
         if minx is None:
             minx = p[0]
