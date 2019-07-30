@@ -36,7 +36,7 @@
         <div class="alert alert-info">Extra Files Present</div>
         <ol>
             {% for extra in extra_files %}
-                <li><a href="{% fetch extra.file_name %}">{{ extra.file_name }}</a><a href="{% url 'remove_extra' entry.id extra.id %}"><i class="fas fa-trash red erase"></i></a></li>
+                <li><a href="{% fetch extra.document.path %}">{% get_file_name extra.document.path %}</a><a href="{% url 'remove_extra' entry.id extra.id %}"><i class="fas fa-trash red erase"></i></a></li>
             {% endfor %}
             
         </ol>

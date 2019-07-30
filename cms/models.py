@@ -36,7 +36,11 @@ class Entry(models.Model):
             self.add_file(MainFile, main_file)
         if extra_files:
             for file in extra_files:
-                self.add_file(ExtraFile, file)
+                if file.name.endswith(".mtl"):
+                    file.name = strip_ext(main_file.name) + ".obj.mtl"
+                    self.add_file(ExtraFile, file)
+        if main_file:
+            create_thumbnail(MainFile.objects.get(entry=self).document.path)
 
 class File(models.Model):
     document = models.FileField(upload_to='uploads/')
@@ -52,10 +56,6 @@ class File(models.Model):
 
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        create_thumbnail(self.document.path)
 
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)
