@@ -26,6 +26,7 @@ class Entry(models.Model):
         entry_type.objects.create(entry=self, document=file).save()
 
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
+        mtl_found = False
         self.name = name or self.name
         if tags:
             self.tags.clear()
@@ -38,9 +39,13 @@ class Entry(models.Model):
             for file in extra_files:
                 if file.name.endswith(".mtl"):
                     file.name = strip_ext(main_file.name) + ".obj.mtl"
+                    mtl_found = True
                 self.add_file(ExtraFile, file)
-        if main_file: # we create the thumbnail last, for texture access
-            create_thumbnail(MainFile.objects.get(entry=self).document.path)
+        if main_file or mtl_found: # we create the thumbnail last, for texture access
+            main_path = MainFile.objects.get(entry=self).document.path
+            if mtl_found:
+                delete_thumbnail(main_path)
+            create_thumbnail(main_path)
 
 class File(models.Model):
     document = models.FileField(upload_to='uploads/')
