@@ -10,7 +10,8 @@
 
 {% block content %}
   <div id="renderCanvas">
-    <babylon model="{% fetch main_file.document.path %}"></babylon>
+    <babylon model="{% fetch main_file.document.path %}">
+    </babylon>
   </div>
   <div class="col-md-3 detail">
     {% include 'cms/options.html' %}
