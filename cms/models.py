@@ -43,8 +43,6 @@ class Entry(models.Model):
         if main_file or mtl_found: # we perform these last
             MFObject = MainFile.objects.get(entry=self)
             main_path = MFObject.document.path
-            if mtl_found:
-                delete_thumbnail(main_path)
             model = trimesh.load_mesh(main_path)
             create_thumbnail(main_path, model)
             dimensions = get_dimensions(model)
