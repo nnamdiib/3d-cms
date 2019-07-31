@@ -20,7 +20,6 @@ class Entry(models.Model):
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         mtl_found = False
         self.name = name or self.name
-        self.save()
         if tags:
             self.tags.clear()
             for tag in tags.split(','):
@@ -44,7 +43,8 @@ class Entry(models.Model):
             dimensions = get_dimensions(model)
             main_object.dimensions = ', '.join(dimensions)
             main_object.save()
-
+        self.save()
+        
 class File(models.Model):
     document = models.FileField(upload_to='uploads/')
     date_created = models.DateTimeField(auto_now_add=True)
