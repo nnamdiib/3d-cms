@@ -40,11 +40,10 @@ class Entry(models.Model):
             if mtl_found:
                 delete_thumbnail(main_path)
             create_thumbnail(main_path, model)
-            dimensions = get_dimensions(model)
-            main_object.dimensions = ', '.join(dimensions)
+            main_object.dimensions = get_dimensions(model)
             main_object.save()
         self.save()
-        
+
 class File(models.Model):
     document = models.FileField(upload_to='uploads/')
     date_created = models.DateTimeField(auto_now_add=True)

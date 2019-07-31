@@ -43,7 +43,8 @@ def get_dimensions(model):
     x = maxx - minx
     y = maxy - miny
     z = maxz - minz
-    dimensions = [str(round(x, 2)), str(round(y, 2)), str(round(z, 2))]
+    x_y_z = [str(round(x, 2)), str(round(y, 2)), str(round(z, 2))]
+    dimensions = ', '.join(x_y_z)
     return dimensions
 
 def delete_if_exists(self, entry_type):
