@@ -17,16 +17,6 @@ class Entry(models.Model):
                 object_entry.delete()        
         super().delete(*args, **kwargs)
 
-    def delete_if_exists(self, entry_type):
-        if entry_type.objects.filter(entry=self).exists():
-            entry_type.objects.get(entry=self).delete()
-
-    def add_file(self, entry_type, file):
-        entry_type.objects.create(entry=self, document=file).save()
-
-    def get_object(self, entry_type):
-        return entry_type.objects.get(entry=self)
-
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         mtl_found = False
         self.name = name or self.name
@@ -35,16 +25,16 @@ class Entry(models.Model):
             for tag in tags.split(','):
                 self.tags.add(tag.strip())
         if main_file:
-            self.delete_if_exists(MainFile)
-            self.add_file(MainFile, main_file)
+            delete_if_exists(self, MainFile)
+            add_file(self, MainFile, main_file)
         if extra_files:
             for file in extra_files:
                 if file.name.endswith(".mtl"):
                     file.name = strip_ext(main_file.name) + ".obj.mtl"
                     mtl_found = True
-                self.add_file(ExtraFile, file)
+                add_file(self, ExtraFile, file)
         if main_file or mtl_found: # we perform these last
-            main_object = self.get_object(MainFile)
+            main_object = get_object(self, MainFile)
             main_path = main_object.document.path
             model = trimesh.load_mesh(main_path)
             if mtl_found:

@@ -47,6 +47,16 @@ def get_dimensions(model):
     dimensions = [str(round(x, 2)), str(round(y, 2)), str(round(z, 2))]
     return dimensions
 
+def delete_if_exists(self, entry_type):
+    if entry_type.objects.filter(entry=self).exists():
+        entry_type.objects.get(entry=self).delete()
+
+def add_file(self, entry_type, file):
+    entry_type.objects.create(entry=self, document=file).save()
+
+def get_object(self, entry_type):
+    return entry_type.objects.get(entry=self)
+
 def delete_file(path):
 	os.remove(path)
 
