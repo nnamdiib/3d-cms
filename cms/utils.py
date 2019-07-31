@@ -38,14 +38,12 @@ def delete_thumbnail(path):
 	if os.path.exists(img_path):
 		os.remove(img_path)
 
-def get_dimensions(model):
+def get_metadata(model):
     minx, maxx, miny, maxy, minz, maxz = model.bounds.T.flatten()
     x = maxx - minx
     y = maxy - miny
     z = maxz - minz
-    x_y_z = [str(round(x, 2)), str(round(y, 2)), str(round(z, 2))]
-    dimensions = ', '.join(x_y_z)
-    return dimensions
+    return x, y, z
 
 def delete_if_exists(self, entry_type):
     if entry_type.objects.filter(entry=self).exists():

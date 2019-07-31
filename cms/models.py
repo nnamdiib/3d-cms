@@ -40,8 +40,11 @@ class Entry(models.Model):
             if mtl_found:
                 delete_thumbnail(main_path)
             create_thumbnail(main_path, model)
-            x, y, z = get_dimensions(model)
-            main_object.dimensions = dimensions
+            x, y, z = get_metadata(model)
+            main_object.x = round(x, 2)
+            main_object.y = round(y, 2)
+            main_object.z = round(z, 2)
+            main_object.vertices = vertices
             main_object.save()
         self.save()
 
@@ -59,7 +62,9 @@ class File(models.Model):
 
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
-    dimensions = models.CharField(max_length=225, blank=True, null=True)
+    x = models.FloatField(default=None)
+    y = models.FloatField(default=None)
+    z = models.FloatField(default=None)
 
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)
