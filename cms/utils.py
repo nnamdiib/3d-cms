@@ -16,17 +16,16 @@ import vispy.scene
 # This file contains various helper functions needed for the app.
 # These do not fit perfectly into the django structure of MVC.
 
-def create_thumbnail(path, model, el_value=0):
+def create_thumbnail(path, model, up="z"):
     canvas = vispy.scene.SceneCanvas(bgcolor='white')
     canvas.unfreeze()
     canvas.view = canvas.central_widget.add_view()
     mesh = vispy.scene.visuals.Mesh(vertices=model.vertices, shading='flat', faces=model.faces)
     canvas.view.add(mesh)
     if path.endswith(".obj"):
-        el_value = 90
-    canvas.view.camera = vispy.scene.TurntableCamera(elevation=el_value, azimuth=0)
+        up = "y"
+    canvas.view.camera = vispy.scene.TurntableCamera(up=up, fov=30)
     canvas.view.camera.depth_value = 1
-    canvas.view.camera.fov = 30
     img = canvas.render()
     img_name = rename_ext(path, '.png')
     img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
@@ -44,9 +43,7 @@ def get_dimensions(model):
     x = maxx - minx
     y = maxy - miny
     z = maxz - minz
-    x_y_z = [str(round(x, 2)), str(round(y, 2)), str(round(z, 2))]
-    dimensions = ', '.join(x_y_z)
-    return dimensions
+    return x, y, z
 
 def delete_if_exists(self, entry_type):
     if entry_type.objects.filter(entry=self).exists():
@@ -61,11 +58,11 @@ def get_object(self, entry_type):
 def delete_file(path):
 	os.remove(path)
 
-def get_file_name(path):
-    return path.split("/")[-1]
-
 def rename_ext(path, ext):
     return strip_ext(path) + ext
+
+def get_file_name(path):
+    return path.split("/")[-1]
 
 def get_ext(path):
     return path.split('.')[-1]

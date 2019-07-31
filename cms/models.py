@@ -40,7 +40,10 @@ class Entry(models.Model):
             if mtl_found:
                 delete_thumbnail(main_path)
             create_thumbnail(main_path, model)
-            main_object.dimensions = get_dimensions(model)
+            x, y, z = get_dimensions(model)
+            x_y_z = [str(round(x, 2)), str(round(y, 2)), str(round(z, 2))]
+            dimensions = ', '.join(x_y_z)
+            main_object.dimensions = dimensions
             main_object.save()
         self.save()
 
