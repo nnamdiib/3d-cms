@@ -42,7 +42,6 @@ class Entry(models.Model):
             main_object.x = round(x, 2)
             main_object.y = round(y, 2)
             main_object.z = round(z, 2)
-            main_object.vertices = vertices
             main_object.save()
         self.save()
 
@@ -60,9 +59,9 @@ class File(models.Model):
 
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
-    x = models.FloatField(default=None)
-    y = models.FloatField(default=None)
-    z = models.FloatField(default=None)
+    x = models.FloatField(null=True, default=None)
+    y = models.FloatField(null=True, default=None)
+    z = models.FloatField(null=True, default=None)
 
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)
