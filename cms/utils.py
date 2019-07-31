@@ -27,13 +27,13 @@ def create_thumbnail(path, model, up="z"):
     canvas.view.camera = vispy.scene.TurntableCamera(up=up, fov=30)
     canvas.view.camera.depth_value = 1
     img = canvas.render()
-    img_name = rename_ext(path, '.png')
+    img_name = change_ext(path, '.png')
     img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
     io.write_png(img_path, img)
     canvas.close()
 
 def delete_thumbnail(path):
-	img_name = rename_ext(path, '.png')
+	img_name = change_ext(path, '.png')
 	img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
 	if os.path.exists(img_path):
 		os.remove(img_path)
@@ -60,7 +60,7 @@ def get_object(self, entry_type):
 def delete_file(path):
 	os.remove(path)
 
-def rename_ext(path, ext):
+def change_ext(path, ext):
     return strip_ext(path) + ext
 
 def get_file_name(path):

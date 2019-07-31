@@ -30,7 +30,7 @@ class Entry(models.Model):
         if extra_files:
             for file in extra_files:
                 if file.name.endswith(".obj.mtl"):
-                    file.name = rename_ext(main_file.name, ".obj.mtl")
+                    file.name = change_ext(main_file.name, ".obj.mtl")
                     mtl_found = True
                 add_file(self, ExtraFile, file)
         if main_file or mtl_found: # we perform these last
