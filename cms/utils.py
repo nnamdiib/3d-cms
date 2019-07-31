@@ -61,11 +61,11 @@ def get_object(self, entry_type):
 def delete_file(path):
 	os.remove(path)
 
-def rename_ext(path, ext):
-    return strip_ext(path) + ext
-
 def get_file_name(path):
     return path.split("/")[-1]
+
+def rename_ext(path, ext):
+    return strip_ext(path) + ext
 
 def get_ext(path):
     return path.split('.')[-1]
