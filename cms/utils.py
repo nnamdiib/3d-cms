@@ -17,7 +17,7 @@ import vispy.scene
 # These helpers do not fit perfectly into the django structure of models,
 # views and controllers so we have created a special place for them.
 
-def create_thumbnail(file_path, model):
+def create_thumbnail(path, model):
     canvas = vispy.scene.SceneCanvas(bgcolor='white')
     canvas.unfreeze()
     canvas.view = canvas.central_widget.add_view()
@@ -28,13 +28,13 @@ def create_thumbnail(file_path, model):
     canvas.view.camera.fov = 30
     canvas.view.camera.distance = 0
     img = canvas.render()
-    img_name = strip_ext(file_path) + '.png'
+    img_name = strip_ext(path) + '.png'
     img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
     io.write_png(img_path, img)
     canvas.close()
 
-def delete_thumbnail(file_path):
-	img_name = strip_ext(file_path) + '.png'
+def delete_thumbnail(path):
+	img_name = strip_ext(path) + '.png'
 	img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
 	if os.path.exists(img_path):
 		os.remove(img_path)
@@ -47,14 +47,14 @@ def get_dimensions(model):
     dimensions = [str(round(x, 2)), str(round(y, 2)), str(round(z, 2))]
     return dimensions
 
-def delete_file(file_path):
-	os.remove(file_path)
+def delete_file(path):
+	os.remove(path)
 
 def get_file_name(path):
     return path.split("/")[-1]
 
-def get_ext(file_path):
-    return file_path.split('.')[1]
+def get_ext(path):
+    return path.split('.')[1]
 
-def strip_ext(file_path):
-    return file_path.split('.')[0] if file_path else ''
+def strip_ext(path):
+    return path.split('.')[0] if path else ''
