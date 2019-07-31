@@ -41,13 +41,13 @@ class Entry(models.Model):
                     mtl_found = True
                 self.add_file(ExtraFile, file)
         if main_file or mtl_found: # we perform these last
-            MFObject = MainFile.objects.get(entry=self)
-            main_path = MFObject.document.path
-            model = trimesh.load_mesh(main_path)
-            create_thumbnail(main_path, model)
+            main_file_obj = MainFile.objects.get(entry=self)
+            main_file_path = main_file_obj.document.path
+            model = trimesh.load_mesh(main_file_path)
+            create_thumbnail(main_file_path, model)
             dimensions = get_dimensions(model)
-            MFObject.dimensions = ', '.join(dimensions)
-            MFObject.save()
+            main_file_obj.dimensions = ', '.join(dimensions)
+            main_file_obj.save()
 
 class File(models.Model):
     document = models.FileField(upload_to='uploads/')
