@@ -24,6 +24,9 @@ class Entry(models.Model):
     def add_file(self, entry_type, file):
         entry_type.objects.create(entry=self, document=file).save()
 
+    def get_object(self, entry_type):
+        return entry_type.objects.get(entry=self)
+
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         mtl_found = False
         self.name = name or self.name
@@ -41,13 +44,15 @@ class Entry(models.Model):
                     mtl_found = True
                 self.add_file(ExtraFile, file)
         if main_file or mtl_found: # we perform these last
-            main_file_obj = MainFile.objects.get(entry=self)
-            main_file_path = main_file_obj.document.path
-            model = trimesh.load_mesh(main_file_path)
-            create_thumbnail(main_file_path, model)
+            main_object = self.get_object(MainFile)
+            main_path = main_object.document.path
+            model = trimesh.load_mesh(main_path)
+            if mtl_found:
+                delete_thumbnail(main_path)
+            create_thumbnail(main_path, model)
             dimensions = get_dimensions(model)
-            main_file_obj.dimensions = ', '.join(dimensions)
-            main_file_obj.save()
+            main_object.dimensions = ', '.join(dimensions)
+            main_object.save()
 
 class File(models.Model):
     document = models.FileField(upload_to='uploads/')
