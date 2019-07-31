@@ -18,7 +18,6 @@ class Entry(models.Model):
         super().delete(*args, **kwargs)
 
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
-        mtl_found = False
         self.name = name or self.name
         if tags:
             self.tags.clear()
@@ -31,9 +30,8 @@ class Entry(models.Model):
             for file in extra_files:
                 if file.name.endswith(".obj.mtl"):
                     file.name = change_ext(main_file.name, ".obj.mtl")
-                    mtl_found = True
                 add_file(self, ExtraFile, file)
-        if main_file or mtl_found: # we perform these last
+        if main_file: # we perform these last
             main_object = get_object(self, MainFile)
             main_path = main_object.document.path
             model = trimesh.load_mesh(main_path)
