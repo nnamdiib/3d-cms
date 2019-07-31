@@ -27,13 +27,13 @@ def create_thumbnail(path, model):
     canvas.view.camera.fov = 30
     canvas.view.camera.distance = 0
     img = canvas.render()
-    img_name = strip_ext(path) + '.png'
+    img_name = rename_ext(path, '.png')
     img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
     io.write_png(img_path, img)
     canvas.close()
 
 def delete_thumbnail(path):
-	img_name = strip_ext(path) + '.png'
+	img_name = rename_ext(path, '.png')
 	img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
 	if os.path.exists(img_path):
 		os.remove(img_path)
@@ -59,6 +59,9 @@ def get_object(self, entry_type):
 
 def delete_file(path):
 	os.remove(path)
+
+def rename_ext(path, ext):
+    return strip_ext(path) + ext
 
 def get_file_name(path):
     return path.split("/")[-1]
