@@ -7,6 +7,9 @@ from django.db.models import Q
 from django.conf import settings
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 
 from .models import Entry, MainFile, ExtraFile
 from .forms import UploadForm
@@ -20,6 +23,18 @@ def paginate(entries, request):
     request.session['page'] = page
     return paginator.get_page(page)
 
+def sign_up(request):
+    template = 'cms/register.html'
+    user_form = UserCreationForm(request.POST or None)
+    # user = authenticate(request, username=username, password=password)
+    if user_form.is_valid():
+        user = user_form.save()
+        login(request, user)
+        return redirect('index')
+    context = {'form': user_form}
+    return render(request, template, context)
+
+@login_required
 def index(request):
     template = 'cms/index.html'
     q = request.GET.get('q', None)

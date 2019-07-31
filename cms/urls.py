@@ -1,15 +1,19 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('login/', auth_views.LoginView.as_view(template_name='cms/login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('sign-up/', views.sign_up, name='sign_up'),
     path('upload/', views.upload, name='upload'),
     path('save/<int:file_id>/', views.save, name='save'),
     path('fetch/<str:file_name>/', views.fetch, name='fetch'),
-    path('fetch/<str:file_type>/<str:file_name>/', views.fetch),
+    path('fetch/<str:file_type>/<str:filename>/', views.fetch),
     path('detail/<int:stl_id>/', views.detail, name='detail'),
     path('detail/<int:stl_id>/<str:file_name>', views.detail_file, name='detail_file'),
     path('erase/<int:file_id>/', views.erase, name='erase'),

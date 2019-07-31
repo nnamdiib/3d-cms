@@ -142,3 +142,8 @@ if not os.path.exists(UPLOADS_ROOT):
 
 # For Django Taggit, to make tag look ups case insensitive
 TAGGIT_CASE_INSENSITIVE = True
+
+# URL to redirect logged in users to
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_REDIRECT_URL = 'login'
