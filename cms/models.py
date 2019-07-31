@@ -20,6 +20,7 @@ class Entry(models.Model):
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         mtl_found = False
         self.name = name or self.name
+        self.save()
         if tags:
             self.tags.clear()
             for tag in tags.split(','):
