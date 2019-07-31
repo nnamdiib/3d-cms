@@ -41,8 +41,6 @@ class Entry(models.Model):
                 delete_thumbnail(main_path)
             create_thumbnail(main_path, model)
             x, y, z = get_dimensions(model)
-            x_y_z = [str(round(x, 2)), str(round(y, 2)), str(round(z, 2))]
-            dimensions = ', '.join(x_y_z)
             main_object.dimensions = dimensions
             main_object.save()
         self.save()
