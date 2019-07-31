@@ -14,8 +14,7 @@ import trimesh
 import vispy.scene
 
 # This file contains various helper functions needed for the app.
-# These helpers do not fit perfectly into the django structure of models,
-# views and controllers so we have created a special place for them.
+# These do not fit perfectly into the django structure of MVC.
 
 def create_thumbnail(path, model):
     canvas = vispy.scene.SceneCanvas(bgcolor='white')
