@@ -41,10 +41,15 @@ class Entry(models.Model):
                     mtl_found = True
                 self.add_file(ExtraFile, file)
         if main_file or mtl_found: # we create the thumbnail last, for texture access
-            main_path = MainFile.objects.get(entry=self).document.path
+            MFObject = MainFile.objects.get(entry=self)
+            main_path = MFObject.document.path
             if mtl_found:
                 delete_thumbnail(main_path)
-            create_thumbnail(main_path)
+            model = trimesh.load_mesh(main_path)
+            create_thumbnail(main_path, model)
+            dimensions = get_dimensions(model)
+            MFObject.dimensions = ', '.join(dimensions)
+            MFObject.save()
 
 class File(models.Model):
     document = models.FileField(upload_to='uploads/')
@@ -60,6 +65,7 @@ class File(models.Model):
 
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
+    dimensions = models.CharField(max_length=225, blank=True, null=True)
 
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)

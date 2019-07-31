@@ -17,8 +17,7 @@ import vispy.scene
 # These helpers do not fit perfectly into the django structure of models,
 # views and controllers so we have created a special place for them.
 
-def create_thumbnail(file_path):
-    model = trimesh.load_mesh(file_path)
+def create_thumbnail(file_path, model):
     canvas = vispy.scene.SceneCanvas(bgcolor='white')
     canvas.unfreeze()
     canvas.view = canvas.central_widget.add_view()
@@ -39,6 +38,14 @@ def delete_thumbnail(file_path):
 	img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
 	if os.path.exists(img_path):
 		os.remove(img_path)
+
+def get_dimensions(model):
+    minx, maxx, miny, maxy, minz, maxz = model.bounds.T.flatten()
+    x = maxx - minx
+    y = maxy - miny
+    z = maxz - minz
+    dimensions = [str(round(x, 2)), str(round(y, 2)), str(round(z, 2))]
+    return dimensions
 
 def delete_file(file_path):
 	os.remove(file_path)

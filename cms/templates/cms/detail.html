@@ -38,6 +38,10 @@
           <td>Date</td>
           <td>{{ entry.date_created|date:"d M Y" }} {{ entry.date_created|time:"H:i" }}</td>
         </tr>
+        <tr>
+          <td>Dimensions</td>
+          <td>{{ main_file.dimensions }}</td>
+        </tr>
         {% if extra_files %}
         <tr>
           <td>Extra Files</td>
