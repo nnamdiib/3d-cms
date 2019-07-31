@@ -40,7 +40,7 @@ class Entry(models.Model):
                     file.name = strip_ext(main_file.name) + ".obj.mtl"
                     mtl_found = True
                 self.add_file(ExtraFile, file)
-        if main_file or mtl_found: # we create the thumbnail last, for texture access
+        if main_file or mtl_found: # we perform these last
             MFObject = MainFile.objects.get(entry=self)
             main_path = MFObject.document.path
             if mtl_found:
