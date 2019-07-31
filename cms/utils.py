@@ -17,13 +17,13 @@ import vispy.scene
 # These do not fit perfectly into the django structure of MVC.
 
 def create_thumbnail(path, model, up="z"):
+    if path.endswith(".obj"):
+        up = "y"
     canvas = vispy.scene.SceneCanvas(bgcolor='white')
     canvas.unfreeze()
     canvas.view = canvas.central_widget.add_view()
     mesh = vispy.scene.visuals.Mesh(vertices=model.vertices, shading='flat', faces=model.faces)
     canvas.view.add(mesh)
-    if path.endswith(".obj"):
-        up = "y"
     canvas.view.camera = vispy.scene.TurntableCamera(up=up, fov=30)
     canvas.view.camera.depth_value = 1
     img = canvas.render()
@@ -42,10 +42,11 @@ def delete_thumbnail(path):
 
 def get_metadata(model):
     minx, maxx, miny, maxy, minz, maxz = model.bounds.T.flatten()
+    vertices = len(model.vertices)
     x = maxx - minx
     y = maxy - miny
     z = maxz - minz
-    return x, y, z
+    return x, y, z, vertices
 
 def delete_if_exists(self, entry_type):
     if entry_type.objects.filter(entry=self).exists():
