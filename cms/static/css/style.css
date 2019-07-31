@@ -23,6 +23,8 @@
 .card {
 	padding: 10px; 
 	margin: 10px;
+	min-height: 316px;
+	min-width: 409.5px;
 }
 
 .col-xs-2 {
