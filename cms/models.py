@@ -6,7 +6,7 @@ from taggit.managers import TaggableManager
 from .utils import *
 
 class Entry(models.Model):
-    name = models.CharField(max_length=225)
+    name = models.CharField(max_length=140)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     tags = TaggableManager(blank=True)
@@ -36,6 +36,10 @@ class Entry(models.Model):
             main_path = main_object.document.path
             model = trimesh.load_mesh(main_path)
             create_thumbnail(main_path, model)
+            dimensions, vertices = get_metadata(model)
+            main_object.vertices = vertices
+            main_object.dimensions = dimensions
+            main_object.save()
         self.save()
 
 class File(models.Model):
@@ -52,6 +56,8 @@ class File(models.Model):
 
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
+    vertices = models.IntegerField(null=True, default=None)
+    dimensions = models.CharField(max_length=30, null=True, default=None)
 
     def delete(self, *args, **kwargs):
         delete_thumbnail(self.document.path)

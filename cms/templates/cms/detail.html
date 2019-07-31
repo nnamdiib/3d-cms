@@ -35,6 +35,14 @@
           <td>{{ main_file.document.size|filesizeformat }}</td>
         </tr>
         <tr>
+          <td>Vertices</td>
+          <td>{{ main_file.vertices }}</td>
+        </tr>
+        <tr>
+          <td>X, Y, Z</td>
+          <td>{{ main_file.dimensions }}</td>
+        </tr>
+        <tr>
           <td>Date</td>
           <td>{{ entry.date_created|date:"d M Y" }} {{ entry.date_created|time:"H:i" }}</td>
         </tr>
