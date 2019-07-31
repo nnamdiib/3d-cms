@@ -37,8 +37,6 @@ class Entry(models.Model):
             main_object = get_object(self, MainFile)
             main_path = main_object.document.path
             model = trimesh.load_mesh(main_path)
-            if mtl_found:
-                delete_thumbnail(main_path)
             create_thumbnail(main_path, model)
             x, y, z = get_metadata(model)
             main_object.x = round(x, 2)

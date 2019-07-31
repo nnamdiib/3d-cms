@@ -29,6 +29,8 @@ def create_thumbnail(path, model, up="z"):
     img = canvas.render()
     img_name = change_ext(path, '.png')
     img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
+    if os.path.exists(img_path):
+        os.path.remove(img_path)
     io.write_png(img_path, img)
     canvas.close()
 
