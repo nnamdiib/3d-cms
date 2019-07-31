@@ -54,7 +54,7 @@ def get_file_name(path):
     return path.split("/")[-1]
 
 def get_ext(path):
-    return path.split('.')[1]
+    return path.split('.')[-1]
 
 def strip_ext(path):
     return path.split('.')[0] if path else ''
