@@ -73,7 +73,7 @@ footer {
 
 input {
 	display: block;
-	font-size: 15px;
+	font-size: 15px !important;
 }
 
 .erase {
@@ -102,7 +102,5 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  font-size: 15px;
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
-  transition: background-color 5000s ease-in-out 0s;
+  font-size: 15px !important;
 }
