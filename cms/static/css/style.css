@@ -73,6 +73,7 @@ footer {
 
 input {
 	display: block;
+	font-size: 15px !important;
 }
 
 .erase {
@@ -85,4 +86,8 @@ input {
 
  .static-loading-image, .logo-button {
  	display: none !important;
+ }
+
+ .nav-item {
+ 	padding-left: 5px;
  }

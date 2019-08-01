@@ -23,7 +23,7 @@ def paginate(entries, request):
     request.session['page'] = page
     return paginator.get_page(page)
 
-def sign_up(request):
+def register(request):
     template = 'cms/register.html'
     user_form = UserCreationForm(request.POST or None)
     # user = authenticate(request, username=username, password=password)
