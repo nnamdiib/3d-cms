@@ -102,14 +102,12 @@ def save(request, file_id):
         return serve(request, file_path)
     raise Http404
 
-@login_required
 def fetch(request, file_name):
     file_path = os.path.join(settings.UPLOADS_ROOT, file_name)
     if os.path.exists(file_path):
         return serve(request, file_path)
     raise Http404
 
-@login_required
 def serve(request, file_path):
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read())
@@ -117,7 +115,6 @@ def serve(request, file_path):
         response['Content-Disposition'] = 'attachment;filename=' + get_file_name(file_path)
         return response
 
-@login_required
 def detail(request, stl_id):
     template = 'cms/detail.html'
     entry = get_object_or_404(Entry, pk=stl_id)
@@ -130,7 +127,6 @@ def detail(request, stl_id):
     }
     return render(request, template, context)
 
-@login_required
 def detail_file(request, stl_id, file_name):
     file_path = os.path.join(settings.UPLOADS_ROOT, file_name)
     if os.path.exists(file_path):
