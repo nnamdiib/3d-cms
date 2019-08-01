@@ -1,11 +1,13 @@
 from django.db import models
 from django.conf import settings
+from django.contrib.auth.models import User
 
 from taggit.managers import TaggableManager
 
 from .utils import *
 
 class Entry(models.Model):
+    user = models.ForeignKey(User, related_name='entry', on_delete=models.CASCADE, default=1)
     name = models.CharField(max_length=140)
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
