@@ -99,7 +99,7 @@ def save(request, file_id):
     main_file = MainFile.objects.get(entry=entry)
     file_path = main_file.document.path
     if os.path.exists(file_path):
-        return serve(file_path)
+        return serve(request, file_path)
     raise Http404
 
 @login_required
@@ -134,7 +134,7 @@ def detail(request, stl_id):
 def detail_file(request, stl_id, file_name):
     file_path = os.path.join(settings.UPLOADS_ROOT, file_name)
     if os.path.exists(file_path):
-        return serve(file_path)
+        return serve(request, file_path)
     raise Http404
 
 @login_required
