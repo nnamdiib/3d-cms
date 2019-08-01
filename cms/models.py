@@ -54,7 +54,7 @@ class File(models.Model):
         abstract = True
 
     def delete(self, *args, **kwargs):
-        delete_file(self.document.path)
+        os.remove(self.document.path)
         super().delete(*args, **kwargs)
 
 class MainFile(File):

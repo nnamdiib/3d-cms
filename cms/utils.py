@@ -60,9 +60,6 @@ def add_file(self, entry_type, file):
 def get_object(self, entry_type):
     return entry_type.objects.get(entry=self)
 
-def delete_file(path):
-	os.remove(path)
-
 def change_ext(path, ext):
     return strip_ext(path) + ext
 
