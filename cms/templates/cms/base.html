@@ -19,13 +19,13 @@
         <div class="col-md-12">
           <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="{% url 'index' %}">ModelSpace</a>
-            {% if request.user.is_authenticated %}
               <form autocomplete="off" class="form-inline" action="/" method="get">
                 <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search for models..." required /> 
                 <button class="btn btn-primary my-2 my-sm-0" type="submit">
                   <i class="fas fa-search" aria-hidden="true"></i>
                 </button>
               </form>
+            {% if request.user.is_authenticated %}
               <ul class="navbar-nav ml-md-auto">
                 <li class="nav-item active">
                    <a class="btn btn-success" href="{% url 'upload' %}">Upload</a>
