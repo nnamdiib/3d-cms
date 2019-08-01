@@ -60,7 +60,7 @@ class File(models.Model):
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
     vertices = models.IntegerField(null=True, default=None)
-    polgyons = models.IntegerField(null=True, default=None)
+    polygons = models.IntegerField(null=True, default=None)
     x_axis = models.FloatField(null=True, default=None)
     y_axis = models.FloatField(null=True, default=None)
     z_axis = models.FloatField(null=True, default=None)

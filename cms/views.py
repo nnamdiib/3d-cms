@@ -109,7 +109,6 @@ def fetch(request, file_name):
         return serve(file_path)
     raise Http404
 
-@login_required
 def serve(file_path):
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read())
