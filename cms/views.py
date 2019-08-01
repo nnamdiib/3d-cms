@@ -39,9 +39,9 @@ def index(request):
     q = request.GET.get('q', None)
     if q:
         return search(request, q)    
-    main_files = MainFile.objects.all().select_related('entry').order_by('-date_created')
+    entries = Entry.objects.all().select_related('user').order_by('-date_created')
 
-    uploads = paginate(main_files, request)
+    uploads = paginate(entries, request)
     context = {'uploads': uploads}
     return render(request, template, context)
 

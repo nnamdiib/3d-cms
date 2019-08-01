@@ -19,6 +19,9 @@ class Entry(models.Model):
                 object_entry.delete()        
         super().delete(*args, **kwargs)
 
+    def get_main_file(self):
+        return MainFile.objects.get(entry=self)
+
     def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
         self.name = name or self.name
         if tags:

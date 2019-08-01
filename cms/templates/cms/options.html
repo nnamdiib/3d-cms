@@ -1,19 +1,10 @@
 {% load tags %}
 
-{% if detail %}
-	<div class="buttons">
-		{% if entry.user == request.user %}
-			<div class="button"><a class="btn btn-danger" href="{% url 'erase' entry.id %}">Erase</a> </div>
-			<div class="button"><a class="btn btn-primary" href="{% url 'edit' entry.id %}">Edit</a></div>
-		{% endif %}
-		<div class="button"><a class="btn btn-success" href="{% url 'save' entry.id %}">Save</a></div>
-	</div>
-{% else %}
-	<div class="buttons">
-		{% if main_file.entry.user == request.user %}
-			<div class="button"><a class="btn btn-danger" href="{% url 'erase' main_file.entry.id %}">Erase</a> </div>
-			<div class="button"><a class="btn btn-primary" href="{% url 'edit' main_file.entry.id %}">Edit</a></div>
-		{% endif %}
-		<div class="button"><a class="btn btn-success" href="{% url 'save' main_file.entry.id %}">Save</a></div>
-	</div>
-{% endif %}
+
+<div class="buttons">
+	{% if entry.user == request.user %}
+		<div class="button"><a class="btn btn-danger" href="{% url 'erase' entry.id %}">Erase</a> </div>
+		<div class="button"><a class="btn btn-primary" href="{% url 'edit' entry.id %}">Edit</a></div>
+	{% endif %}
+	<div class="button"><a class="btn btn-success" href="{% url 'save' entry.id %}">Save</a></div>
+</div>
