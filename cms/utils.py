@@ -46,9 +46,10 @@ def get_metadata(model):
     y = maxy - miny
     z = maxz - minz
     x_y_z = [str(round(x, 2)), str(round(y, 2)), str(round(z, 2))]
-    dimensions = ', '.join(x_y_z)
     vertices = len(model.vertices)
-    return dimensions, vertices
+    polygons = len(model.faces)
+    dimensions = ', '.join(x_y_z)
+    return dimensions, vertices, polygons
 
 def delete_if_exists(self, entry_type):
     if entry_type.objects.filter(entry=self).exists():

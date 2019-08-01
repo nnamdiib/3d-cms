@@ -36,8 +36,9 @@ class Entry(models.Model):
             main_path = main_object.document.path
             model = trimesh.load_mesh(main_path)
             create_thumbnail(main_path, model)
-            dimensions, vertices = get_metadata(model)
+            dimensions, vertices, polygons = get_metadata(model)
             main_object.vertices = vertices
+            main_object.polygons = polygons
             main_object.dimensions = dimensions
             main_object.save()
         self.save()
@@ -57,6 +58,7 @@ class File(models.Model):
 class MainFile(File):
     entry = models.OneToOneField(Entry, on_delete=models.CASCADE)
     vertices = models.IntegerField(null=True, default=None)
+    polgyons = models.IntegerField(null=True, default=None)
     dimensions = models.CharField(max_length=30, null=True, default=None)
 
     def delete(self, *args, **kwargs):
