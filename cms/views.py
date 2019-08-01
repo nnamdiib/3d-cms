@@ -106,10 +106,11 @@ def save(request, file_id):
 def fetch(request, file_name):
     file_path = os.path.join(settings.UPLOADS_ROOT, file_name)
     if os.path.exists(file_path):
-        return serve(file_path)
+        return serve(request, file_path)
     raise Http404
 
-def serve(file_path):
+@login_required
+def serve(request, file_path):
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read())
         extension = get_ext(file_path)
