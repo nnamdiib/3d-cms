@@ -13,18 +13,20 @@
 	margin: 10px;
 }
 
+.img-container {
+	min-height: 180px;
+}
+
 .card img {
 	display: block;
 	margin: auto;
-	width: 270px; 
-	height: 180px
+	height: 180px;
+	width: auto;
 }
 
 .card {
 	padding: 10px; 
 	margin: 10px;
-	min-height: 316px;
-	min-width: 409.5px;
 }
 
 .col-xs-2 {
@@ -71,10 +73,6 @@ footer {
     background-color: #000000;
  }
 
-input {
-	display: block;
-}
-
 .erase {
 	padding-left: 5px;
 }
@@ -86,3 +84,12 @@ input {
  .static-loading-image, .logo-button {
  	display: none !important;
  }
+
+ .nav-item {
+ 	padding-left: 5px;
+ }
+
+input, input:-webkit-autofill {
+  display: block;
+  font-size: 13.3333px;
+}

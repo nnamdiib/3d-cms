@@ -23,7 +23,7 @@ def paginate(entries, request):
     request.session['page'] = page
     return paginator.get_page(page)
 
-def sign_up(request):
+def register(request):
     template = 'cms/register.html'
     user_form = UserCreationForm(request.POST or None)
     # user = authenticate(request, username=username, password=password)
@@ -34,7 +34,6 @@ def sign_up(request):
     context = {'form': user_form}
     return render(request, template, context)
 
-@login_required
 def index(request):
     template = 'cms/index.html'
     q = request.GET.get('q', None)
@@ -55,6 +54,7 @@ def search(request, q):
     context = {'uploads': paginated_entries, 'count': main_files.count(), 'q':q}
     return render(request, template, context)
 
+@login_required
 def upload(request):
     template = 'cms/upload.html'
     form = UploadForm(request.POST or None, request.FILES or None)
@@ -68,6 +68,7 @@ def upload(request):
     context = {'form': form}
     return render(request, template, context)
 
+@login_required
 def edit(request, entry_id):
     template = 'cms/upload.html'
     entry = get_object_or_404(Entry, pk=entry_id)
@@ -92,21 +93,22 @@ def edit(request, entry_id):
     context = {'form': update_form, 'entry': entry, 'extra_files': entry.extra.all() }
     return render(request, template, context)
 
+@login_required
 def save(request, file_id):
     entry = Entry.objects.get(pk=file_id)
     main_file = MainFile.objects.get(entry=entry)
     file_path = main_file.document.path
     if os.path.exists(file_path):
-        return serve(file_path)
+        return serve(request, file_path)
     raise Http404
 
 def fetch(request, file_name):
     file_path = os.path.join(settings.UPLOADS_ROOT, file_name)
     if os.path.exists(file_path):
-        return serve(file_path)
+        return serve(request, file_path)
     raise Http404
 
-def serve(file_path):
+def serve(request, file_path):
     with open(file_path, 'rb') as fh:
         response = HttpResponse(fh.read())
         extension = get_ext(file_path)
@@ -128,9 +130,10 @@ def detail(request, stl_id):
 def detail_file(request, stl_id, file_name):
     file_path = os.path.join(settings.UPLOADS_ROOT, file_name)
     if os.path.exists(file_path):
-        return serve(file_path)
+        return serve(request, file_path)
     raise Http404
 
+@login_required
 def erase(request, file_id):
     entry = get_object_or_404(Entry, pk=file_id).delete()
     page = request.session['page']
@@ -138,6 +141,7 @@ def erase(request, file_id):
         return redirect("/" + "?p=" + str(page))
     return redirect("/")
 
+@login_required
 def remove_extra(request, entry_id, extra_file_id):
     ef = get_object_or_404(ExtraFile, pk=extra_file_id).delete()
     return redirect(reverse('edit', kwargs={'entry_id':entry_id}))

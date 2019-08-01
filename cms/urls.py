@@ -9,7 +9,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('login/', auth_views.LoginView.as_view(template_name='cms/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
-    path('sign-up/', views.sign_up, name='sign_up'),
+    path('register/', views.register, name='register'),
     path('upload/', views.upload, name='upload'),
     path('save/<int:file_id>/', views.save, name='save'),
     path('fetch/<str:file_name>/', views.fetch, name='fetch'),

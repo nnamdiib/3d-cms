@@ -27,11 +27,21 @@
                 </button>
               </form>
               <ul class="navbar-nav ml-md-auto">
-                <li>
-                  <p>Welcome {{ request.user.username }}!</p>
-                </li>
                 <li class="nav-item active">
                    <a class="btn btn-success" href="{% url 'upload' %}">Upload</a>
+                </li>
+                <li class="nav-item active">
+                   <a class="btn btn-success" href="{% url 'logout' %}">Logout</a>
+                </li>
+              </ul>
+            {% endif %}
+            {% if not request.user.is_authenticated %}
+              <ul class="navbar-nav ml-md-auto">
+                <li class="nav-item active">
+                   <a class="btn btn-success" href="{% url 'login' %}">Login</a>
+                </li>
+                <li class="nav-item active">
+                   <a class="btn btn-success" href="{% url 'register' %}">Register</a>
                 </li>
               </ul>
             {% endif %}

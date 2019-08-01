@@ -25,7 +25,7 @@ def create_thumbnail(path, model, up="z"):
     mesh = vispy.scene.visuals.Mesh(vertices=model.vertices, shading='flat', faces=model.faces)
     canvas.view.add(mesh)
     canvas.view.camera = vispy.scene.TurntableCamera(up=up, fov=30)
-    canvas.view.camera.depth_value = 1
+    canvas.view.camera.depth_value = 0.5
     img = canvas.render()
     img_name = change_ext(path, '.png')
     img_path = os.path.join(settings.THUMBS_ROOT, get_file_name(img_name))
@@ -45,10 +45,10 @@ def get_metadata(model):
     x = maxx - minx
     y = maxy - miny
     z = maxz - minz
-    x_y_z = [str(round(x, 2)), str(round(y, 2)), str(round(z, 2))]
-    dimensions = ', '.join(x_y_z)
+    x_y_z = [round(x, 2), round(y, 2), round(z, 2)]
     vertices = len(model.vertices)
-    return dimensions, vertices
+    polygons = len(model.faces)
+    return x_y_z, vertices, polygons
 
 def delete_if_exists(self, entry_type):
     if entry_type.objects.filter(entry=self).exists():
@@ -59,9 +59,6 @@ def add_file(self, entry_type, file):
 
 def get_object(self, entry_type):
     return entry_type.objects.get(entry=self)
-
-def delete_file(path):
-	os.remove(path)
 
 def change_ext(path, ext):
     return strip_ext(path) + ext
