@@ -62,8 +62,9 @@ def upload(request):
         main_doc = request.FILES['main_file']
         tags = form.cleaned_data['tags']
         extra_files = request.FILES.getlist('extra_files')
+        private = form.cleaned_data['private']
         entry = Entry.objects.create(name=form.cleaned_data['name'])
-        entry.update_entry(tags=tags, main_file=main_doc, extra_files=extra_files)
+        entry.update_entry(tags=tags, main_file=main_doc, extra_files=extra_files, private=private)
         return HttpResponseRedirect('/')
     context = {'form': form}
     return render(request, template, context)
@@ -85,11 +86,12 @@ def edit(request, entry_id):
         tags = update_form.cleaned_data.get('tags')
         main_file = update_form.cleaned_data.get('main_file')
         extra_files = request.FILES.getlist('extra_files')
-        entry.update_entry(name, tags, main_file, extra_files)
+        private = update_form.cleaned_data.get('private')
+        entry.update_entry(name, tags, main_file, extra_files, private)
         return redirect('index')
 
     tags = ', '.join([t.name for t in entry.tags.all()])
-    init = {'name': entry.name, 'tags': tags, 'main_file': main_file.document}
+    init = {'name': entry.name, 'tags': tags, 'main_file': main_file.document, 'private': entry.private}
     update_form = UploadForm(initial=init)
 
     context = {'form': update_form, 'entry': entry, 'extra_files': entry.extra.all() }

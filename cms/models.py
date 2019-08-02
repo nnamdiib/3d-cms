@@ -23,7 +23,7 @@ class Entry(models.Model):
     def get_main_file(self):
         return MainFile.objects.get(entry=self)
 
-    def update_entry(self, name=None, tags=None, main_file=None, extra_files=None):
+    def update_entry(self, name=None, tags=None, main_file=None, extra_files=None, private=None):
         self.name = name or self.name
         if tags:
             self.tags.clear()
@@ -37,6 +37,8 @@ class Entry(models.Model):
                 if file.name.endswith(".obj.mtl"):
                     file.name = change_ext(main_file.name, ".obj.mtl")
                 add_file(self, ExtraFile, file)
+        if private:
+            self.private = True
         if main_file: # we perform these last
             main_object = get_object(self, MainFile)
             main_path = main_object.document.path
