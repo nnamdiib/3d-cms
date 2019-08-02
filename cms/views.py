@@ -72,7 +72,7 @@ def upload(request):
 def edit(request, entry_id):
     template = 'cms/upload.html'
     entry = get_object_or_404(Entry, pk=entry_id)
-    if entry.user != request.user:
+    if not request.user.is_superuser and entry.user != request.user:
         return Http404("You are not allowed to edit this.")
     main_file = MainFile.objects.get(entry=entry)
     
@@ -98,7 +98,7 @@ def edit(request, entry_id):
 @login_required
 def erase(request, file_id):
     entry = get_object_or_404(Entry, pk=file_id).delete()
-    if entry.user != request.user:
+    if not request.user.is_superuser and entry.user != request.user:
         return Http404("You are not allowed to delete this.")
     page = request.session['page']
     if page:
@@ -107,7 +107,7 @@ def erase(request, file_id):
 
 @login_required
 def remove_extra(request, entry_id, extra_file_id):
-    if entry.user != request.user:
+    if not request.user.is_superuser and entry.user != request.user:
         return Http404("You are not allowed to delete this.")
     ef = get_object_or_404(ExtraFile, pk=extra_file_id).delete()
     return redirect(reverse('edit', kwargs={'entry_id':entry_id}))

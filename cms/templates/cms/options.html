@@ -2,7 +2,7 @@
 
 
 <div class="buttons">
-	{% if entry.user == request.user %}
+	{% if entry.user == request.user or request.user.is_superuser %}
 		<div class="button"><a class="btn btn-danger" href="{% url 'erase' entry.id %}">Erase</a> </div>
 		<div class="button"><a class="btn btn-primary" href="{% url 'edit' entry.id %}">Edit</a></div>
 	{% endif %}
