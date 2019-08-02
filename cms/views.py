@@ -73,8 +73,9 @@ def upload(request):
 def edit(request, entry_id):
     template = 'cms/upload.html'
     entry = get_object_or_404(Entry, pk=entry_id)
-    if not request.user.is_superuser and entry.user != request.user:
-        return Http404("You are not allowed to edit this.")
+    if not request.user.is_superuser:
+        if entry.user != request.user:
+            return Http404("You are not allowed to edit this.")
     main_file = MainFile.objects.get(entry=entry)
     
     update_form = UploadForm(request.POST or None, request.FILES or None)
@@ -100,8 +101,9 @@ def edit(request, entry_id):
 @login_required
 def erase(request, file_id):
     entry = get_object_or_404(Entry, pk=file_id).delete()
-    if not request.user.is_superuser and entry.user != request.user:
-        return Http404("You are not allowed to delete this.")
+    if not request.user.is_superuser:
+        if entry.user != request.user:
+            return Http404("You are not allowed to delete this.")
     page = request.session['page']
     if page:
         return redirect("/" + "?p=" + str(page))
@@ -109,16 +111,18 @@ def erase(request, file_id):
 
 @login_required
 def remove_extra(request, entry_id, extra_file_id):
-    if not request.user.is_superuser and entry.user != request.user:
-        return Http404("You are not allowed to delete this.")
+    if not request.user.is_superuser:
+        if entry.user != request.user:
+            return Http404("You are not allowed to delete this.")
     ef = get_object_or_404(ExtraFile, pk=extra_file_id).delete()
     return redirect(reverse('edit', kwargs={'entry_id':entry_id}))
 
 @login_required
 def save(request, file_id):
     entry = Entry.objects.get(pk=file_id)
-    if not request.user.is_superuser and (entry.private and entry.user != request.user):
-        return Http404("You are not allowed to save this.")
+    if not request.user.is_superuser:
+        if entry.private and entry.user != request.user:
+            return Http404("You are not allowed to save this.")
     main_file = MainFile.objects.get(entry=entry)
     file_path = main_file.document.path
     if os.path.exists(file_path):
@@ -141,8 +145,9 @@ def serve(request, file_path):
 def detail(request, stl_id):
     template = 'cms/detail.html'
     entry = get_object_or_404(Entry, pk=stl_id)
-    if not request.user.is_superuser and (entry.private and entry.user != request.user):
-        return Http404("You are not allowed to view this.")
+    if not request.user.is_superuser:
+        if entry.private and entry.user != request.user:
+            return Http404("You are not allowed to view this.")
     main_file = get_object_or_404(MainFile, entry=entry)
     context = {
         'entry': entry,
