@@ -54,6 +54,21 @@ def search(request, q):
     context = {'uploads': paginated_entries, 'count': main_files.count(), 'q':q}
     return render(request, template, context)
 
+def detail(request, stl_id):
+    template = 'cms/detail.html'
+    entry = get_object_or_404(Entry, pk=stl_id)
+    if not request.user.is_superuser:
+        if entry.private and entry.user != request.user:
+            return Http404("You are not allowed to view this.")
+    main_file = get_object_or_404(MainFile, entry=entry)
+    context = {
+        'entry': entry,
+        'main_file': main_file,
+        'extra_files': entry.extra.all(),
+        'detail': True
+    }
+    return render(request, template, context)
+
 @login_required
 def upload(request):
     template = 'cms/upload.html'
@@ -141,21 +156,6 @@ def serve(request, file_path):
         extension = get_ext(file_path)
         response['Content-Disposition'] = 'attachment;filename=' + get_file_name(file_path)
         return response
-
-def detail(request, stl_id):
-    template = 'cms/detail.html'
-    entry = get_object_or_404(Entry, pk=stl_id)
-    if not request.user.is_superuser:
-        if entry.private and entry.user != request.user:
-            return Http404("You are not allowed to view this.")
-    main_file = get_object_or_404(MainFile, entry=entry)
-    context = {
-        'entry': entry,
-        'main_file': main_file,
-        'extra_files': entry.extra.all(),
-        'detail': True
-    }
-    return render(request, template, context)
 
 def detail_file(request, stl_id, file_name):
     file_path = os.path.join(settings.UPLOADS_ROOT, file_name)
