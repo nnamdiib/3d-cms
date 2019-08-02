@@ -13,7 +13,7 @@
             </div>
           <div class="card-block">
             <a href="{% url 'detail' entry.id %}"><h5 class="card-title">{{ entry.name }}</h5></a>
-            <p>{{ entry.date_created|date:"d M Y" }} {{ .entry.date_created|time:"H:i" }}</p>
+            <p>{{ entry.date_created|date:"d M Y" }} {{ entry.date_created|time:"H:i" }}</p>
             {% include 'cms/options.html' %}
           </div>
         </div>
