@@ -39,19 +39,26 @@ def index(request):
     q = request.GET.get('q', None)
     if q:
         return search(request, q)    
-    entries = Entry.objects.all().select_related('user').order_by('-date_created')
-
+    entries = Entry.objects.filter().select_related('user').order_by('-date_created')
+    if not request.user.is_superuser:
+        entries = entries.filter(private=False)
     uploads = paginate(entries, request)
     context = {'uploads': uploads}
     return render(request, template, context)
 
 def search(request, q):
     template = 'cms/index.html'
-    main_files = MainFile.objects.filter(
-        Q(entry__name__icontains=q) | Q(entry__tags__name__icontains=q) | Q(private=False) | Q(user=request.user)).distinct()
 
-    paginated_entries = paginate(main_files, request)
-    context = {'uploads': paginated_entries, 'count': main_files.count(), 'q':q}
+    private = Q(private=False)
+    owner = Q(user=request.user)
+    if request.user.is_superuser:
+        private, owner = (private | ~private), (owner | ~owner) 
+
+    entries = Entry.objects.filter(
+        Q(name__icontains=q) | Q(tags__name__icontains=q), owner, private).distinct()
+
+    paginated_entries = paginate(entries, request)
+    context = {'uploads': paginated_entries, 'count': entries.count(), 'q':q}
     return render(request, template, context)
 
 def detail(request, stl_id):
