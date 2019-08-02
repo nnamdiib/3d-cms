@@ -18,3 +18,4 @@ class UploadForm(forms.Form):
 		widget=forms.ClearableFileInput(attrs={'multiple': True}),
 		required=False
 	)
+	private = forms.BooleanField()

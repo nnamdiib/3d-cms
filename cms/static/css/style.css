@@ -93,3 +93,7 @@ input, input:-webkit-autofill {
   display: block;
   font-size: 13.3333px;
 }
+
+input[name=private] {
+	display: unset;
+}

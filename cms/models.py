@@ -12,6 +12,7 @@ class Entry(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     date_updated = models.DateTimeField(auto_now=True)
     tags = TaggableManager(blank=True)
+    private = models.BooleanField(default=False)
 
     def delete(self, *args, **kwargs):
         for entry_type in (MainFile, ExtraFile):
