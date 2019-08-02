@@ -34,8 +34,7 @@
                    <a class="btn btn-success" href="{% url 'logout' %}">Logout</a>
                 </li>
               </ul>
-            {% endif %}
-            {% if not request.user.is_authenticated %}
+            {% else %}
               <ul class="navbar-nav ml-md-auto">
                 <li class="nav-item active">
                    <a class="btn btn-success" href="{% url 'login' %}">Login</a>
