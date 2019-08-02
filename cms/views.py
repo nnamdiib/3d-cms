@@ -118,7 +118,7 @@ def erase(request, file_id):
     entry = get_object_or_404(Entry, pk=file_id).delete()
     if not request.user.is_superuser:
         if entry.user != request.user:
-            return Http404("You are not allowed to delete this.")
+            return Http404("You are not allowed to erase this.")
     page = request.session['page']
     if page:
         return redirect("/" + "?p=" + str(page))
@@ -128,7 +128,7 @@ def erase(request, file_id):
 def remove_extra(request, entry_id, extra_file_id):
     if not request.user.is_superuser:
         if entry.user != request.user:
-            return Http404("You are not allowed to delete this.")
+            return Http404("You are not allowed to erase this.")
     ef = get_object_or_404(ExtraFile, pk=extra_file_id).delete()
     return redirect(reverse('edit', kwargs={'entry_id':entry_id}))
 
