@@ -48,7 +48,7 @@ def index(request):
 def search(request, q):
     template = 'cms/index.html'
     main_files = MainFile.objects.filter(
-        Q(entry__name__icontains=q) | Q(entry__tags__name__icontains=q)).distinct()
+        Q(entry__name__icontains=q) | Q(entry__tags__name__icontains=q) | Q(private=False) | Q(user=request.user)).distinct()
 
     paginated_entries = paginate(main_files, request)
     context = {'uploads': paginated_entries, 'count': main_files.count(), 'q':q}

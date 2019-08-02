@@ -6,7 +6,6 @@
   {% for entry in uploads %}
     {% with main_file=entry.get_main_file %}
       <div class="col-md-3">
-        {% if request.user.is_superuser or not entry.private or entry.user == request.user %}
         <div class="card">
           <a href="{% url 'detail' entry.id %}">
             <div class="img-container">
@@ -18,7 +17,6 @@
             {% include 'cms/options.html' %}
           </div>
         </div>
-        {% endif %}
       </div>
     {% endwith %}
   {% endfor %}
