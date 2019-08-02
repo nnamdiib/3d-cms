@@ -72,6 +72,8 @@ def upload(request):
 def edit(request, entry_id):
     template = 'cms/upload.html'
     entry = get_object_or_404(Entry, pk=entry_id)
+    if entry.user != request.user:
+        return Http404("You are not allowed to edit this.")
     main_file = MainFile.objects.get(entry=entry)
     
     update_form = UploadForm(request.POST or None, request.FILES or None)
@@ -92,6 +94,23 @@ def edit(request, entry_id):
 
     context = {'form': update_form, 'entry': entry, 'extra_files': entry.extra.all() }
     return render(request, template, context)
+
+@login_required
+def erase(request, file_id):
+    entry = get_object_or_404(Entry, pk=file_id).delete()
+    if entry.user != request.user:
+        return Http404("You are not allowed to delete this.")
+    page = request.session['page']
+    if page:
+        return redirect("/" + "?p=" + str(page))
+    return redirect("/")
+
+@login_required
+def remove_extra(request, entry_id, extra_file_id):
+    if entry.user != request.user:
+        return Http404("You are not allowed to delete this.")
+    ef = get_object_or_404(ExtraFile, pk=extra_file_id).delete()
+    return redirect(reverse('edit', kwargs={'entry_id':entry_id}))
 
 @login_required
 def save(request, file_id):
@@ -132,16 +151,3 @@ def detail_file(request, stl_id, file_name):
     if os.path.exists(file_path):
         return serve(request, file_path)
     raise Http404
-
-@login_required
-def erase(request, file_id):
-    entry = get_object_or_404(Entry, pk=file_id).delete()
-    page = request.session['page']
-    if page:
-        return redirect("/" + "?p=" + str(page))
-    return redirect("/")
-
-@login_required
-def remove_extra(request, entry_id, extra_file_id):
-    ef = get_object_or_404(ExtraFile, pk=extra_file_id).delete()
-    return redirect(reverse('edit', kwargs={'entry_id':entry_id}))
