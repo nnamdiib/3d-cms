@@ -117,7 +117,7 @@ def remove_extra(request, entry_id, extra_file_id):
 @login_required
 def save(request, file_id):
     entry = Entry.objects.get(pk=file_id)
-    if not request.user.is_superuser and entry.private and entry.user != request.user:
+    if not request.user.is_superuser and (entry.private and entry.user != request.user):
         return Http404("You are not allowed to save this.")
     main_file = MainFile.objects.get(entry=entry)
     file_path = main_file.document.path
@@ -141,7 +141,7 @@ def serve(request, file_path):
 def detail(request, stl_id):
     template = 'cms/detail.html'
     entry = get_object_or_404(Entry, pk=stl_id)
-    if not request.user.is_superuser and entry.private and entry.user != request.user:
+    if not request.user.is_superuser and (entry.private and entry.user != request.user):
         return Http404("You are not allowed to view this.")
     main_file = get_object_or_404(MainFile, entry=entry)
     context = {
